@@ -17,3 +17,5 @@ export {
   directiveContextFromSlash,
 } from "./context.js";
 export { signalContextFromInteraction } from "./signalContext.js";
+export { runSequence, type RunSequenceOptions } from "./sequence/runSequence.js";
+export { handleSequenceInteraction } from "./sequence/handleSequenceInteraction.js";

@@ -7,7 +7,8 @@ export type PieceKind =
   | "gates"
   | "epilogues"
   | "conduits"
-  | "signals";
+  | "signals"
+  | "tasks";
 
 export interface LoaderContext {
   client: StratumClient;

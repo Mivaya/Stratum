@@ -1,4 +1,5 @@
-import { Signal, type StratumClient } from "@stratum/core";
+import { isSequenceCustomId, Signal, type StratumClient } from "@stratum/core";
+import { handleSequenceInteraction } from "./sequence/handleSequenceInteraction.js";
 import type { Message } from "discord.js";
 import { DiscordJsBridge } from "./DiscordJsBridge.js";
 import { commandContextFromMessage, commandContextFromSlash, scoutContextFromMessage } from "./context.js";
@@ -56,14 +57,19 @@ export function attachStratum(
       return;
     }
 
-    if (!signals) return;
-
     const customId =
       interaction.isButton() || interaction.isStringSelectMenu() || interaction.isModalSubmit()
         ? interaction.customId
         : null;
 
     if (!customId) return;
+
+    if (isSequenceCustomId(customId)) {
+      await handleSequenceInteraction(interaction, client.sequences);
+      return;
+    }
+
+    if (!signals) return;
 
     const parsed = Signal.parseCustomId(customId);
     if (!parsed) return;

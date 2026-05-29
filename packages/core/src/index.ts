@@ -3,6 +3,23 @@ export { StratumClient } from "./client/StratumClient.js";
 export { createStratumBot } from "./client/createStratumBot.js";
 export { InboundRouter } from "./client/InboundRouter.js";
 export { SignalRouter } from "./client/SignalRouter.js";
+export { SequenceStore } from "./sequence/SequenceStore.js";
+export { SequenceBuilder, sequence } from "./sequence/SequenceBuilder.js";
+export {
+  sequenceCustomId,
+  parseSequenceCustomId,
+  isSequenceCustomId,
+} from "./sequence/customId.js";
+export type {
+  SequenceStep,
+  SequenceStepType,
+  SequenceButtonStep,
+  SequenceSelectStep,
+  SequenceModalStep,
+  SequenceAnswers,
+  SequenceResult,
+  SequenceSession,
+} from "./sequence/types.js";
 export type { StratumClientOptions, CreateStratumBotOptions, StratumRegistries } from "./client/types.js";
 
 // Bridge
@@ -34,6 +51,8 @@ export {
 export { Conduit, type ConduitOptions } from "./registries/Conduit.js";
 export { Epilogue, type EpilogueOptions, type EpilogueRunOn } from "./registries/Epilogue.js";
 export { Signal, type SignalOptions, type SignalType } from "./registries/Signal.js";
+export { Chron, type ChronOptions, type ChronSchedule } from "./registries/Chron.js";
+export { ChronScheduler, type ChronErrorHandler } from "./chron/ChronScheduler.js";
 export type { SignalContext } from "./context/SignalContext.js";
 
 // Pipeline
@@ -46,6 +65,7 @@ export type {
   ScoutContext,
   ScoutTrigger,
   EpilogueContext,
+  ChronContext,
   DirectiveContext,
   DirectiveKind,
 } from "./context/types.js";

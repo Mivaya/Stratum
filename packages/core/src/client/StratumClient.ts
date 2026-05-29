@@ -10,9 +10,12 @@ import { Gate } from "../registries/Gate.js";
 import { Conduit } from "../registries/Conduit.js";
 import { Epilogue } from "../registries/Epilogue.js";
 import { Signal } from "../registries/Signal.js";
+import { Chron } from "../registries/Chron.js";
+import { ChronScheduler } from "../chron/ChronScheduler.js";
 import { ExecutionPipeline } from "../pipeline/ExecutionPipeline.js";
 import { InboundRouter } from "./InboundRouter.js";
 import { SignalRouter } from "./SignalRouter.js";
+import { SequenceStore } from "../sequence/SequenceStore.js";
 import type { CommandContext } from "../context/types.js";
 import type { StratumClientEvents, StratumClientOptions, StratumRegistries } from "./types.js";
 import type { Outcome } from "../outcome/Outcome.js";
@@ -23,6 +26,8 @@ export class StratumClient extends EventEmitter {
   readonly pipeline: ExecutionPipeline;
   readonly router: InboundRouter;
   readonly signalRouter: SignalRouter;
+  readonly sequences: SequenceStore;
+  readonly chronScheduler: ChronScheduler;
   readonly registries: StratumRegistries;
 
   bridge: Bridge | null = null;
@@ -39,6 +44,8 @@ export class StratumClient extends EventEmitter {
     this.pipeline = new ExecutionPipeline(this);
     this.router = new InboundRouter(this);
     this.signalRouter = new SignalRouter(this);
+    this.sequences = new SequenceStore();
+    this.chronScheduler = new ChronScheduler();
 
     this.registries = {
       commands: new Registry<Command>(this, "commands"),
@@ -49,6 +56,7 @@ export class StratumClient extends EventEmitter {
       conduits: new Registry<Conduit>(this, "conduits"),
       epilogues: new Registry<Epilogue>(this, "epilogues"),
       signals: new Registry<Signal>(this, "signals"),
+      chrons: new Registry<Chron>(this, "chrons"),
     };
   }
 
@@ -95,15 +103,24 @@ export class StratumClient extends EventEmitter {
     }
     await this.bridge.connect();
     this.bindHooks();
+    this.startChrons();
     this.started = true;
     this.emit("ready");
   }
 
   async stop(): Promise<void> {
+    this.chronScheduler.stop();
     if (this.bridge) {
       await this.bridge.disconnect();
     }
     this.started = false;
+  }
+
+  private startChrons(): void {
+    this.chronScheduler.stop();
+    this.chronScheduler.start(this.registries.chrons.values(), (chron, error) => {
+      this.emit("chronError", { chron: chron.name, error });
+    });
   }
 
   private bindHooks(): void {

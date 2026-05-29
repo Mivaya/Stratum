@@ -19,8 +19,19 @@ src/
   signals/            # Buttons, modals, selects (future)
   tasks/              # Klasa scheduled tasks (Stratum: Chron, future)
   schemas/            # Vault blueprints (per-guild/user data shapes)
+  signals/            # Buttons, selects, modals (customId: stratum:name:…)
   main.ts
 ```
+
+Load all piece folders automatically:
+
+```ts
+import { loadPieces } from "@stratum/loader";
+
+await loadPieces(client, { context: { client, vault } });
+```
+
+Pieces with extra dependencies can expose `static create(ctx: LoaderContext)`.
 
 ## Name mapping
 

@@ -1,10 +1,11 @@
+import { mkdir } from "node:fs/promises";
+import path from "node:path";
 import { createStratumBot } from "@stratum/core";
 import { createDiscordJsBridge } from "@stratum/bridge-discordjs";
-import { MemoryDriver, Vault } from "@stratum/vault";
+import { loadPieces } from "@stratum/loader";
+import { Vault } from "@stratum/vault";
+import { SQLiteDriver } from "@stratum/vault-sql";
 import { GatewayIntentBits } from "discord.js";
-import { PingCommand } from "./commands/General/PingCommand.js";
-import { PrefixCommand } from "./commands/General/PrefixCommand.js";
-import { ReadyListener } from "./listeners/ReadyListener.js";
 import { GuildBlueprint } from "./schemas/GuildBlueprint.js";
 
 const token = process.env.DISCORD_TOKEN;
@@ -13,14 +14,31 @@ if (!token) {
   process.exit(1);
 }
 
-const vault = new Vault({ driver: new MemoryDriver(), debounceMs: 400 });
+const dataDir = path.resolve(process.cwd(), "data");
+await mkdir(dataDir, { recursive: true });
+
+const vault = new Vault({
+  driver: new SQLiteDriver({ path: path.join(dataDir, "stratum.db") }),
+  debounceMs: 400,
+});
 vault.registerLedger("guild", { blueprint: GuildBlueprint });
 
 const client = createStratumBot({ prefix: process.env.PREFIX ?? "!" });
 
-client.register(new PingCommand(client.registries.commands));
-client.register(new PrefixCommand(client.registries.commands, vault));
-client.registries.hooks.register(new ReadyListener(client.registries.hooks));
+const { loaded, errors } = await loadPieces(client, {
+  context: { client, vault },
+});
+
+if (errors.length > 0) {
+  console.warn("Piece load warnings:", errors);
+}
+console.log(
+  "Loaded pieces:",
+  Object.entries(loaded)
+    .filter(([, f]) => f.length > 0)
+    .map(([k, f]) => `${k}(${f.length})`)
+    .join(", "),
+);
 
 const bridge = createDiscordJsBridge(
   {

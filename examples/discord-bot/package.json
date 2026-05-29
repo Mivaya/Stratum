@@ -11,6 +11,8 @@
     "@stratum/bridge-discordjs": "workspace:*",
     "@stratum/core": "workspace:*",
     "@stratum/vault": "workspace:*",
+    "@stratum/vault-sql": "workspace:*",
+    "@stratum/loader": "workspace:*",
     "discord.js": "^14.19.0"
   },
   "devDependencies": {

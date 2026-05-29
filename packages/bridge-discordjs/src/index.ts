@@ -16,3 +16,4 @@ export {
   directiveContextFromMessage,
   directiveContextFromSlash,
 } from "./context.js";
+export { signalContextFromInteraction } from "./signalContext.js";

@@ -20,6 +20,7 @@ export interface StratumRegistries {
   conduits: import("../pieces/Registry.js").Registry<import("../registries/Conduit.js").Conduit>;
   epilogues: import("../pieces/Registry.js").Registry<import("../registries/Epilogue.js").Epilogue>;
   signals: import("../pieces/Registry.js").Registry<import("../registries/Signal.js").Signal>;
+  chrons: import("../pieces/Registry.js").Registry<import("../registries/Chron.js").Chron>;
 }
 
 export type StratumClientEvents = {
@@ -57,6 +58,7 @@ export type StratumClientEvents = {
   epilogueError: [{ epilogue: string; error: unknown; ctx: import("../context/types.js").EpilogueContext }];
   hookError: [{ hook: string; error: unknown }];
   signalError: [{ signal: string; error: unknown; ctx: import("../context/SignalContext.js").SignalContext }];
+  chronError: [{ chron: string; error: unknown }];
 };
 
 export type { Binder };

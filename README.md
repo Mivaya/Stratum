@@ -12,6 +12,8 @@ A transport-agnostic Discord bot framework for Node.js and TypeScript.
 | `@stratum/vault-sql` | SQLite + PostgreSQL drivers |
 | `@stratum/loader` | Auto-load pieces from `src/commands/`, etc. |
 
+Sequences guide: [docs/SEQUENCES.md](docs/SEQUENCES.md).
+
 ## Examples
 
 | Example | Description |
@@ -39,4 +41,6 @@ pnpm test
 
 ## Status
 
-Phases 1–5 implemented on `feature/vault-sql` (vault SQL + loader + signals). Merge via PRs per branch as needed.
+Phases 1–7 on `feature/chron`. Next: `feature/tier-split` (REST/gateway workers).
+
+Chron guide: [docs/CHRON.md](docs/CHRON.md).

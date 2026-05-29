@@ -17,7 +17,7 @@ src/
   epilogues/          # Klasa "finalizers" — post-command hooks
   conduits/           # Middleware before barriers/gates
   signals/            # Buttons, modals, selects (future)
-  tasks/              # Klasa scheduled tasks (Stratum: Chron, future)
+  tasks/              # Klasa scheduled tasks — Stratum Chron
   schemas/            # Vault blueprints (per-guild/user data shapes)
   signals/            # Buttons, selects, modals (customId: stratum:name:…)
   main.ts
@@ -43,6 +43,7 @@ Pieces with extra dependencies can expose `static create(ctx: LoaderContext)`.
 | `barriers/` | — | inhibitors | `Barrier` |
 | `gates/` | preconditions | — | `Gate` |
 | `epilogues/` | — | finalizers | `Epilogue` |
+| `tasks/` | — | tasks | `Chron` |
 
 ## Constants
 

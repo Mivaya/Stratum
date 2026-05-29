@@ -9,6 +9,7 @@ import type { Gate } from "@stratum/core";
 import type { Epilogue } from "@stratum/core";
 import type { Conduit } from "@stratum/core";
 import type { Signal } from "@stratum/core";
+import type { Chron } from "@stratum/core";
 import { scanFiles } from "./scan.js";
 import type { LoadPiecesOptions, LoadPiecesResult, PieceKind, LoaderContext } from "./types.js";
 
@@ -21,6 +22,7 @@ const DEFAULT_PATHS: Record<PieceKind, string> = {
   epilogues: PiecePaths.epilogues,
   conduits: PiecePaths.conduits,
   signals: PiecePaths.signals,
+  tasks: PiecePaths.tasks,
 };
 
 /**
@@ -43,6 +45,7 @@ export async function loadPieces(
       epilogues: [],
       conduits: [],
       signals: [],
+      tasks: [],
     },
     errors: [],
   };
@@ -129,6 +132,11 @@ function registerPiece(
     case "signals": {
       const instance = instantiate(PieceClass, ctx, client.registries.signals);
       client.registries.signals.register(instance as Signal);
+      break;
+    }
+    case "tasks": {
+      const instance = instantiate(PieceClass, ctx, client.registries.chrons);
+      client.registries.chrons.register(instance as Chron);
       break;
     }
   }

@@ -10,13 +10,13 @@
 | 3b Vault SQL | `feature/vault-sql` | `@stratum/vault-sql` |
 | 4 Piece loader | `feature/piece-loader` | `@stratum/loader` |
 | 5 Signals | `feature/signal-registry` | `Signal` in core + bridge routing |
+| 6 Sequences | `feature/sequences` | Multi-step flows (`sequence()`, `runSequence`) |
+| 7 Chron | `feature/chron` | Scheduled tasks (`Chron`, `src/tasks/`) |
 
 ## Next phases
 
 | Phase | Branch | Scope |
 |-------|--------|--------|
-| 6 Sequences | `feature/sequences` | Multi-step interaction flows |
-| 7 Chron | `feature/chron` | Scheduled tasks (Klasa tasks) |
 | 8 Tier split | `feature/tier-split` | REST / gateway workers |
 | 9 Bridge Discordeno | `feature/bridge-discordeno` | Second transport adapter |
 | 10 Metrics | `feature/metrics` | Prometheus / observability extension |

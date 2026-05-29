@@ -26,6 +26,13 @@ export interface ScoutContext {
 
 export type ScoutTrigger = "message" | "messageUpdate" | "interaction";
 
+/** Context for scheduled Chron tasks. */
+export interface ChronContext {
+  readonly chron: string;
+  readonly client: import("../client/StratumClient.js").StratumClient;
+  readonly runAt: Date;
+}
+
 /** Payload passed to Epilogue hooks after command execution. */
 export interface EpilogueContext {
   readonly commandName: string;

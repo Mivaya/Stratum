@@ -1,7 +1,13 @@
 import { Command, ok, type CommandContext, type Registry } from "@stratum/core";
 import type { Vault } from "@stratum/vault";
+import type { LoaderContext } from "@stratum/loader";
 
 export class PrefixCommand extends Command {
+  static create(ctx: LoaderContext) {
+    if (!ctx.vault) throw new Error("PrefixCommand requires vault in loader context.");
+    return new PrefixCommand(ctx.client.registries.commands, ctx.vault as Vault);
+  }
+
   constructor(
     registry: Registry<Command>,
     private readonly vault: Vault,

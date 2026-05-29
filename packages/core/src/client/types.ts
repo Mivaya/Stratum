@@ -19,6 +19,7 @@ export interface StratumRegistries {
   gates: import("../pieces/Registry.js").Registry<import("../registries/Gate.js").Gate>;
   conduits: import("../pieces/Registry.js").Registry<import("../registries/Conduit.js").Conduit>;
   epilogues: import("../pieces/Registry.js").Registry<import("../registries/Epilogue.js").Epilogue>;
+  signals: import("../pieces/Registry.js").Registry<import("../registries/Signal.js").Signal>;
 }
 
 export type StratumClientEvents = {
@@ -55,6 +56,7 @@ export type StratumClientEvents = {
   ];
   epilogueError: [{ epilogue: string; error: unknown; ctx: import("../context/types.js").EpilogueContext }];
   hookError: [{ hook: string; error: unknown }];
+  signalError: [{ signal: string; error: unknown; ctx: import("../context/SignalContext.js").SignalContext }];
 };
 
 export type { Binder };

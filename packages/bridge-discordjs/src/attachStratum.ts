@@ -1,12 +1,14 @@
-import type { StratumClient } from "@stratum/core";
+import { Signal, type StratumClient } from "@stratum/core";
 import type { Message } from "discord.js";
 import { DiscordJsBridge } from "./DiscordJsBridge.js";
 import { commandContextFromMessage, commandContextFromSlash, scoutContextFromMessage } from "./context.js";
+import { signalContextFromInteraction } from "./signalContext.js";
 
 export interface AttachStratumOptions {
   prefixCommands?: boolean;
   slashCommands?: boolean;
   scouts?: boolean;
+  signals?: boolean;
 }
 
 export function attachStratum(
@@ -14,7 +16,7 @@ export function attachStratum(
   client: StratumClient,
   options: AttachStratumOptions = {},
 ): void {
-  const { prefixCommands = true, slashCommands = true, scouts = true } = options;
+  const { prefixCommands = true, slashCommands = true, scouts = true, signals = true } = options;
 
   bridge.on("ready", (payload) => {
     const user = (payload as { user?: { id: string } })?.user;
@@ -47,12 +49,40 @@ export function attachStratum(
     });
   }
 
-  if (slashCommands) {
-    bridge.client.on("interactionCreate", async (interaction) => {
-      if (!interaction.isChatInputCommand()) return;
-
+  bridge.client.on("interactionCreate", async (interaction) => {
+    if (interaction.isChatInputCommand() && slashCommands) {
       const ctx = commandContextFromSlash(interaction);
       await client.router.processSlashCommand(ctx);
-    });
-  }
+      return;
+    }
+
+    if (!signals) return;
+
+    const customId =
+      interaction.isButton() || interaction.isStringSelectMenu() || interaction.isModalSubmit()
+        ? interaction.customId
+        : null;
+
+    if (!customId) return;
+
+    const parsed = Signal.parseCustomId(customId);
+    if (!parsed) return;
+
+    const type = interaction.isButton()
+      ? "button"
+      : interaction.isStringSelectMenu()
+        ? "select"
+        : interaction.isModalSubmit()
+          ? "modal"
+          : null;
+
+    if (!type) return;
+
+    if (!interaction.isButton() && !interaction.isStringSelectMenu() && !interaction.isModalSubmit()) {
+      return;
+    }
+
+    const ctx = signalContextFromInteraction(interaction, parsed.name);
+    await client.signalRouter.dispatch(ctx, type);
+  });
 }

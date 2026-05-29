@@ -2,6 +2,7 @@
 export { StratumClient } from "./client/StratumClient.js";
 export { createStratumBot } from "./client/createStratumBot.js";
 export { InboundRouter } from "./client/InboundRouter.js";
+export { SignalRouter } from "./client/SignalRouter.js";
 export type { StratumClientOptions, CreateStratumBotOptions, StratumRegistries } from "./client/types.js";
 
 // Bridge
@@ -32,6 +33,8 @@ export {
 } from "./registries/Gate.js";
 export { Conduit, type ConduitOptions } from "./registries/Conduit.js";
 export { Epilogue, type EpilogueOptions, type EpilogueRunOn } from "./registries/Epilogue.js";
+export { Signal, type SignalOptions, type SignalType } from "./registries/Signal.js";
+export type { SignalContext } from "./context/SignalContext.js";
 
 // Pipeline
 export { ExecutionPipeline, type PipelineRunOptions } from "./pipeline/ExecutionPipeline.js";

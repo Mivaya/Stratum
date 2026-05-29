@@ -9,8 +9,10 @@ import { Barrier } from "../registries/Barrier.js";
 import { Gate } from "../registries/Gate.js";
 import { Conduit } from "../registries/Conduit.js";
 import { Epilogue } from "../registries/Epilogue.js";
+import { Signal } from "../registries/Signal.js";
 import { ExecutionPipeline } from "../pipeline/ExecutionPipeline.js";
 import { InboundRouter } from "./InboundRouter.js";
+import { SignalRouter } from "./SignalRouter.js";
 import type { CommandContext } from "../context/types.js";
 import type { StratumClientEvents, StratumClientOptions, StratumRegistries } from "./types.js";
 import type { Outcome } from "../outcome/Outcome.js";
@@ -20,6 +22,7 @@ export class StratumClient extends EventEmitter {
   readonly binder = new Binder();
   readonly pipeline: ExecutionPipeline;
   readonly router: InboundRouter;
+  readonly signalRouter: SignalRouter;
   readonly registries: StratumRegistries;
 
   bridge: Bridge | null = null;
@@ -35,6 +38,7 @@ export class StratumClient extends EventEmitter {
     this.bridge = options.bridge ?? null;
     this.pipeline = new ExecutionPipeline(this);
     this.router = new InboundRouter(this);
+    this.signalRouter = new SignalRouter(this);
 
     this.registries = {
       commands: new Registry<Command>(this, "commands"),
@@ -44,6 +48,7 @@ export class StratumClient extends EventEmitter {
       gates: new Registry<Gate>(this, "gates"),
       conduits: new Registry<Conduit>(this, "conduits"),
       epilogues: new Registry<Epilogue>(this, "epilogues"),
+      signals: new Registry<Signal>(this, "signals"),
     };
   }
 

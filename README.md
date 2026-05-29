@@ -6,20 +6,24 @@ A transport-agnostic Discord bot framework for Node.js and TypeScript.
 
 | Package | Description |
 |---------|-------------|
-| `@stratum/core` | Client, registries, execution pipeline, inbound router |
-| `@stratum/bridge-discordjs` | discord.js bridge, attach helper, slash deploy API |
-| `@stratum/vault` | Ledger, Blueprint, Record persistence |
+| `@stratum/core` | Client, registries, pipeline, signals |
+| `@stratum/bridge-discordjs` | discord.js bridge + slash deploy |
+| `@stratum/vault` | Ledger / Blueprint / Record persistence |
+| `@stratum/vault-sql` | SQLite + PostgreSQL drivers |
+| `@stratum/loader` | Auto-load pieces from `src/commands/`, etc. |
 
 ## Examples
 
 | Example | Description |
 |---------|-------------|
-| `examples/minimal` | Mock bridge, no Discord token |
-| `examples/discord-bot` | Real bot with discord.js (`!ping` + `/ping`) |
+| `examples/minimal` | Mock bridge |
+| `examples/discord-bot` | Full bot: loader + SQLite vault + signals |
 
-See [docs/PROJECT_STRUCTURE.md](docs/PROJECT_STRUCTURE.md) for the Sapphire/Klasa-aligned folder layout (`src/commands/`, `src/listeners/`, etc.).
+## Project layout
 
-Vault guide: [docs/VAULT.md](docs/VAULT.md).
+See [docs/PROJECT_STRUCTURE.md](docs/PROJECT_STRUCTURE.md) and [docs/VAULT.md](docs/VAULT.md).
+
+Roadmap: [docs/PHASES.md](docs/PHASES.md).
 
 ## Development
 
@@ -31,14 +35,8 @@ pnpm test
 
 ### Branch naming
 
-Use **`feature/{short-description}`** for all feature work:
-
-```bash
-git checkout -b feature/bridge-discordjs
-```
+`feature/{short-description}` — e.g. `feature/sequences`, `feature/tier-split`.
 
 ## Status
 
-- **Phase 1** — `@stratum/core` (done)
-- **Phase 2** — `@stratum/bridge-discordjs` (done)
-- **Phase 3** — `@stratum/vault` (in progress on `feature/vault`)
+Phases 1–5 implemented on `feature/vault-sql` (vault SQL + loader + signals). Merge via PRs per branch as needed.

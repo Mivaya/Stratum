@@ -2,7 +2,7 @@ import { EventEmitter } from "node:events";
 import type { Bridge, Tier } from "../bridge/types.js";
 import { Binder } from "../binder/Binder.js";
 import { Registry } from "../pieces/Registry.js";
-import { Directive } from "../registries/Directive.js";
+import { Command } from "../registries/Command.js";
 import { Hook } from "../registries/Hook.js";
 import { Scout } from "../registries/Scout.js";
 import { Barrier } from "../registries/Barrier.js";
@@ -10,7 +10,8 @@ import { Gate } from "../registries/Gate.js";
 import { Conduit } from "../registries/Conduit.js";
 import { Epilogue } from "../registries/Epilogue.js";
 import { ExecutionPipeline } from "../pipeline/ExecutionPipeline.js";
-import type { DirectiveContext } from "../context/types.js";
+import { InboundRouter } from "./InboundRouter.js";
+import type { CommandContext } from "../context/types.js";
 import type { StratumClientEvents, StratumClientOptions, StratumRegistries } from "./types.js";
 import type { Outcome } from "../outcome/Outcome.js";
 
@@ -18,12 +19,14 @@ export class StratumClient extends EventEmitter {
   readonly tier: Tier;
   readonly binder = new Binder();
   readonly pipeline: ExecutionPipeline;
+  readonly router: InboundRouter;
   readonly registries: StratumRegistries;
 
   bridge: Bridge | null = null;
   prefix: string;
   botUserId: string | null = null;
   private started = false;
+  private hooksBound = false;
 
   constructor(options: StratumClientOptions = {}) {
     super();
@@ -31,9 +34,10 @@ export class StratumClient extends EventEmitter {
     this.prefix = options.prefix ?? "!";
     this.bridge = options.bridge ?? null;
     this.pipeline = new ExecutionPipeline(this);
+    this.router = new InboundRouter(this);
 
     this.registries = {
-      directives: new Registry<Directive>(this, "directives"),
+      commands: new Registry<Command>(this, "commands"),
       hooks: new Registry<Hook>(this, "hooks"),
       scouts: new Registry<Scout>(this, "scouts"),
       barriers: new Registry<Barrier>(this, "barriers"),
@@ -49,29 +53,35 @@ export class StratumClient extends EventEmitter {
 
   setBridge(bridge: Bridge): void {
     this.bridge = bridge;
-    this.bindHooks();
+    this.hooksBound = false;
   }
 
-  register(directive: Directive): Directive {
-    return this.registries.directives.register(directive);
+  setBotUserId(userId: string): void {
+    this.botUserId = userId;
   }
 
-  getDirective(name: string): Directive | undefined {
-    return this.registries.directives.get(name);
+  register(command: Command): Command {
+    return this.registries.commands.register(command);
   }
 
-  async invoke(
-    directiveName: string,
-    ctx: DirectiveContext,
-  ): Promise<Outcome<unknown, unknown>> {
-    const directive = this.getDirective(directiveName);
-    if (!directive) {
-      return { ok: false, error: new Error(`Unknown directive: ${directiveName}`) };
+  getCommand(name: string): Command | undefined {
+    return this.registries.commands.get(name);
+  }
+
+  /** @deprecated Use {@link getCommand} */
+  getDirective(name: string): Command | undefined {
+    return this.getCommand(name);
+  }
+
+  async invoke(commandName: string, ctx: CommandContext): Promise<Outcome<unknown, unknown>> {
+    const command = this.getCommand(commandName);
+    if (!command) {
+      return { ok: false, error: new Error(`Unknown command: ${commandName}`) };
     }
-    if (!directive.supports(ctx.kind)) {
-      return { ok: false, error: new Error(`Directive "${directiveName}" does not support kind "${ctx.kind}"`) };
+    if (!command.supports(ctx.kind)) {
+      return { ok: false, error: new Error(`Command "${commandName}" does not support kind "${ctx.kind}"`) };
     }
-    return this.pipeline.runDirective(directive, ctx);
+    return this.pipeline.runCommand(command, ctx);
   }
 
   async start(): Promise<void> {
@@ -92,7 +102,8 @@ export class StratumClient extends EventEmitter {
   }
 
   private bindHooks(): void {
-    if (!this.bridge) return;
+    if (!this.bridge || this.hooksBound) return;
+    this.hooksBound = true;
 
     for (const hook of this.registries.hooks.values()) {
       const handler = async (payload: unknown) => {

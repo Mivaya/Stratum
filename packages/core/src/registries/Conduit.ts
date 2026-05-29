@@ -1,4 +1,4 @@
-import type { DirectiveContext } from "../context/types.js";
+import type { CommandContext } from "../context/types.js";
 import { Unit, type UnitOptions } from "../pieces/Unit.js";
 import { Registry } from "../pieces/Registry.js";
 
@@ -15,5 +15,5 @@ export abstract class Conduit extends Unit<ConduitOptions> {
     this.priority = options.priority ?? 10;
   }
 
-  abstract process(ctx: DirectiveContext): Promise<void>;
+  abstract process(ctx: CommandContext): Promise<void>;
 }

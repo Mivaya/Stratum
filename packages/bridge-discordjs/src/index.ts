@@ -1,0 +1,18 @@
+export { DiscordJsBridge, type DiscordJsBridgeOptions } from "./DiscordJsBridge.js";
+export { createDiscordJsBridge, type CreateDiscordJsBridgeOptions } from "./createDiscordJsBridge.js";
+export { attachStratum, type AttachStratumOptions } from "./attachStratum.js";
+export {
+  deployCommands,
+  deployDirectives,
+  type DeployCommandsOptions,
+  type DeployCommandsResult,
+  type DeployDirectivesOptions,
+  type DeployDirectivesResult,
+} from "./deploy.js";
+export {
+  scoutContextFromMessage,
+  commandContextFromMessage,
+  commandContextFromSlash,
+  directiveContextFromMessage,
+  directiveContextFromSlash,
+} from "./context.js";

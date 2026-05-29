@@ -1,6 +1,7 @@
 // Client
 export { StratumClient } from "./client/StratumClient.js";
 export { createStratumBot } from "./client/createStratumBot.js";
+export { InboundRouter } from "./client/InboundRouter.js";
 export type { StratumClientOptions, CreateStratumBotOptions, StratumRegistries } from "./client/types.js";
 
 // Bridge
@@ -11,8 +12,11 @@ export { MockBridge } from "./bridge/MockBridge.js";
 export { Unit, type UnitOptions } from "./pieces/Unit.js";
 export { Registry, type UnitConstructor } from "./pieces/Registry.js";
 
+// Piece paths (Sapphire / Klasa layout)
+export { PiecePaths, type PiecePathKey } from "./constants/piecePaths.js";
+
 // Registries (unit types)
-export { Directive, type DirectiveOptions } from "./registries/Directive.js";
+export { Command, type CommandOptions } from "./registries/Command.js";
 export { Hook, type HookOptions } from "./registries/Hook.js";
 export { Scout, type ScoutOptions } from "./registries/Scout.js";
 export { Barrier, type BarrierOptions, type BarrierResult } from "./registries/Barrier.js";
@@ -34,11 +38,13 @@ export { ExecutionPipeline, type PipelineRunOptions } from "./pipeline/Execution
 
 // Context
 export type {
-  DirectiveContext,
-  DirectiveKind,
+  CommandContext,
+  CommandKind,
   ScoutContext,
   ScoutTrigger,
   EpilogueContext,
+  DirectiveContext,
+  DirectiveKind,
 } from "./context/types.js";
 
 // Outcome
@@ -55,3 +61,6 @@ export {
 
 // DI
 export { Binder, type ServiceToken, type ServiceFactory } from "./binder/Binder.js";
+
+// Deprecated aliases
+export { Command as Directive, type CommandOptions as DirectiveOptions } from "./registries/Command.js";

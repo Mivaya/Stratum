@@ -1,9 +1,8 @@
-import { isOk, type Outcome } from "../outcome/Outcome.js";
-import type { DirectiveContext, EpilogueContext, ScoutContext } from "../context/types.js";
+import { isOk, type Outcome, StratumError } from "../outcome/Outcome.js";
+import type { CommandContext, EpilogueContext, ScoutContext } from "../context/types.js";
 import type { StratumClient } from "../client/StratumClient.js";
-import type { Directive } from "../registries/Directive.js";
+import type { Command } from "../registries/Command.js";
 import type { GateLike } from "../registries/Gate.js";
-import { StratumError } from "../outcome/Outcome.js";
 
 export interface PipelineRunOptions {
   /** Skip barriers marked skipOnHelp (e.g. rate limits while listing commands). */
@@ -44,9 +43,9 @@ export class ExecutionPipeline {
     }
   }
 
-  async runDirective(
-    directive: Directive,
-    ctx: DirectiveContext,
+  async runCommand(
+    command: Command,
+    ctx: CommandContext,
     options: PipelineRunOptions = {},
   ): Promise<Outcome<unknown, unknown>> {
     const start = performance.now();
@@ -56,28 +55,28 @@ export class ExecutionPipeline {
     const blocked = await this.runBarriers(ctx, options);
     if (blocked) {
       const payload: {
-        ctx: DirectiveContext;
+        ctx: CommandContext;
         reason?: string;
         silent?: boolean;
       } = { ctx };
       if (blocked.reason !== undefined) payload.reason = blocked.reason;
       if (blocked.silent !== undefined) payload.silent = blocked.silent;
-      this.client.emit("directiveBlocked", payload);
+      this.client.emit("commandBlocked", payload);
       return {
         ok: false,
         error: new StratumError(blocked.reason ?? "Blocked.", "BARRIER"),
       };
     }
 
-    const denied = await this.runGates(directive, ctx);
+    const denied = await this.runGates(command, ctx);
     if (denied) {
-      this.client.emit("directiveDenied", { ctx, error: denied });
+      this.client.emit("commandDenied", { ctx, error: denied });
       return { ok: false, error: denied };
     }
 
     let outcome: Outcome<unknown>;
     try {
-      outcome = await directive.execute(ctx);
+      outcome = await command.execute(ctx);
     } catch (error) {
       outcome = {
         ok: false,
@@ -87,22 +86,22 @@ export class ExecutionPipeline {
 
     const durationMs = performance.now() - start;
     await this.runEpilogues({
-      directiveName: directive.name,
+      commandName: command.name,
       ctx,
       outcome,
       durationMs,
     });
 
     if (isOk(outcome)) {
-      this.client.emit("directiveSuccess", { ctx, directive: directive.name, durationMs });
+      this.client.emit("commandSuccess", { ctx, command: command.name, durationMs });
     } else {
-      this.client.emit("directiveError", { ctx, directive: directive.name, error: outcome.error });
+      this.client.emit("commandError", { ctx, command: command.name, error: outcome.error });
     }
 
     return outcome;
   }
 
-  private async runConduits(ctx: DirectiveContext): Promise<void> {
+  private async runConduits(ctx: CommandContext): Promise<void> {
     const conduits = this.client.registries.conduits.sortedByPriority((c) => c.priority);
     for (const conduit of conduits) {
       await conduit.process(ctx);
@@ -110,7 +109,7 @@ export class ExecutionPipeline {
   }
 
   private async runBarriers(
-    ctx: DirectiveContext,
+    ctx: CommandContext,
     options: PipelineRunOptions,
   ): Promise<{ reason?: string; silent?: boolean } | null> {
     const barriers = this.client.registries.barriers.sortedByPriority((b) => b.priority);
@@ -133,11 +132,11 @@ export class ExecutionPipeline {
   }
 
   private async runGates(
-    directive: Directive,
-    ctx: DirectiveContext,
+    command: Command,
+    ctx: CommandContext,
   ): Promise<{ message: string; silent: boolean; gate: string } | null> {
     const globalGates = this.client.registries.gates.sortedByPriority((g) => g.priority);
-    const allGates: GateLike[] = [...globalGates, ...directive.gates];
+    const allGates: GateLike[] = [...globalGates, ...command.gates];
 
     for (const gate of allGates) {
       const result = await gate.check(ctx);

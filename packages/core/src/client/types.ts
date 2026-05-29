@@ -2,21 +2,17 @@ import type { Bridge, Tier } from "../bridge/types.js";
 import type { Binder } from "../binder/Binder.js";
 
 export interface StratumClientOptions {
-  /** Deployment tier. */
   tier?: Tier;
-  /** Transport bridge (discord.js, Discordeno, mock). */
   bridge?: Bridge;
-  /** Default directive prefix for message-based invocation. */
   prefix?: string;
 }
 
 export interface CreateStratumBotOptions extends StratumClientOptions {
-  /** Auto-connect bridge on start. */
   autostart?: boolean;
 }
 
 export interface StratumRegistries {
-  directives: import("../pieces/Registry.js").Registry<import("../registries/Directive.js").Directive>;
+  commands: import("../pieces/Registry.js").Registry<import("../registries/Command.js").Command>;
   hooks: import("../pieces/Registry.js").Registry<import("../registries/Hook.js").Hook>;
   scouts: import("../pieces/Registry.js").Registry<import("../registries/Scout.js").Scout>;
   barriers: import("../pieces/Registry.js").Registry<import("../registries/Barrier.js").Barrier>;
@@ -30,30 +26,30 @@ export type StratumClientEvents = {
   unitRegistered: [{ registry: string; unit: import("../pieces/Unit.js").Unit }];
   unitUnregistered: [{ registry: string; name: string }];
   scoutError: [{ scout: string; error: unknown; ctx: import("../context/types.js").ScoutContext }];
-  directiveBlocked: [
+  commandBlocked: [
     {
-      ctx: import("../context/types.js").DirectiveContext;
+      ctx: import("../context/types.js").CommandContext;
       reason?: string;
       silent?: boolean;
     },
   ];
-  directiveDenied: [
+  commandDenied: [
     {
-      ctx: import("../context/types.js").DirectiveContext;
+      ctx: import("../context/types.js").CommandContext;
       error: { message: string; silent: boolean; gate: string };
     },
   ];
-  directiveSuccess: [
+  commandSuccess: [
     {
-      ctx: import("../context/types.js").DirectiveContext;
-      directive: string;
+      ctx: import("../context/types.js").CommandContext;
+      command: string;
       durationMs: number;
     },
   ];
-  directiveError: [
+  commandError: [
     {
-      ctx: import("../context/types.js").DirectiveContext;
-      directive: string;
+      ctx: import("../context/types.js").CommandContext;
+      command: string;
       error: unknown;
     },
   ];

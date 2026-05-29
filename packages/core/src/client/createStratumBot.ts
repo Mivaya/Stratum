@@ -7,7 +7,7 @@ import type { CreateStratumBotOptions } from "./types.js";
  * @example
  * ```ts
  * const client = createStratumBot({ bridge: myBridge, prefix: "!" });
- * client.register(new PingDirective(client.registries.directives));
+ * client.register(new PingCommand(client.registries.commands));
  * await client.start();
  * ```
  */

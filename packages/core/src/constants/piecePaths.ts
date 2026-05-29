@@ -27,6 +27,8 @@ export const PiecePaths = {
   signals: "src/signals",
   /** Klasa: `tasks/` — Stratum: Chron */
   tasks: "src/tasks",
+  /** Vault blueprints / ledger schemas */
+  schemas: "src/schemas",
 } as const;
 
 export type PiecePathKey = keyof typeof PiecePaths;

@@ -18,6 +18,7 @@ src/
   conduits/           # Middleware before barriers/gates
   signals/            # Buttons, modals, selects (future)
   tasks/              # Klasa scheduled tasks (Stratum: Chron, future)
+  schemas/            # Vault blueprints (per-guild/user data shapes)
   main.ts
 ```
 

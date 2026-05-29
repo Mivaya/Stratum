@@ -1,0 +1,168 @@
+import { isOk, type Outcome } from "../outcome/Outcome.js";
+import type { DirectiveContext, EpilogueContext, ScoutContext } from "../context/types.js";
+import type { StratumClient } from "../client/StratumClient.js";
+import type { Directive } from "../registries/Directive.js";
+import type { GateLike } from "../registries/Gate.js";
+import { StratumError } from "../outcome/Outcome.js";
+
+export interface PipelineRunOptions {
+  /** Skip barriers marked skipOnHelp (e.g. rate limits while listing commands). */
+  helpMode?: boolean;
+}
+
+export class ExecutionPipeline {
+  constructor(readonly client: StratumClient) {}
+
+  async runScouts(ctx: ScoutContext): Promise<void> {
+    const botUserId = this.client.botUserId;
+    const scouts = this.client.registries.scouts.sortedByPriority((s) => s.priority);
+
+    const serial: typeof scouts = [];
+    const parallel: typeof scouts = [];
+
+    for (const scout of scouts) {
+      if (!scout.shouldRun(ctx, botUserId)) continue;
+      if (scout.concurrency === "serial") serial.push(scout);
+      else parallel.push(scout);
+    }
+
+    for (const scout of serial) {
+      await this.runScoutSafe(scout, ctx);
+    }
+
+    await Promise.all(parallel.map((scout) => this.runScoutSafe(scout, ctx)));
+  }
+
+  private async runScoutSafe(
+    scout: import("../registries/Scout.js").Scout,
+    ctx: ScoutContext,
+  ): Promise<void> {
+    try {
+      await scout.run(ctx);
+    } catch (error) {
+      this.client.emit("scoutError", { scout: scout.name, error, ctx });
+    }
+  }
+
+  async runDirective(
+    directive: Directive,
+    ctx: DirectiveContext,
+    options: PipelineRunOptions = {},
+  ): Promise<Outcome<unknown, unknown>> {
+    const start = performance.now();
+
+    await this.runConduits(ctx);
+
+    const blocked = await this.runBarriers(ctx, options);
+    if (blocked) {
+      const payload: {
+        ctx: DirectiveContext;
+        reason?: string;
+        silent?: boolean;
+      } = { ctx };
+      if (blocked.reason !== undefined) payload.reason = blocked.reason;
+      if (blocked.silent !== undefined) payload.silent = blocked.silent;
+      this.client.emit("directiveBlocked", payload);
+      return {
+        ok: false,
+        error: new StratumError(blocked.reason ?? "Blocked.", "BARRIER"),
+      };
+    }
+
+    const denied = await this.runGates(directive, ctx);
+    if (denied) {
+      this.client.emit("directiveDenied", { ctx, error: denied });
+      return { ok: false, error: denied };
+    }
+
+    let outcome: Outcome<unknown>;
+    try {
+      outcome = await directive.execute(ctx);
+    } catch (error) {
+      outcome = {
+        ok: false,
+        error: error instanceof Error ? error : new Error(String(error)),
+      };
+    }
+
+    const durationMs = performance.now() - start;
+    await this.runEpilogues({
+      directiveName: directive.name,
+      ctx,
+      outcome,
+      durationMs,
+    });
+
+    if (isOk(outcome)) {
+      this.client.emit("directiveSuccess", { ctx, directive: directive.name, durationMs });
+    } else {
+      this.client.emit("directiveError", { ctx, directive: directive.name, error: outcome.error });
+    }
+
+    return outcome;
+  }
+
+  private async runConduits(ctx: DirectiveContext): Promise<void> {
+    const conduits = this.client.registries.conduits.sortedByPriority((c) => c.priority);
+    for (const conduit of conduits) {
+      await conduit.process(ctx);
+    }
+  }
+
+  private async runBarriers(
+    ctx: DirectiveContext,
+    options: PipelineRunOptions,
+  ): Promise<{ reason?: string; silent?: boolean } | null> {
+    const barriers = this.client.registries.barriers.sortedByPriority((b) => b.priority);
+
+    const checks = barriers
+      .filter((b) => !(options.helpMode && b.skipOnHelp))
+      .map((b) => b.block(ctx));
+
+    const results = await Promise.all(checks);
+
+    for (const result of results) {
+      if (result.block) {
+        const blocked: { reason?: string; silent?: boolean } = {};
+        if (result.reason !== undefined) blocked.reason = result.reason;
+        if (result.silent !== undefined) blocked.silent = result.silent;
+        return blocked;
+      }
+    }
+    return null;
+  }
+
+  private async runGates(
+    directive: Directive,
+    ctx: DirectiveContext,
+  ): Promise<{ message: string; silent: boolean; gate: string } | null> {
+    const globalGates = this.client.registries.gates.sortedByPriority((g) => g.priority);
+    const allGates: GateLike[] = [...globalGates, ...directive.gates];
+
+    for (const gate of allGates) {
+      const result = await gate.check(ctx);
+      if (!result.allow) {
+        return {
+          message: result.reason ?? "Gate denied.",
+          silent: result.silent ?? false,
+          gate: gate.name,
+        };
+      }
+    }
+    return null;
+  }
+
+  private async runEpilogues(epilogueCtx: EpilogueContext): Promise<void> {
+    const epilogues = this.client.registries.epilogues.sortedByPriority((e) => e.priority);
+    const success = isOk(epilogueCtx.outcome);
+
+    for (const epilogue of epilogues) {
+      if (!epilogue.matches(success)) continue;
+      try {
+        await epilogue.run(epilogueCtx);
+      } catch (error) {
+        this.client.emit("epilogueError", { epilogue: epilogue.name, error, ctx: epilogueCtx });
+      }
+    }
+  }
+}

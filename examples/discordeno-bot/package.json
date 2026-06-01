@@ -1,0 +1,20 @@
+{
+  "name": "@stratum/example-discordeno-bot",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "tsx src/main.ts",
+    "deploy": "tsx src/deploy.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@stratum/bridge-discordeno": "workspace:*",
+    "@stratum/core": "workspace:*",
+    "@stratum/loader": "workspace:*",
+    "@discordeno/bot": "^21.0.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3"
+  }
+}

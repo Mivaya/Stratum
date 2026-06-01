@@ -46,11 +46,11 @@ Sapphire’s value is **structure and DX** on top of discord.js — command stor
 | Built-in cooldown gate | Precondition + scope | **Done** — `@stratum/gates` | Maintain |
 | Built-in permission gate | Client + user permissions | **Done** — `@stratum/gates` | Maintain |
 | Built-in NSFW / RunIn gates | Channel type checks | **Done** — `@stratum/gates` | Maintain |
-| Interaction handlers | InteractionHandlerStore | **Partial** — `Signal` (button/select/modal) | Unified handler store Phase 14 |
+| Interaction handlers | InteractionHandlerStore | **Partial** — `Signal` + `resolveInteractionTarget` | Full handler store later |
 | Autocomplete handlers | Interaction handlers | **Done** — `Command.autocomplete()` | Bridge routing |
 | Slash deploy / registry | Application command registries | **Done** — `buildApplicationCommands`, deploy diff | Bridges |
-| Plugin system | Plugin hooks (pre/post init, login) | **Planned** — Phase 14 | `@stratum/plugins` |
-| Logger / container DI | `@sapphire/pieces` Container | **Partial** — `Binder` + loader context | Logger + container Phase 14 |
+| Plugin system | Plugin hooks (pre/post init, login) | **Done** — `@stratum/plugins` | Maintain |
+| Logger / container DI | `@sapphire/pieces` Container | **Done** — `StratumContainer` + `Binder` | Maintain |
 | Error listeners | Default error listeners | **Partial** — client events (`commandError`, etc.) | Default handlers Phase 11 |
 | Message commands | Optional loadMessageCommandListeners | **Done** — prefix via bridge + router | Keep |
 | Depends on discord.js | Always | **No** — bridge only | Keep core free |
@@ -156,18 +156,18 @@ Phases 1–10 are complete — see [PHASES.md](./PHASES.md#completed).
 
 ---
 
-### Phase 14 — Plugins & container
+### Phase 14 — Plugins & container ✅
 
 **From Sapphire:** Plugin hooks, Container, logger.
 
 | Deliverable | Description |
 |-------------|-------------|
-| `@stratum/plugins` | `preInit`, `postInit`, `preStart`, `postLoad` hooks |
-| `StratumContainer` | Logger, config, shared services (extends `Binder`) |
-| Interaction handler unification | Optional merge of Signal + slash autocomplete under one registry |
+| `@stratum/plugins` | `preInit`, `postInit`, `preStart`, `postStart`, `postLoad` hooks |
+| `StratumContainer` | Logger, config, shared services (extends `DefaultStratumContainer`) |
+| Interaction handler unification | `resolveInteractionTarget` facade (Signal + autocomplete) |
 | Official plugins list | e.g. `@stratum/plugin-api`, `@stratum/plugin-i18n` (later) |
 
-**Branch:** `feature/plugins`
+**Branch:** `feature/plugins` · **Docs:** [PLUGINS.md](./PLUGINS.md)
 
 ---
 

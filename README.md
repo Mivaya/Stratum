@@ -283,6 +283,7 @@ Full guide: [docs/PROJECT_STRUCTURE.md](docs/PROJECT_STRUCTURE.md).
 | [`@stratum/vault-sql`](packages/vault-sql) | SQLite + PostgreSQL drivers |
 | [`@stratum/gates`](packages/gates) | Built-in gates — cooldown, permissions, NSFW, RunIn |
 | [`@stratum/args`](packages/args) | Prefix + slash argument parsing |
+| [`@stratum/plugins`](packages/plugins) | Plugin hooks, container, logger |
 | [`@stratum/metrics`](packages/metrics) | Prometheus metrics + `/metrics` HTTP server |
 
 ---
@@ -318,6 +319,7 @@ pnpm start
 | [docs/GATES.md](docs/GATES.md) | Built-in gates (`@stratum/gates`) |
 | [docs/ARGS.md](docs/ARGS.md) | Argument parsing (`@stratum/args`) |
 | [docs/COMMAND_TREE.md](docs/COMMAND_TREE.md) | Subcommands, aliases, autocomplete, deploy |
+| [docs/PLUGINS.md](docs/PLUGINS.md) | Plugins & container (`@stratum/plugins`) |
 | [docs/METRICS.md](docs/METRICS.md) | Prometheus observability |
 | [docs/PHASES.md](docs/PHASES.md) | Roadmap and phase history |
 | [docs/ROADMAP.md](docs/ROADMAP.md) | Future goals — Sapphire + Discordeno parity + Stratum originals |

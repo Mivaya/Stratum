@@ -1,6 +1,7 @@
 import type { Bridge, Tier, WorkerRole } from "../bridge/types.js";
 import type { RestPort } from "../tier/types.js";
 import type { TierBus } from "../tier/types.js";
+import type { StratumContainerLike } from "../container/types.js";
 
 export interface StratumClientOptions {
   tier?: Tier;
@@ -11,6 +12,8 @@ export interface StratumClientOptions {
   tierBus?: TierBus;
   bridge?: Bridge;
   prefix?: string;
+  /** Shared services + logger (defaults to {@link DefaultStratumContainer}). */
+  container?: StratumContainerLike;
 }
 
 export interface CreateStratumBotOptions extends StratumClientOptions {
@@ -68,3 +71,7 @@ export type StratumClientEvents = {
 };
 
 export type { Binder } from "../binder/Binder.js";
+export type { StratumLogger, StratumContainerLike } from "../container/types.js";
+export { ConsoleLogger } from "../container/ConsoleLogger.js";
+export { DefaultStratumContainer } from "../container/DefaultStratumContainer.js";
+export type { PluginHookName, PluginLifecycle } from "../plugins/types.js";

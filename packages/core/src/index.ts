@@ -21,6 +21,10 @@ export type {
   SequenceSession,
 } from "./sequence/types.js";
 export type { StratumClientOptions, CreateStratumBotOptions, StratumRegistries } from "./client/types.js";
+export type { StratumLogger, StratumContainerLike } from "./container/types.js";
+export { ConsoleLogger } from "./container/ConsoleLogger.js";
+export { DefaultStratumContainer } from "./container/DefaultStratumContainer.js";
+export type { PluginHookName, PluginLifecycle } from "./plugins/types.js";
 
 // Bridge
 export type { Bridge, BridgeOptions, Tier, BridgeEventHandler } from "./bridge/types.js";

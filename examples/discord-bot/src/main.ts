@@ -3,6 +3,8 @@ import path from "node:path";
 import { createStratumBot } from "@stratum/core";
 import { createDiscordJsBridge } from "@stratum/bridge-discordjs";
 import { loadPieces } from "@stratum/loader";
+import { attachPlugins, StratumContainer } from "@stratum/plugins";
+import { LoggingPlugin } from "./plugins/LoggingPlugin.js";
 import {
   attachClientMetrics,
   createMetricsServer,
@@ -29,7 +31,12 @@ const vault = new Vault({
 });
 vault.registerLedger("guild", { blueprint: GuildBlueprint });
 
-const client = createStratumBot({ prefix: process.env.PREFIX ?? "!" });
+const container = new StratumContainer({
+  config: { prefix: process.env.PREFIX ?? "!" },
+});
+const client = createStratumBot({ prefix: process.env.PREFIX ?? "!", container });
+
+await attachPlugins(client, { plugins: [LoggingPlugin] });
 
 const { loaded, errors } = await loadPieces(client, {
   context: { client, vault },
@@ -71,7 +78,7 @@ if (metricsPort > 0) {
 
 client.on("ready", async () => {
   await vault.init();
-  console.log(`Stratum online as ${client.botUserId ?? "unknown"}`);
+  container.logger.info(`Stratum online as ${client.botUserId ?? "unknown"}`);
 });
 
 client.on("commandSuccess", ({ command, durationMs }) => {

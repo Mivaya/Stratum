@@ -75,6 +75,7 @@ export async function loadPieces(
   }
 
   client.rebuildCommandIndex();
+  await client.pluginLifecycle?.runHook("postLoad");
   return result;
 }
 

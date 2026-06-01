@@ -2,6 +2,9 @@ import { EventEmitter } from "node:events";
 import type { Bridge, Tier, WorkerRole } from "../bridge/types.js";
 import type { RestPort, TierBus } from "../tier/types.js";
 import { Binder } from "../binder/Binder.js";
+import { DefaultStratumContainer } from "../container/DefaultStratumContainer.js";
+import type { StratumContainerLike } from "../container/types.js";
+import type { PluginLifecycle } from "../plugins/types.js";
 import { Registry } from "../pieces/Registry.js";
 import { Command } from "../registries/Command.js";
 import { Hook } from "../registries/Hook.js";
@@ -27,7 +30,8 @@ export class StratumClient extends EventEmitter {
   readonly workerRole: WorkerRole;
   readonly restPort: RestPort | null;
   readonly tierBus: TierBus | null;
-  readonly binder = new Binder();
+  readonly binder: Binder;
+  readonly container: StratumContainerLike;
   readonly pipeline: ExecutionPipeline;
   readonly router: InboundRouter;
   readonly signalRouter: SignalRouter;
@@ -39,6 +43,8 @@ export class StratumClient extends EventEmitter {
   bridge: Bridge | null = null;
   prefix: string;
   botUserId: string | null = null;
+  /** Set via {@link createPluginManager} from `@stratum/plugins`. */
+  pluginLifecycle: PluginLifecycle | null = null;
   private started = false;
   private hooksBound = false;
 
@@ -51,6 +57,8 @@ export class StratumClient extends EventEmitter {
     this.tierBus = options.tierBus ?? null;
     this.prefix = options.prefix ?? "!";
     this.bridge = options.bridge ?? null;
+    this.container = options.container ?? new DefaultStratumContainer();
+    this.binder = this.container.binder;
     this.pipeline = new ExecutionPipeline(this);
     this.router = new InboundRouter(this);
     this.signalRouter = new SignalRouter(this);
@@ -121,12 +129,14 @@ export class StratumClient extends EventEmitter {
     if (this.tier === "split" && this.workerRole === "gateway" && !this.restPort) {
       throw new Error('Split-tier gateway requires a RestPort (e.g. new HttpRestPort({ baseUrl })).');
     }
+    await this.pluginLifecycle?.runHook("preStart");
     await this.bridge.connect();
     this.bindHooks();
     this.startChrons();
     this.rebuildCommandIndex();
     this.started = true;
     this.emit("ready");
+    await this.pluginLifecycle?.runHook("postStart");
   }
 
   async stop(): Promise<void> {

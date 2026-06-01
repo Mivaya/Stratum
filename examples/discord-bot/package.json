@@ -25,6 +25,7 @@
     "@stratum/metrics": "workspace:*",
     "@stratum/gates": "workspace:*",
     "@stratum/args": "workspace:*",
+    "@stratum/plugins": "workspace:*",
     "discord.js": "^14.19.0"
   },
   "devDependencies": {

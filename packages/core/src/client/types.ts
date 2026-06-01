@@ -14,6 +14,8 @@ export interface StratumClientOptions {
   prefix?: string;
   /** Shared services + logger (defaults to {@link DefaultStratumContainer}). */
   container?: StratumContainerLike;
+  /** Context field mask for bridges (defaults to full context). */
+  desiredProperties?: import("../desired/DesiredProperties.js").DesiredProperties;
 }
 
 export interface CreateStratumBotOptions extends StratumClientOptions {

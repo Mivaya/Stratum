@@ -1,30 +1,46 @@
-import type { CommandContext, RestPort } from "@stratum/core";
+import type { CommandContext, ResolvedDesiredProperties, RestPort } from "@stratum/core";
+import { slimCommandContext, slimMeta } from "@stratum/core";
 import {
-  InteractionResponseType,
-  MessageFlags,
   Routes,
   type ChatInputCommandInteraction,
   type Message,
 } from "discord.js";
 import {
-  commandContextMetaFromMessage,
-  commandContextMetaFromSlash,
-} from "../contextMeta.js";
+  channelMessageBody,
+  interactionReplyBody,
+  metaFromDiscordJsMessage,
+  metaFromDiscordJsSlash,
+} from "@stratum/transform";
 import { slashOptionsFromInteraction } from "../slashOptions.js";
 import { slashPathFromInteraction } from "../slashPath.js";
+import type { ContextBuildOptions } from "../context.js";
 
 function applicationId(interaction: ChatInputCommandInteraction): string {
   return interaction.applicationId;
 }
 
+function finalize(ctx: CommandContext, desired?: ResolvedDesiredProperties): CommandContext {
+  if (!desired) return ctx;
+  const slim = slimCommandContext(ctx, desired);
+  if (desired.context.meta && slim.meta) {
+    const meta = slimMeta(slim.meta, desired.meta);
+    if (meta !== undefined) return { ...slim, meta };
+    const { meta: _removed, ...rest } = slim as CommandContext & { meta?: unknown };
+    return rest as CommandContext;
+  }
+  return slim;
+}
+
 export function commandContextFromSlashViaRest(
   interaction: ChatInputCommandInteraction,
   restPort: RestPort,
+  options?: ContextBuildOptions,
 ): CommandContext {
-  const meta = commandContextMetaFromSlash(interaction);
+  const desired = options?.desired;
+  const meta = desired?.context.meta !== false ? metaFromDiscordJsSlash(interaction) : undefined;
   const slashOptions = slashOptionsFromInteraction(interaction);
   const slashPath = slashPathFromInteraction(interaction);
-  return {
+  const full: CommandContext = {
     kind: "slash",
     commandName: slashPath.root,
     userId: interaction.user.id,
@@ -39,39 +55,34 @@ export function commandContextFromSlashViaRest(
         await restPort.request({
           method: "POST",
           route: Routes.webhook(applicationId(interaction), interaction.token),
-          body: { content: text },
+          body: channelMessageBody(text),
         });
       } else {
         await restPort.request({
           method: "POST",
           route: Routes.interactionCallback(interaction.id, interaction.token),
-          body: {
-            type: InteractionResponseType.ChannelMessageWithSource,
-            data: { content: text },
-          },
+          body: interactionReplyBody(text),
         });
       }
     },
     replyEphemeral: async (text) => {
-      const data = { content: text, flags: MessageFlags.Ephemeral };
+      const body = interactionReplyBody(text, true);
       if (interaction.replied || interaction.deferred) {
         await restPort.request({
           method: "POST",
           route: Routes.webhook(applicationId(interaction), interaction.token),
-          body: data,
+          body: body.data,
         });
       } else {
         await restPort.request({
           method: "POST",
           route: Routes.interactionCallback(interaction.id, interaction.token),
-          body: {
-            type: InteractionResponseType.ChannelMessageWithSource,
-            data,
-          },
+          body,
         });
       }
     },
   };
+  return finalize(full, desired);
 }
 
 export function commandContextFromMessageViaRest(
@@ -79,9 +90,11 @@ export function commandContextFromMessageViaRest(
   commandName: string,
   restPort: RestPort,
   argsText = "",
+  options?: ContextBuildOptions,
 ): CommandContext {
-  const meta = commandContextMetaFromMessage(message);
-  return {
+  const desired = options?.desired;
+  const meta = desired?.context.meta !== false ? metaFromDiscordJsMessage(message) : undefined;
+  const full: CommandContext = {
     kind: "prefix",
     commandName,
     userId: message.author.id,
@@ -94,15 +107,22 @@ export function commandContextFromMessageViaRest(
       await restPort.request({
         method: "POST",
         route: Routes.channelMessages(message.channelId),
-        body: { content: text, message_reference: { message_id: message.id } },
+        body: {
+          ...channelMessageBody(text),
+          message_reference: { message_id: message.id },
+        },
       });
     },
     replyEphemeral: async (text) => {
       await restPort.request({
         method: "POST",
         route: Routes.channelMessages(message.channelId),
-        body: { content: text, message_reference: { message_id: message.id } },
+        body: {
+          ...channelMessageBody(text),
+          message_reference: { message_id: message.id },
+        },
       });
     },
   };
+  return finalize(full, desired);
 }

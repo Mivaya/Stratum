@@ -22,6 +22,8 @@ import { SignalRouter } from "./SignalRouter.js";
 import { SequenceStore } from "../sequence/SequenceStore.js";
 import { CommandIndex } from "../command/CommandIndex.js";
 import type { CommandContext } from "../context/types.js";
+import type { ResolvedDesiredProperties } from "../desired/DesiredProperties.js";
+import { resolveDesiredProperties } from "../desired/DesiredProperties.js";
 import type { StratumClientEvents, StratumClientOptions, StratumRegistries } from "./types.js";
 import type { Outcome } from "../outcome/Outcome.js";
 
@@ -38,6 +40,7 @@ export class StratumClient extends EventEmitter {
   readonly sequences: SequenceStore;
   readonly chronScheduler: ChronScheduler;
   readonly commandIndex: CommandIndex;
+  readonly desiredProperties: ResolvedDesiredProperties;
   readonly registries: StratumRegistries;
 
   bridge: Bridge | null = null;
@@ -65,6 +68,7 @@ export class StratumClient extends EventEmitter {
     this.sequences = new SequenceStore();
     this.chronScheduler = new ChronScheduler();
     this.commandIndex = new CommandIndex();
+    this.desiredProperties = resolveDesiredProperties(options.desiredProperties);
 
     this.registries = {
       commands: new Registry<Command>(this, "commands"),

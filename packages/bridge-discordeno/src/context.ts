@@ -1,22 +1,39 @@
-import type { CommandContext, ScoutContext } from "@stratum/core";
+import type { CommandContext, ResolvedDesiredProperties, ScoutContext } from "@stratum/core";
+import { slimCommandContext, slimMeta } from "@stratum/core";
 import {
   InteractionResponseTypes,
   InteractionTypes,
   MessageFlags,
 } from "@discordeno/bot";
+import {
+  metaFromDiscordenoMessage,
+  metaFromDiscordenoSlash,
+} from "@stratum/transform";
 import type { StratumBot } from "./createStratumDiscordenoBot.js";
 import type { DiscordenoInteraction, DiscordenoMessage } from "./types.js";
-import {
-  commandContextMetaFromMessage,
-  commandContextMetaFromSlash,
-} from "./contextMeta.js";
 import { slashOptionsFromInteraction } from "./slashOptions.js";
 import { slashPathFromInteraction } from "./slashPath.js";
 
 const replied = new WeakSet<object>();
 
+export interface ContextBuildOptions {
+  desired?: ResolvedDesiredProperties;
+}
+
 function idString(value: bigint | undefined | null): string | null {
   return value === undefined || value === null ? null : String(value);
+}
+
+function finalize(ctx: CommandContext, desired?: ResolvedDesiredProperties): CommandContext {
+  if (!desired) return ctx;
+  const slim = slimCommandContext(ctx, desired);
+  if (desired.context.meta && slim.meta) {
+    const meta = slimMeta(slim.meta, desired.meta);
+    if (meta !== undefined) return { ...slim, meta };
+    const { meta: _removed, ...rest } = slim as CommandContext & { meta?: unknown };
+    return rest as CommandContext;
+  }
+  return slim;
 }
 
 export function createScoutContext(
@@ -44,9 +61,11 @@ export function commandContextFromMessage(
   message: DiscordenoMessage,
   commandName: string,
   argsText = "",
+  options?: ContextBuildOptions,
 ): CommandContext {
-  const meta = commandContextMetaFromMessage(message);
-  return {
+  const desired = options?.desired;
+  const meta = desired?.context.meta !== false ? metaFromDiscordenoMessage(message) : undefined;
+  const full: CommandContext = {
     kind: "prefix",
     commandName,
     userId: String(message.author!.id),
@@ -74,17 +93,20 @@ export function commandContextFromMessage(
       });
     },
   };
+  return finalize(full, desired);
 }
 
 export function commandContextFromSlash(
   bot: StratumBot,
   interaction: DiscordenoInteraction,
+  options?: ContextBuildOptions,
 ): CommandContext {
-  const meta = commandContextMetaFromSlash(interaction);
+  const desired = options?.desired;
+  const meta = desired?.context.meta !== false ? metaFromDiscordenoSlash(interaction) : undefined;
   const slashOptions = slashOptionsFromInteraction(interaction);
   const slashPath = slashPathFromInteraction(interaction);
 
-  return {
+  const full: CommandContext = {
     kind: "slash",
     commandName: slashPath.root,
     userId: String(interaction.user!.id),
@@ -120,6 +142,7 @@ export function commandContextFromSlash(
       }
     },
   };
+  return finalize(full, desired);
 }
 
 export function getInteractionCustomId(interaction: DiscordenoInteraction): string | null {

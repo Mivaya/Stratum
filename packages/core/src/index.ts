@@ -25,6 +25,19 @@ export type { StratumLogger, StratumContainerLike } from "./container/types.js";
 export { ConsoleLogger } from "./container/ConsoleLogger.js";
 export { DefaultStratumContainer } from "./container/DefaultStratumContainer.js";
 export type { PluginHookName, PluginLifecycle } from "./plugins/types.js";
+export type {
+  DesiredProperties,
+  DesiredContextFields,
+  DesiredMetaFields,
+  ResolvedDesiredProperties,
+} from "./desired/DesiredProperties.js";
+export {
+  defaultDesiredProperties,
+  minimalDesiredProperties,
+  gatesDesiredProperties,
+  resolveDesiredProperties,
+} from "./desired/DesiredProperties.js";
+export { slimCommandContext, slimMeta } from "./desired/slimContext.js";
 
 // Bridge
 export type { Bridge, BridgeOptions, Tier, BridgeEventHandler } from "./bridge/types.js";

@@ -63,8 +63,8 @@ Discordeno’s value is **operational scale** — split gateway/REST, rate-limit
 |---------|------------|---------------|--------|
 | Split gateway / REST / bot processes | First-class | **Partial** — `RestPort`, tier split, REST worker | Native transport Phase 15–16 |
 | Centralized REST rate limits | `@discordeno/rest` proxy | **Done** — `@stratum/rest` + metrics | Native gateway Phase 18 |
-| desiredProperties (RAM trim) | Per-bot property mask | **Partial** — Discordeno bridge preset only | Core context slimming Phase 17 |
-| Transformers (Discord ↔ internal) | Bidirectional transformers | **Planned** — Phase 17 | `@stratum/transform` |
+| desiredProperties (RAM trim) | Per-bot property mask | **Done** — client mask + Discordeno sync | Maintain |
+| Transformers (Discord ↔ internal) | Bidirectional transformers | **Done** — `@stratum/transform` | Bridge adapters |
 | Gateway manager + shard workers | `@discordeno/gateway` | **Planned** — Phase 18 | `@stratum/gateway` |
 | Zero-downtime resharding | Automated / manual | **Planned** — Phase 19 | Gateway manager |
 | Gateway proxy / fast resume | DD proxy patterns | **Planned** — Phase 19 | Optional proxy package |
@@ -200,7 +200,7 @@ Phases 1–10 are complete — see [PHASES.md](./PHASES.md#completed).
 
 ---
 
-### Phase 17 — Desired properties & transformers
+### Phase 17 — Desired properties & transformers ✅
 
 **From Discordeno:** Memory-efficient payloads, bidirectional transform layer.
 
@@ -209,9 +209,9 @@ Phases 1–10 are complete — see [PHASES.md](./PHASES.md#completed).
 | `desiredProperties` config | On `StratumClient` / transport bot |
 | Slim `CommandContext` fields | Only requested props populated |
 | `@stratum/transform` | Gateway payload → Stratum shapes → REST payloads |
-| Bridge adapters | Map discord.js / Discordeno objects through transform layer |
+| Bridge adapters | discord.js + Discordeno context via transform layer |
 
-**Branch:** `feature/desired-properties`
+**Branch:** `feature/desired-properties` · **Docs:** [DESIRED_PROPERTIES.md](./DESIRED_PROPERTIES.md)
 
 ---
 

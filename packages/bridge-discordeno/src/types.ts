@@ -22,6 +22,7 @@ export interface DiscordenoInteraction {
   guildId?: bigint;
   channelId?: bigint;
   acknowledged?: boolean;
+  member?: { permissions?: bigint | string };
 }
 
 export interface DiscordenoBridgeOptions {
@@ -30,4 +31,6 @@ export interface DiscordenoBridgeOptions {
   applicationId?: string;
   rest?: Record<string, unknown>;
   gateway?: Record<string, unknown>;
+  /** Discordeno gateway desired-properties mask (defaults to Stratum preset). */
+  desiredProperties?: Record<string, unknown>;
 }

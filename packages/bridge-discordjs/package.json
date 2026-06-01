@@ -37,10 +37,12 @@
   },
   "peerDependencies": {
     "@stratum/core": "workspace:*",
+    "@stratum/transform": "workspace:*",
     "discord.js": "^14.16.0"
   },
   "devDependencies": {
     "@stratum/core": "workspace:*",
+    "@stratum/transform": "workspace:*",
     "@types/node": "^22.13.4",
     "discord.js": "^14.19.0",
     "tsup": "^8.3.6",

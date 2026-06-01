@@ -1,5 +1,5 @@
 import { createBot } from "@discordeno/bot";
-import { stratumDesiredProperties } from "./desiredProperties.js";
+import { defaultDiscordenoDesiredProperties } from "@stratum/transform";
 import type { DiscordenoBridgeOptions } from "./types.js";
 
 export function createStratumDiscordenoBot(options: DiscordenoBridgeOptions) {
@@ -7,7 +7,7 @@ export function createStratumDiscordenoBot(options: DiscordenoBridgeOptions) {
     token: options.token,
     intents: options.intents,
     ...(options.applicationId ? { applicationId: options.applicationId } : {}),
-    desiredProperties: stratumDesiredProperties,
+    desiredProperties: options.desiredProperties ?? defaultDiscordenoDesiredProperties,
     ...(options.rest ? { rest: options.rest } : {}),
     ...(options.gateway ? { gateway: options.gateway } : {}),
   });

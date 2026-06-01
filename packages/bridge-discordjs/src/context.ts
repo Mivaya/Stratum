@@ -1,16 +1,30 @@
-import type { CommandContext, ScoutContext } from "@stratum/core";
+import type { ResolvedDesiredProperties, CommandContext, ScoutContext } from "@stratum/core";
+import { slimCommandContext, slimMeta } from "@stratum/core";
 import {
   MessageFlags,
   type ChatInputCommandInteraction,
   type Message,
   type PartialMessage,
 } from "discord.js";
-import {
-  commandContextMetaFromMessage,
-  commandContextMetaFromSlash,
-} from "./contextMeta.js";
+import { metaFromDiscordJsMessage, metaFromDiscordJsSlash } from "@stratum/transform";
 import { slashOptionsFromInteraction } from "./slashOptions.js";
 import { slashPathFromInteraction } from "./slashPath.js";
+
+export interface ContextBuildOptions {
+  desired?: ResolvedDesiredProperties;
+}
+
+function applyDesired(ctx: CommandContext, desired?: ResolvedDesiredProperties): CommandContext {
+  if (!desired) return ctx;
+  const slim = slimCommandContext(ctx, desired);
+  if (desired.context.meta && slim.meta) {
+    const meta = slimMeta(slim.meta, desired.meta);
+    if (meta !== undefined) return { ...slim, meta };
+    const { meta: _removed, ...rest } = slim as CommandContext & { meta?: unknown };
+    return rest as CommandContext;
+  }
+  return slim;
+}
 
 export function scoutContextFromMessage(
   message: Message | PartialMessage,
@@ -35,9 +49,10 @@ export function commandContextFromMessage(
   message: Message,
   commandName: string,
   argsText = "",
+  options?: ContextBuildOptions,
 ): CommandContext {
-  const meta = commandContextMetaFromMessage(message);
-  return {
+  const meta = options?.desired?.context.meta !== false ? metaFromDiscordJsMessage(message) : undefined;
+  const full: CommandContext = {
     kind: "prefix",
     commandName,
     userId: message.author.id,
@@ -53,13 +68,18 @@ export function commandContextFromMessage(
       await message.reply({ content: text, allowedMentions: { repliedUser: false } });
     },
   };
+  return applyDesired(full, options?.desired);
 }
 
-export function commandContextFromSlash(interaction: ChatInputCommandInteraction): CommandContext {
-  const meta = commandContextMetaFromSlash(interaction);
+export function commandContextFromSlash(
+  interaction: ChatInputCommandInteraction,
+  options?: ContextBuildOptions,
+): CommandContext {
+  const meta =
+    options?.desired?.context.meta !== false ? metaFromDiscordJsSlash(interaction) : undefined;
   const slashOptions = slashOptionsFromInteraction(interaction);
   const slashPath = slashPathFromInteraction(interaction);
-  return {
+  const full: CommandContext = {
     kind: "slash",
     commandName: slashPath.root,
     userId: interaction.user.id,
@@ -85,6 +105,7 @@ export function commandContextFromSlash(interaction: ChatInputCommandInteraction
       }
     },
   };
+  return applyDesired(full, options?.desired);
 }
 
 /** @deprecated Use {@link commandContextFromMessage} */

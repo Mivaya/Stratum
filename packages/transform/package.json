@@ -1,25 +1,19 @@
 {
-  "name": "@stratum/bridge-discordeno",
+  "name": "@stratum/transform",
   "version": "0.0.1",
-  "description": "Discordeno v21 transport bridge for Stratum",
+  "description": "Stratum transform layer — gateway payloads to slim context shapes and REST bodies",
   "author": "Interittus13 <arpit.gupta.0121@gmail.com>",
   "license": "MIT",
-  "homepage": "https://github.com/Interittus13/Stratum/tree/main/packages/bridge-discordeno#readme",
+  "homepage": "https://github.com/Interittus13/Stratum/tree/main/packages/transform#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Interittus13/Stratum.git",
-    "directory": "packages/bridge-discordeno"
+    "directory": "packages/transform"
   },
   "bugs": {
     "url": "https://github.com/Interittus13/Stratum/issues"
   },
-  "keywords": [
-    "discord",
-    "discord-bot",
-    "discordeno",
-    "stratum",
-    "bridge"
-  ],
+  "keywords": ["discord", "discord-bot", "stratum", "transform", "discordeno"],
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -36,15 +30,12 @@
     "test": "vitest run"
   },
   "peerDependencies": {
-    "@discordeno/bot": "^21.0.0",
-    "@stratum/core": "workspace:*",
-    "@stratum/transform": "workspace:*"
+    "@stratum/core": "workspace:*"
   },
   "devDependencies": {
-    "@discordeno/bot": "^21.0.0",
     "@stratum/core": "workspace:*",
-    "@stratum/transform": "workspace:*",
     "@types/node": "^22.13.4",
+    "discord.js": "^14.19.0",
     "tsup": "^8.3.6",
     "typescript": "^5.7.3",
     "vitest": "^3.0.5"

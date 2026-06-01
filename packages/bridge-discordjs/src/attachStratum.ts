@@ -51,10 +51,11 @@ export function attachStratum(
       const parsed = client.router.parsePrefixCommand(message.content);
       if (!parsed) return;
 
+      const build = { desired: client.desiredProperties };
       const ctx =
         client.restPort && client.workerRole === "gateway"
-          ? commandContextFromMessageViaRest(message, parsed.name, client.restPort, parsed.args)
-          : commandContextFromMessage(message, parsed.name, parsed.args);
+          ? commandContextFromMessageViaRest(message, parsed.name, client.restPort, parsed.args, build)
+          : commandContextFromMessage(message, parsed.name, parsed.args, build);
       await client.router.processPrefixCommand(ctx);
     });
   }
@@ -74,10 +75,11 @@ export function attachStratum(
     }
 
     if (interaction.isChatInputCommand() && slashCommands) {
+      const build = { desired: client.desiredProperties };
       const ctx =
         client.restPort && client.workerRole === "gateway"
-          ? commandContextFromSlashViaRest(interaction, client.restPort)
-          : commandContextFromSlash(interaction);
+          ? commandContextFromSlashViaRest(interaction, client.restPort, build)
+          : commandContextFromSlash(interaction, build);
       await client.router.processSlashCommand(ctx);
       return;
     }

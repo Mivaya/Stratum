@@ -286,6 +286,7 @@ Full guide: [docs/PROJECT_STRUCTURE.md](docs/PROJECT_STRUCTURE.md).
 | [`@stratum/plugins`](packages/plugins) | Plugin hooks, container, logger |
 | [`@stratum/transport`](packages/transport) | Session info, route keys, rate-limit buckets |
 | [`@stratum/rest`](packages/rest) | Native Discord REST + centralized queue |
+| [`@stratum/transform`](packages/transform) | Transport ↔ Stratum shapes, REST payloads |
 | [`@stratum/metrics`](packages/metrics) | Prometheus metrics + `/metrics` HTTP server |
 
 ---
@@ -324,6 +325,7 @@ pnpm start
 | [docs/PLUGINS.md](docs/PLUGINS.md) | Plugins & container (`@stratum/plugins`) |
 | [docs/TRANSPORT.md](docs/TRANSPORT.md) | Native transport & REST (`@stratum/transport`, `@stratum/rest`) |
 | [docs/NATIVE_REST.md](docs/NATIVE_REST.md) | Native REST worker & split-tier metrics |
+| [docs/DESIRED_PROPERTIES.md](docs/DESIRED_PROPERTIES.md) | Context slimming & `@stratum/transform` |
 | [docs/METRICS.md](docs/METRICS.md) | Prometheus observability |
 | [docs/PHASES.md](docs/PHASES.md) | Roadmap and phase history |
 | [docs/ROADMAP.md](docs/ROADMAP.md) | Future goals — Sapphire + Discordeno parity + Stratum originals |

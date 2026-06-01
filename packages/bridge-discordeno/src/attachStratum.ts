@@ -50,7 +50,9 @@ export function attachStratum(
     if (prefixCommands && message.content && !isMessageAuthorBot(message)) {
       const parsed = client.router.parsePrefixCommand(message.content);
       if (parsed) {
-        const ctx = commandContextFromMessage(bot, message, parsed.name, parsed.args);
+        const ctx = commandContextFromMessage(bot, message, parsed.name, parsed.args, {
+          desired: client.desiredProperties,
+        });
         await client.router.processPrefixCommand(ctx);
       }
     }
@@ -85,7 +87,7 @@ export function attachStratum(
     }
 
     if (isApplicationCommand(interaction) && slashCommands) {
-      const ctx = commandContextFromSlash(bot, interaction);
+      const ctx = commandContextFromSlash(bot, interaction, { desired: client.desiredProperties });
       await client.router.processSlashCommand(ctx);
       return;
     }

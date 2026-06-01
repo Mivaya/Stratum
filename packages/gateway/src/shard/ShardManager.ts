@@ -19,12 +19,20 @@ export interface ShardManagerOptions {
 
 /** Tracks identify / resume state per shard (wire protocol in {@link buildIdentifyPayload}). */
 export class ShardManager {
-  readonly totalShards: number;
+  private _totalShards: number;
   private readonly shards = new Map<number, ShardRecord>();
 
   constructor(options: ShardManagerOptions) {
-    this.totalShards = options.totalShards;
-    for (let i = 0; i < options.totalShards; i++) {
+    this._totalShards = options.totalShards;
+    this.initShards(0, options.totalShards);
+  }
+
+  get totalShards(): number {
+    return this._totalShards;
+  }
+
+  private initShards(from: number, to: number): void {
+    for (let i = from; i < to; i++) {
       this.shards.set(i, {
         id: i,
         status: "disconnected",
@@ -33,6 +41,22 @@ export class ShardManager {
         lastConnectedAt: null,
       });
     }
+  }
+
+  /**
+   * Grow or shrink tracked shards for resharding. Existing shard state is preserved
+   * for ids that remain; new shards start disconnected.
+   */
+  resize(newTotalShards: number): void {
+    if (newTotalShards < 1) throw new Error("totalShards must be >= 1");
+    if (newTotalShards > this._totalShards) {
+      this.initShards(this._totalShards, newTotalShards);
+    } else if (newTotalShards < this._totalShards) {
+      for (let i = newTotalShards; i < this._totalShards; i++) {
+        this.shards.delete(i);
+      }
+    }
+    this._totalShards = newTotalShards;
   }
 
   get(shardId: number): ShardRecord | undefined {

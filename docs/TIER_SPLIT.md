@@ -75,7 +75,7 @@ cd examples/tier-split && pnpm gateway
 | `createDiscordRestWorker` | `@stratum/bridge-discordjs` | discord.js REST worker (legacy) |
 | `createNativeRestWorker` | `@stratum/rest` | Stratum-native REST worker (default) |
 
-`distributed` tier (multiple gateway shards) is reserved for Phase 19 resharding.
+`distributed` tier (multiple gateway shards) uses `@stratum/gateway` resharding — see [RESHARDING.md](./RESHARDING.md).
 
 ### Tier split v2 (gateway relay + bot worker)
 

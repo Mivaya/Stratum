@@ -326,6 +326,7 @@ pnpm start
 | [docs/COMMAND_TREE.md](docs/COMMAND_TREE.md) | Subcommands, aliases, autocomplete, deploy |
 | [docs/PLUGINS.md](docs/PLUGINS.md) | Plugins & container (`@stratum/plugins`) |
 | [docs/GATEWAY.md](docs/GATEWAY.md) | Gateway shard manager, worker protocol, cache |
+| [docs/RESHARDING.md](docs/RESHARDING.md) | Sharding, resharding policy, identify budget |
 | [docs/TRANSPORT.md](docs/TRANSPORT.md) | Native transport & REST (`@stratum/transport`, `@stratum/rest`) |
 | [docs/NATIVE_REST.md](docs/NATIVE_REST.md) | Native REST worker & split-tier metrics |
 | [docs/DESIRED_PROPERTIES.md](docs/DESIRED_PROPERTIES.md) | Context slimming & `@stratum/transform` |

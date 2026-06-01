@@ -24,7 +24,7 @@ const identify = buildIdentifyPayload({
 manager.markReady(0, { sessionId: "abc", sequence: 1 });
 ```
 
-Shard calculator helpers (`recommendedShardCount`, `guildShardId`, `shardIdsForWorker`) live in the same package for Phase 19 resharding.
+Shard calculator helpers (`recommendedShardCount`, `guildShardId`, `shardIdsForWorker`) and resharding (`evaluateReshard`, `ReshardController`) live in the same package — see [RESHARDING.md](./RESHARDING.md).
 
 ## Worker protocol
 
@@ -112,4 +112,5 @@ See [TIER_SPLIT.md](./TIER_SPLIT.md) for REST/gateway v1 and `examples/tier-spli
 ## Related
 
 - [TRANSPORT.md](./TRANSPORT.md) — session info and REST routes
-- [ROADMAP.md](./ROADMAP.md) — Phase 19 resharding, native WebSocket gateway
+- [ROADMAP.md](./ROADMAP.md) — Phase 20 cross-runtime, native WebSocket gateway
+- [RESHARDING.md](./RESHARDING.md) — threshold resharding, identify budget, operator API

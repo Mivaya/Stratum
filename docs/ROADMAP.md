@@ -66,7 +66,7 @@ Discordeno’s value is **operational scale** — split gateway/REST, rate-limit
 | desiredProperties (RAM trim) | Per-bot property mask | **Done** — client mask + Discordeno sync | Maintain |
 | Transformers (Discord ↔ internal) | Bidirectional transformers | **Done** — `@stratum/transform` | Bridge adapters |
 | Gateway manager + shard workers | `@discordeno/gateway` | **Done** — Phase 18 | `@stratum/gateway` |
-| Zero-downtime resharding | Automated / manual | **Planned** — Phase 19 | Gateway manager |
+| Zero-downtime resharding | Automated / manual | **Done** — Phase 19 | `@stratum/gateway` reshard API |
 | Gateway proxy / fast resume | DD proxy patterns | **Planned** — Phase 19 | Optional proxy package |
 | Custom caches | Pluggable cache layer | **Done** — Phase 18 (memory) | `@stratum/cache` |
 | Cross-runtime (Node, Deno, Bun) | Yes | **Planned** — Phase 20 | ESM + runtime guards |
@@ -241,7 +241,7 @@ Phases 1–10 are complete — see [PHASES.md](./PHASES.md#completed).
 | Manual resharding API | Operator-triggered |
 | Identify budget management | Safe identify spacing |
 
-**Branch:** `feature/resharding`
+**Branch:** `feature/resharding` · **Docs:** [RESHARDING.md](./RESHARDING.md)
 
 ---
 

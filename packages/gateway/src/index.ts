@@ -2,6 +2,10 @@ export {
   recommendedShardCount,
   guildShardId,
   shardIdsForWorker,
+  guildsPerShardAverage,
+  shardCapacityRatio,
+  guildShardChanged,
+  guildsAffectedByReshard,
 } from "./shard/calculator.js";
 
 export {
@@ -39,3 +43,35 @@ export {
   type GatewayRelayOptions,
   type WorkerPublisher,
 } from "./worker/gatewayRelay.js";
+
+export {
+  evaluateReshard,
+  type ReshardPolicyOptions,
+  type ReshardEvaluation,
+  type ReshardReason,
+} from "./reshard/policy.js";
+
+export {
+  createReshardPlan,
+  type ReshardPlan,
+  type CreateReshardPlanOptions,
+} from "./reshard/plan.js";
+
+export {
+  IdentifyBudget,
+  createIdentifyBudget,
+  type IdentifyBudgetOptions,
+} from "./reshard/IdentifyBudget.js";
+
+export {
+  ReshardController,
+  createReshardController,
+  type ReshardControllerOptions,
+  type ReshardPhase,
+} from "./reshard/ReshardController.js";
+
+export {
+  createReshardServer,
+  type ReshardServerOptions,
+  type ReshardServerHandle,
+} from "./reshard/createReshardServer.js";

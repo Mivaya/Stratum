@@ -1,3 +1,5 @@
+import type { CommandContextMeta } from "./meta.js";
+
 /** How the user invoked a command. */
 export type CommandKind = "slash" | "prefix" | "contextMenu" | "message";
 
@@ -8,6 +10,8 @@ export interface CommandContext {
   readonly userId: string;
   readonly guildId: string | null;
   readonly channelId: string | null;
+  /** Populated by transport bridges for permission / channel gates. */
+  readonly meta?: CommandContextMeta;
   readonly raw: unknown;
   reply(text: string): Promise<void>;
   replyEphemeral(text: string): Promise<void>;

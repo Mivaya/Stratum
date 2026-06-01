@@ -1,4 +1,5 @@
 import { Command, ok, type CommandContext, type Registry } from "@stratum/core";
+import { cooldownGate } from "@stratum/gates";
 
 export class PingCommand extends Command {
   constructor(registry: Registry<Command>) {
@@ -6,6 +7,7 @@ export class PingCommand extends Command {
       name: "ping",
       description: "Replies with Pong!",
       kinds: ["slash", "prefix"],
+      gates: [cooldownGate({ limit: 3, delay: 5_000, scope: "user" })],
     });
   }
 

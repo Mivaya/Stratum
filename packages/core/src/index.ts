@@ -87,6 +87,8 @@ export type {
   DirectiveContext,
   DirectiveKind,
 } from "./context/types.js";
+export type { ChannelType, CommandContextMeta } from "./context/meta.js";
+export { isGuildChannelType } from "./context/meta.js";
 
 // Outcome
 export {

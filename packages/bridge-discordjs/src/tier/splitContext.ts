@@ -6,6 +6,10 @@ import {
   type ChatInputCommandInteraction,
   type Message,
 } from "discord.js";
+import {
+  commandContextMetaFromMessage,
+  commandContextMetaFromSlash,
+} from "../contextMeta.js";
 
 function applicationId(interaction: ChatInputCommandInteraction): string {
   return interaction.applicationId;
@@ -15,12 +19,14 @@ export function commandContextFromSlashViaRest(
   interaction: ChatInputCommandInteraction,
   restPort: RestPort,
 ): CommandContext {
+  const meta = commandContextMetaFromSlash(interaction);
   return {
     kind: "slash",
     commandName: interaction.commandName,
     userId: interaction.user.id,
     guildId: interaction.guildId,
     channelId: interaction.channelId,
+    ...(meta !== undefined ? { meta } : {}),
     raw: interaction,
     reply: async (text) => {
       if (interaction.replied || interaction.deferred) {
@@ -67,12 +73,14 @@ export function commandContextFromMessageViaRest(
   commandName: string,
   restPort: RestPort,
 ): CommandContext {
+  const meta = commandContextMetaFromMessage(message);
   return {
     kind: "prefix",
     commandName,
     userId: message.author.id,
     guildId: message.guildId,
     channelId: message.channelId,
+    ...(meta !== undefined ? { meta } : {}),
     raw: message,
     reply: async (text) => {
       await restPort.request({

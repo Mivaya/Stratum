@@ -6,6 +6,10 @@ import {
 } from "@discordeno/bot";
 import type { StratumBot } from "./createStratumDiscordenoBot.js";
 import type { DiscordenoInteraction, DiscordenoMessage } from "./types.js";
+import {
+  commandContextMetaFromMessage,
+  commandContextMetaFromSlash,
+} from "./contextMeta.js";
 
 const replied = new WeakSet<object>();
 
@@ -38,12 +42,14 @@ export function commandContextFromMessage(
   message: DiscordenoMessage,
   commandName: string,
 ): CommandContext {
+  const meta = commandContextMetaFromMessage(message);
   return {
     kind: "prefix",
     commandName,
     userId: String(message.author!.id),
     guildId: idString(message.guildId),
     channelId: idString(message.channelId),
+    ...(meta !== undefined ? { meta } : {}),
     raw: message,
     reply: async (text) => {
       if (!message.channelId) return;
@@ -71,6 +77,7 @@ export function commandContextFromSlash(
   interaction: DiscordenoInteraction,
 ): CommandContext {
   const name = interaction.data?.name ?? "unknown";
+  const meta = commandContextMetaFromSlash(interaction);
 
   return {
     kind: "slash",
@@ -78,6 +85,7 @@ export function commandContextFromSlash(
     userId: String(interaction.user!.id),
     guildId: idString(interaction.guildId),
     channelId: idString(interaction.channelId),
+    ...(meta !== undefined ? { meta } : {}),
     raw: interaction,
     reply: async (text) => {
       if (!interaction.id || !interaction.token) return;

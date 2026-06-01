@@ -5,6 +5,10 @@ import {
   type Message,
   type PartialMessage,
 } from "discord.js";
+import {
+  commandContextMetaFromMessage,
+  commandContextMetaFromSlash,
+} from "./contextMeta.js";
 
 export function scoutContextFromMessage(
   message: Message | PartialMessage,
@@ -26,12 +30,14 @@ export function scoutContextFromMessage(
 }
 
 export function commandContextFromMessage(message: Message, commandName: string): CommandContext {
+  const meta = commandContextMetaFromMessage(message);
   return {
     kind: "prefix",
     commandName,
     userId: message.author.id,
     guildId: message.guildId,
     channelId: message.channelId,
+    ...(meta !== undefined ? { meta } : {}),
     raw: message,
     reply: async (text) => {
       await message.reply(text);
@@ -43,12 +49,14 @@ export function commandContextFromMessage(message: Message, commandName: string)
 }
 
 export function commandContextFromSlash(interaction: ChatInputCommandInteraction): CommandContext {
+  const meta = commandContextMetaFromSlash(interaction);
   return {
     kind: "slash",
     commandName: interaction.commandName,
     userId: interaction.user.id,
     guildId: interaction.guildId,
     channelId: interaction.channelId,
+    ...(meta !== undefined ? { meta } : {}),
     raw: interaction,
     reply: async (text) => {
       if (interaction.replied || interaction.deferred) {

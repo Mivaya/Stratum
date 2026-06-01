@@ -281,6 +281,7 @@ Full guide: [docs/PROJECT_STRUCTURE.md](docs/PROJECT_STRUCTURE.md).
 | [`@stratum/loader`](packages/loader) | Auto-load pieces from `src/commands/`, etc. |
 | [`@stratum/vault`](packages/vault) | Ledger / Blueprint / Record persistence |
 | [`@stratum/vault-sql`](packages/vault-sql) | SQLite + PostgreSQL drivers |
+| [`@stratum/gates`](packages/gates) | Built-in gates — cooldown, permissions, NSFW, RunIn |
 | [`@stratum/metrics`](packages/metrics) | Prometheus metrics + `/metrics` HTTP server |
 
 ---
@@ -313,8 +314,10 @@ pnpm start
 | [docs/CHRON.md](docs/CHRON.md) | Scheduled tasks |
 | [docs/TIER_SPLIT.md](docs/TIER_SPLIT.md) | Gateway / REST workers |
 | [docs/BRIDGE_DISCORDENO.md](docs/BRIDGE_DISCORDENO.md) | Discordeno bridge |
+| [docs/GATES.md](docs/GATES.md) | Built-in gates (`@stratum/gates`) |
 | [docs/METRICS.md](docs/METRICS.md) | Prometheus observability |
 | [docs/PHASES.md](docs/PHASES.md) | Roadmap and phase history |
+| [docs/ROADMAP.md](docs/ROADMAP.md) | Future goals — Sapphire + Discordeno parity + Stratum originals |
 
 ---
 
@@ -330,7 +333,8 @@ pnpm test
 
 Branch naming: `feature/{short-description}` (e.g. `feature/sequences`).
 
-Report issues on [GitHub Issues](https://github.com/Interittus13/Stratum/issues).
+Report issues on [GitHub Issues](https://github.com/Interittus13/Stratum/issues).  
+Contributing guide: [.github/CONTRIBUTING.md](.github/CONTRIBUTING.md).
 
 ---
 

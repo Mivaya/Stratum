@@ -8,6 +8,7 @@ import {
   createMetricsServer,
   createPrometheusMetrics,
 } from "@stratum/metrics";
+import { attachGateDeniedReply } from "@stratum/gates";
 import { Vault } from "@stratum/vault";
 import { SQLiteDriver } from "@stratum/vault-sql";
 import { GatewayIntentBits } from "discord.js";
@@ -54,6 +55,8 @@ const bridge = createDiscordJsBridge(
 );
 
 client.setBridge(bridge);
+
+attachGateDeniedReply(client);
 
 const metricsPort = process.env.METRICS_PORT ? Number(process.env.METRICS_PORT) : 0;
 let detachMetrics: (() => void) | undefined;

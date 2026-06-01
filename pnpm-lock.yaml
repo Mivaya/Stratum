@@ -26,6 +26,9 @@ importers:
       '@stratum/core':
         specifier: workspace:*
         version: link:../../packages/core
+      '@stratum/gates':
+        specifier: workspace:*
+        version: link:../../packages/gates
       '@stratum/loader':
         specifier: workspace:*
         version: link:../../packages/loader
@@ -154,6 +157,24 @@ importers:
         specifier: ^5.0.4
         version: 5.5.0
     devDependencies:
+      '@types/node':
+        specifier: ^22.13.4
+        version: 22.19.19
+      tsup:
+        specifier: ^8.3.6
+        version: 8.5.1(postcss@8.5.15)(tsx@4.22.3)(typescript@5.9.3)
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
+      vitest:
+        specifier: ^3.0.5
+        version: 3.2.4(@types/node@22.19.19)(tsx@4.22.3)
+
+  packages/gates:
+    devDependencies:
+      '@stratum/core':
+        specifier: workspace:*
+        version: link:../core
       '@types/node':
         specifier: ^22.13.4
         version: 22.19.19

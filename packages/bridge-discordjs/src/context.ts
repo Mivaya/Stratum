@@ -10,6 +10,7 @@ import {
   commandContextMetaFromSlash,
 } from "./contextMeta.js";
 import { slashOptionsFromInteraction } from "./slashOptions.js";
+import { slashPathFromInteraction } from "./slashPath.js";
 
 export function scoutContextFromMessage(
   message: Message | PartialMessage,
@@ -57,14 +58,16 @@ export function commandContextFromMessage(
 export function commandContextFromSlash(interaction: ChatInputCommandInteraction): CommandContext {
   const meta = commandContextMetaFromSlash(interaction);
   const slashOptions = slashOptionsFromInteraction(interaction);
+  const slashPath = slashPathFromInteraction(interaction);
   return {
     kind: "slash",
-    commandName: interaction.commandName,
+    commandName: slashPath.root,
     userId: interaction.user.id,
     guildId: interaction.guildId,
     channelId: interaction.channelId,
     ...(meta !== undefined ? { meta } : {}),
     ...(slashOptions.length > 0 ? { slashOptions } : {}),
+    slashPath,
     raw: interaction,
     reply: async (text) => {
       if (interaction.replied || interaction.deferred) {

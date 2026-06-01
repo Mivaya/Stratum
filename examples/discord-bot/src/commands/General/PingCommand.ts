@@ -7,6 +7,7 @@ export class PingCommand extends Command {
       name: "ping",
       description: "Replies with Pong!",
       kinds: ["slash", "prefix"],
+      aliases: ["p"],
       gates: [cooldownGate({ limit: 3, delay: 5_000, scope: "user" })],
     });
   }

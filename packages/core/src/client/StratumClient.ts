@@ -17,6 +17,7 @@ import { ExecutionPipeline } from "../pipeline/ExecutionPipeline.js";
 import { InboundRouter } from "./InboundRouter.js";
 import { SignalRouter } from "./SignalRouter.js";
 import { SequenceStore } from "../sequence/SequenceStore.js";
+import { CommandIndex } from "../command/CommandIndex.js";
 import type { CommandContext } from "../context/types.js";
 import type { StratumClientEvents, StratumClientOptions, StratumRegistries } from "./types.js";
 import type { Outcome } from "../outcome/Outcome.js";
@@ -32,6 +33,7 @@ export class StratumClient extends EventEmitter {
   readonly signalRouter: SignalRouter;
   readonly sequences: SequenceStore;
   readonly chronScheduler: ChronScheduler;
+  readonly commandIndex: CommandIndex;
   readonly registries: StratumRegistries;
 
   bridge: Bridge | null = null;
@@ -54,6 +56,7 @@ export class StratumClient extends EventEmitter {
     this.signalRouter = new SignalRouter(this);
     this.sequences = new SequenceStore();
     this.chronScheduler = new ChronScheduler();
+    this.commandIndex = new CommandIndex();
 
     this.registries = {
       commands: new Registry<Command>(this, "commands"),
@@ -82,7 +85,13 @@ export class StratumClient extends EventEmitter {
   }
 
   register(command: Command): Command {
-    return this.registries.commands.register(command);
+    const registered = this.registries.commands.register(command);
+    this.rebuildCommandIndex();
+    return registered;
+  }
+
+  rebuildCommandIndex(): void {
+    this.commandIndex.rebuild(this.registries.commands.values());
   }
 
   getCommand(name: string): Command | undefined {
@@ -115,6 +124,7 @@ export class StratumClient extends EventEmitter {
     await this.bridge.connect();
     this.bindHooks();
     this.startChrons();
+    this.rebuildCommandIndex();
     this.started = true;
     this.emit("ready");
   }

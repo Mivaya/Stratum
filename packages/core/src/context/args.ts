@@ -1,5 +1,5 @@
-/** Normalized slash command option (transport-agnostic). */
-export type SlashOptionType =
+/** Normalized slash command option value kind (runtime context). */
+export type ParsedSlashOptionType =
   | "string"
   | "integer"
   | "number"
@@ -12,7 +12,7 @@ export type SlashOptionType =
 
 export interface SlashOption {
   readonly name: string;
-  readonly type: SlashOptionType;
+  readonly type: ParsedSlashOptionType;
   /** User/channel/role IDs are strings; attachments may be string IDs. */
   readonly value: string | number | boolean;
 }

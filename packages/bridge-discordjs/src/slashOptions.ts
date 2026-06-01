@@ -1,11 +1,11 @@
-import type { SlashOption, SlashOptionType } from "@stratum/core";
+import type { SlashOption, ParsedSlashOptionType } from "@stratum/core";
 import {
   ApplicationCommandOptionType,
   type APIApplicationCommandOption,
   type ChatInputCommandInteraction,
 } from "discord.js";
 
-function mapOptionType(type: ApplicationCommandOptionType): SlashOptionType | null {
+function mapOptionType(type: ApplicationCommandOptionType): ParsedSlashOptionType | null {
   switch (type) {
     case ApplicationCommandOptionType.String:
       return "string";

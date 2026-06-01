@@ -317,6 +317,7 @@ pnpm start
 | [docs/BRIDGE_DISCORDENO.md](docs/BRIDGE_DISCORDENO.md) | Discordeno bridge |
 | [docs/GATES.md](docs/GATES.md) | Built-in gates (`@stratum/gates`) |
 | [docs/ARGS.md](docs/ARGS.md) | Argument parsing (`@stratum/args`) |
+| [docs/COMMAND_TREE.md](docs/COMMAND_TREE.md) | Subcommands, aliases, autocomplete, deploy |
 | [docs/METRICS.md](docs/METRICS.md) | Prometheus observability |
 | [docs/PHASES.md](docs/PHASES.md) | Roadmap and phase history |
 | [docs/ROADMAP.md](docs/ROADMAP.md) | Future goals — Sapphire + Discordeno parity + Stratum originals |

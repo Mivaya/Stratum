@@ -8,6 +8,8 @@ import {
   commandContextFromSlashViaRest,
 } from "./tier/splitContext.js";
 import { signalContextFromInteraction } from "./signalContext.js";
+import { autocompleteContextFromInteraction } from "./autocompleteContext.js";
+import { slashPathFromInteraction } from "./slashPath.js";
 
 export interface AttachStratumOptions {
   prefixCommands?: boolean;
@@ -58,6 +60,19 @@ export function attachStratum(
   }
 
   bridge.client.on("interactionCreate", async (interaction) => {
+    if (interaction.isAutocomplete() && slashCommands) {
+      const path = slashPathFromInteraction(interaction);
+      const command = client.commandIndex.resolveSlash(path);
+      if (command?.autocomplete) {
+        try {
+          await command.autocomplete(autocompleteContextFromInteraction(interaction));
+        } catch (error) {
+          console.error("[stratum] Autocomplete error:", error);
+        }
+      }
+      return;
+    }
+
     if (interaction.isChatInputCommand() && slashCommands) {
       const ctx =
         client.restPort && client.workerRole === "gateway"

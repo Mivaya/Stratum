@@ -89,7 +89,20 @@ export type {
 } from "./context/types.js";
 export type { ChannelType, CommandContextMeta } from "./context/meta.js";
 export { isGuildChannelType } from "./context/meta.js";
-export type { SlashOption, SlashOptionType, ArgsText } from "./context/args.js";
+export type { SlashOption, ParsedSlashOptionType, ArgsText } from "./context/args.js";
+export type { AutocompleteContext, AutocompleteChoice } from "./context/autocomplete.js";
+export type {
+  SlashOptionDefinition,
+  SlashChoiceDefinition,
+  SubcommandDefinition,
+  SubcommandGroupDefinition,
+  ApplicationCommandJSON,
+  ApplicationCommandOptionJSON,
+  CommandSlashPath,
+} from "./command/slashTypes.js";
+export { SlashOptionType } from "./command/slashTypes.js";
+export { buildApplicationCommands, diffApplicationCommands } from "./command/buildSlashPayload.js";
+export { CommandIndex } from "./command/CommandIndex.js";
 
 // Outcome
 export {

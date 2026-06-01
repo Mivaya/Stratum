@@ -1,8 +1,8 @@
-import type { SlashOption, SlashOptionType } from "@stratum/core";
+import type { SlashOption, ParsedSlashOptionType } from "@stratum/core";
 import { ApplicationCommandOptionTypes } from "@discordeno/bot";
 import type { DiscordenoInteraction } from "./types.js";
 
-function mapType(type: number): SlashOptionType | null {
+function mapType(type: number): ParsedSlashOptionType | null {
   switch (type) {
     case ApplicationCommandOptionTypes.String:
       return "string";

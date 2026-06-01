@@ -40,15 +40,15 @@ Sapphire’s value is **structure and DX** on top of discord.js — command stor
 | Post-command hooks | — | **Done** — `Epilogue` (Klasa finalizers) | Keep |
 | Middleware | — | **Done** — `Conduit` | Keep |
 | Arguments / `Args` parsing | ArgumentStore, typed resolvers | **Done** — `@stratum/args` | Maintain |
-| Slash subcommands & groups | Command options tree | **Planned** — Phase 13 | Core + deploy |
-| Prefix aliases | Command aliases | **Planned** — Phase 13 | Router |
-| Command categories | category / subCategory | **Planned** — Phase 13 | Metadata + help |
-| Built-in cooldown gate | Precondition + scope | **Planned** — Phase 11 | `@stratum/gates` |
-| Built-in permission gate | Client + user permissions | **Planned** — Phase 11 | `@stratum/gates` |
-| Built-in NSFW / RunIn gates | Channel type checks | **Planned** — Phase 11 | `@stratum/gates` |
+| Slash subcommands & groups | Command options tree | **Done** — Phase 13 | Core + deploy |
+| Prefix aliases | Command aliases | **Done** — `CommandIndex` | Router |
+| Command categories | category / subCategory | **Done** — metadata + help | Help command |
+| Built-in cooldown gate | Precondition + scope | **Done** — `@stratum/gates` | Maintain |
+| Built-in permission gate | Client + user permissions | **Done** — `@stratum/gates` | Maintain |
+| Built-in NSFW / RunIn gates | Channel type checks | **Done** — `@stratum/gates` | Maintain |
 | Interaction handlers | InteractionHandlerStore | **Partial** — `Signal` (button/select/modal) | Unified handler store Phase 14 |
-| Autocomplete handlers | Interaction handlers | **Partial** — `SignalType` includes autocomplete | Wire + helpers Phase 13 |
-| Slash deploy / registry | Application command registries | **Partial** — discord.js deploy in bridge | Discordeno + guild/global sync Phase 13 |
+| Autocomplete handlers | Interaction handlers | **Done** — `Command.autocomplete()` | Bridge routing |
+| Slash deploy / registry | Application command registries | **Done** — `buildApplicationCommands`, deploy diff | Bridges |
 | Plugin system | Plugin hooks (pre/post init, login) | **Planned** — Phase 14 | `@stratum/plugins` |
 | Logger / container DI | `@sapphire/pieces` Container | **Partial** — `Binder` + loader context | Logger + container Phase 14 |
 | Error listeners | Default error listeners | **Partial** — client events (`commandError`, etc.) | Default handlers Phase 11 |
@@ -139,17 +139,18 @@ Phases 1–10 are complete — see [PHASES.md](./PHASES.md#completed).
 
 ---
 
-### Phase 13 — Command tree & deploy
+### Phase 13 — Command tree & deploy ✅
 
 **From Sapphire:** Subcommands, groups, aliases, autocomplete, application command registry.
 
-| Deliverable | Description |
-|-------------|-------------|
-| Command groups / subcommands | Nested `Command` metadata |
-| Aliases | Prefix alias map on router |
-| Autocomplete | Full `Signal` + command wiring |
-| Deploy v2 | Guild/global sync, diff, permissions |
-| Help command pattern | Category-aware help in examples |
+| Deliverable | Status |
+|-------------|--------|
+| `CommandSlashPath`, slash metadata on `Command` | Done |
+| `buildApplicationCommands()` | Done |
+| `CommandIndex` (aliases + slash paths) | Done |
+| Autocomplete on `Command` | Done |
+| Deploy diff + permissions fields | Done |
+| Help command example | Done |
 
 **Branch:** `feature/command-tree`
 

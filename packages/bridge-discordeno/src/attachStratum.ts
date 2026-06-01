@@ -6,12 +6,15 @@ import {
   createScoutContext,
   getInteractionCustomId,
   isApplicationCommand,
+  isAutocomplete,
   isMessageAuthorBot,
   isMessageComponent,
   isModalSubmit,
 } from "./context.js";
+import { slashPathFromInteraction } from "./slashPath.js";
 import { handleSequenceInteraction } from "./sequence/handleSequenceInteraction.js";
 import { signalContextFromInteraction } from "./signalContext.js";
+import { autocompleteContextFromInteraction } from "./autocompleteContext.js";
 import type { DiscordenoInteraction, DiscordenoMessage } from "./types.js";
 
 export interface AttachStratumOptions {
@@ -67,6 +70,19 @@ export function attachStratum(
   events.interactionCreate = async (rawInteraction) => {
     const interaction = rawInteraction as DiscordenoInteraction;
     await forwardInteraction?.(rawInteraction);
+
+    if (isAutocomplete(interaction) && slashCommands) {
+      const path = slashPathFromInteraction(interaction);
+      const command = client.commandIndex.resolveSlash(path);
+      if (command?.autocomplete) {
+        try {
+          await command.autocomplete(autocompleteContextFromInteraction(bot, interaction));
+        } catch (error) {
+          console.error("[stratum] Autocomplete error:", error);
+        }
+      }
+      return;
+    }
 
     if (isApplicationCommand(interaction) && slashCommands) {
       const ctx = commandContextFromSlash(bot, interaction);

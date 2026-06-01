@@ -11,6 +11,7 @@ import {
   commandContextMetaFromSlash,
 } from "./contextMeta.js";
 import { slashOptionsFromInteraction } from "./slashOptions.js";
+import { slashPathFromInteraction } from "./slashPath.js";
 
 const replied = new WeakSet<object>();
 
@@ -79,18 +80,19 @@ export function commandContextFromSlash(
   bot: StratumBot,
   interaction: DiscordenoInteraction,
 ): CommandContext {
-  const name = interaction.data?.name ?? "unknown";
   const meta = commandContextMetaFromSlash(interaction);
   const slashOptions = slashOptionsFromInteraction(interaction);
+  const slashPath = slashPathFromInteraction(interaction);
 
   return {
     kind: "slash",
-    commandName: name,
+    commandName: slashPath.root,
     userId: String(interaction.user!.id),
     guildId: idString(interaction.guildId),
     channelId: idString(interaction.channelId),
     ...(meta !== undefined ? { meta } : {}),
     ...(slashOptions.length > 0 ? { slashOptions } : {}),
+    slashPath,
     raw: interaction,
     reply: async (text) => {
       if (!interaction.id || !interaction.token) return;
@@ -135,6 +137,10 @@ export function isMessageComponent(interaction: DiscordenoInteraction): boolean 
 
 export function isModalSubmit(interaction: DiscordenoInteraction): boolean {
   return interaction.type === InteractionTypes.ModalSubmit;
+}
+
+export function isAutocomplete(interaction: DiscordenoInteraction): boolean {
+  return interaction.type === InteractionTypes.ApplicationCommandAutocomplete;
 }
 
 export function isMessageAuthorBot(message: DiscordenoMessage): boolean {

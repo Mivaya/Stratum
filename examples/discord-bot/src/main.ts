@@ -3,6 +3,11 @@ import path from "node:path";
 import { createStratumBot } from "@stratum/core";
 import { createDiscordJsBridge } from "@stratum/bridge-discordjs";
 import { loadPieces } from "@stratum/loader";
+import {
+  attachClientMetrics,
+  createMetricsServer,
+  createPrometheusMetrics,
+} from "@stratum/metrics";
 import { Vault } from "@stratum/vault";
 import { SQLiteDriver } from "@stratum/vault-sql";
 import { GatewayIntentBits } from "discord.js";
@@ -50,6 +55,17 @@ const bridge = createDiscordJsBridge(
 
 client.setBridge(bridge);
 
+const metricsPort = process.env.METRICS_PORT ? Number(process.env.METRICS_PORT) : 0;
+let detachMetrics: (() => void) | undefined;
+let metricsServer: Awaited<ReturnType<typeof createMetricsServer>> | undefined;
+
+if (metricsPort > 0) {
+  const { register, collector } = createPrometheusMetrics();
+  detachMetrics = attachClientMetrics(client, collector);
+  metricsServer = await createMetricsServer({ port: metricsPort, register });
+  console.log(`Prometheus metrics at ${metricsServer.url}/metrics`);
+}
+
 client.on("ready", async () => {
   await vault.init();
   console.log(`Stratum online as ${client.botUserId ?? "unknown"}`);
@@ -60,6 +76,8 @@ client.on("commandSuccess", ({ command, durationMs }) => {
 });
 
 process.on("SIGINT", async () => {
+  detachMetrics?.();
+  await metricsServer?.close();
   await vault.flush();
   await client.stop();
   process.exit(0);

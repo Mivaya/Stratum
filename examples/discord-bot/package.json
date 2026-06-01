@@ -13,6 +13,7 @@
     "@stratum/vault": "workspace:*",
     "@stratum/vault-sql": "workspace:*",
     "@stratum/loader": "workspace:*",
+    "@stratum/metrics": "workspace:*",
     "discord.js": "^14.19.0"
   },
   "devDependencies": {

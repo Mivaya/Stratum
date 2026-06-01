@@ -14,12 +14,7 @@
 | 7 Chron | `feature/chron` | Scheduled tasks (`Chron`, `src/tasks/`) |
 | 8 Tier split | `feature/tier-split` | REST / gateway workers (`RestPort`, split tier) |
 | 9 Bridge Discordeno | `feature/bridge-discordeno` | `@stratum/bridge-discordeno` |
-
-## Next phases
-
-| Phase | Branch | Scope |
-|-------|--------|--------|
-| 10 Metrics | `feature/metrics` | Prometheus / observability extension |
+| 10 Metrics | `feature/metrics` | `@stratum/metrics` (Prometheus) |
 
 ## Branch rule
 

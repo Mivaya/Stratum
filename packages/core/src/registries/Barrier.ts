@@ -1,4 +1,4 @@
-import type { DirectiveContext } from "../context/types.js";
+import type { CommandContext } from "../context/types.js";
 import { Unit, type UnitOptions } from "../pieces/Unit.js";
 import { Registry } from "../pieces/Registry.js";
 
@@ -24,5 +24,5 @@ export abstract class Barrier extends Unit<BarrierOptions> {
     this.skipOnHelp = options.skipOnHelp ?? false;
   }
 
-  abstract block(ctx: DirectiveContext): Promise<BarrierResult>;
+  abstract block(ctx: CommandContext): Promise<BarrierResult>;
 }

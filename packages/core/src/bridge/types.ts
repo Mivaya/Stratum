@@ -1,5 +1,5 @@
 /** Runtime deployment mode for Stratum. */
-export type Tier = "monolith" | "split" | "distributed";
+export type { Tier, WorkerRole } from "../tier/types.js";
 
 /**
  * Transport-agnostic facade over discord.js, Discordeno, or other libraries.

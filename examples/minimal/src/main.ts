@@ -1,45 +1,24 @@
-import {
-  createStratumBot,
-  MockBridge,
-  Directive,
-  ok,
-  type DirectiveContext,
-  type Registry,
-} from "@stratum/core";
-
-class PingDirective extends Directive {
-  constructor(registry: Registry<Directive>) {
-    super(registry, {
-      name: "ping",
-      description: "Replies with Pong!",
-      kinds: ["slash", "prefix"],
-    });
-  }
-
-  async execute(ctx: DirectiveContext) {
-    await ctx.reply("Pong!");
-    return ok(undefined);
-  }
-}
+import { createStratumBot, MockBridge, type CommandContext } from "@stratum/core";
+import { PingCommand } from "./commands/PingCommand.js";
 
 const bridge = new MockBridge();
 const client = createStratumBot({ bridge, prefix: "!" });
 
-client.register(new PingDirective(client.registries.directives));
+client.register(new PingCommand(client.registries.commands));
 
 client.on("ready", () => {
   console.log("Stratum bot ready (mock bridge).");
 });
 
-client.on("directiveSuccess", ({ directive, durationMs }) => {
-  console.log(`Directive /${directive} OK (${durationMs.toFixed(1)}ms)`);
+client.on("commandSuccess", ({ command, durationMs }) => {
+  console.log(`[${command}] OK (${durationMs.toFixed(1)}ms)`);
 });
 
 await client.start();
 
-const ctx: DirectiveContext = {
+const ctx: CommandContext = {
   kind: "slash",
-  directiveName: "ping",
+  commandName: "ping",
   userId: "user-1",
   guildId: "guild-1",
   channelId: "channel-1",

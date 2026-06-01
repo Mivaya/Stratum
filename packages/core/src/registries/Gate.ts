@@ -1,5 +1,5 @@
 import { type Outcome, ok, err } from "../outcome/Outcome.js";
-import type { DirectiveContext } from "../context/types.js";
+import type { CommandContext } from "../context/types.js";
 import { Unit, type UnitOptions } from "../pieces/Unit.js";
 import { Registry } from "../pieces/Registry.js";
 
@@ -11,7 +11,7 @@ export interface GateResult {
 
 export interface GateLike {
   readonly name: string;
-  check(ctx: DirectiveContext): Promise<GateResult>;
+  check(ctx: CommandContext): Promise<GateResult>;
 }
 
 export interface GateOptions extends UnitOptions {
@@ -26,9 +26,9 @@ export abstract class Gate extends Unit<GateOptions> implements GateLike {
     this.priority = options.priority ?? 100;
   }
 
-  abstract check(ctx: DirectiveContext): Promise<GateResult>;
+  abstract check(ctx: CommandContext): Promise<GateResult>;
 
-  async evaluate(ctx: DirectiveContext): Promise<Outcome<void, GateDeniedError>> {
+  async evaluate(ctx: CommandContext): Promise<Outcome<void, GateDeniedError>> {
     const result = await this.check(ctx);
     if (result.allow) return ok(undefined);
     return err({
@@ -48,7 +48,7 @@ export interface GateDeniedError {
 /** Inline gate without registry registration (for directive-level gates). */
 export function defineGate(
   name: string,
-  check: (ctx: DirectiveContext) => Promise<GateResult> | GateResult,
+  check: (ctx: CommandContext) => Promise<GateResult> | GateResult,
 ): GateLike {
   return {
     name,

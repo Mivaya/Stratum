@@ -1,34 +1,34 @@
 import { type Outcome, ok } from "../outcome/Outcome.js";
-import type { DirectiveContext, DirectiveKind } from "../context/types.js";
+import type { CommandContext, CommandKind } from "../context/types.js";
 import { Unit, type UnitOptions } from "../pieces/Unit.js";
 import { Registry } from "../pieces/Registry.js";
 import type { GateLike } from "./Gate.js";
 
-export interface DirectiveOptions extends UnitOptions {
+export interface CommandOptions extends UnitOptions {
   description?: string;
-  kinds?: DirectiveKind[];
+  kinds?: CommandKind[];
   gates?: GateLike[];
 }
 
-export abstract class Directive extends Unit<DirectiveOptions> {
+/** User-facing command piece (Sapphire/Klasa: `commands/` folder). */
+export abstract class Command extends Unit<CommandOptions> {
   readonly description: string;
-  readonly kinds: DirectiveKind[];
+  readonly kinds: CommandKind[];
   readonly gates: GateLike[];
 
-  constructor(registry: Registry<Directive>, options: DirectiveOptions) {
+  constructor(registry: Registry<Command>, options: CommandOptions) {
     super(registry, options);
     this.description = options.description ?? "";
     this.kinds = options.kinds ?? ["slash"];
     this.gates = options.gates ?? [];
   }
 
-  abstract execute(ctx: DirectiveContext): Promise<Outcome<unknown>>;
+  abstract execute(ctx: CommandContext): Promise<Outcome<unknown>>;
 
-  supports(kind: DirectiveKind): boolean {
+  supports(kind: CommandKind): boolean {
     return this.kinds.includes(kind);
   }
 
-  /** Convenience wrapper when execute returns void on success. */
   protected success(): Outcome<void> {
     return ok(undefined);
   }

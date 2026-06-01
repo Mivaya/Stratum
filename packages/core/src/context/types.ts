@@ -1,10 +1,10 @@
-/** How the user invoked a directive. */
-export type DirectiveKind = "slash" | "prefix" | "contextMenu" | "message";
+/** How the user invoked a command. */
+export type CommandKind = "slash" | "prefix" | "contextMenu" | "message";
 
-/** Normalized context for directive execution (transport-agnostic). */
-export interface DirectiveContext {
-  readonly kind: DirectiveKind;
-  readonly directiveName: string;
+/** Normalized context for command execution (transport-agnostic). */
+export interface CommandContext {
+  readonly kind: CommandKind;
+  readonly commandName: string;
   readonly userId: string;
   readonly guildId: string | null;
   readonly channelId: string | null;
@@ -26,10 +26,23 @@ export interface ScoutContext {
 
 export type ScoutTrigger = "message" | "messageUpdate" | "interaction";
 
-/** Payload passed to Epilogue hooks after directive execution. */
+/** Context for scheduled Chron tasks. */
+export interface ChronContext {
+  readonly chron: string;
+  readonly client: import("../client/StratumClient.js").StratumClient;
+  readonly runAt: Date;
+}
+
+/** Payload passed to Epilogue hooks after command execution. */
 export interface EpilogueContext {
-  readonly directiveName: string;
-  readonly ctx: DirectiveContext;
+  readonly commandName: string;
+  readonly ctx: CommandContext;
   readonly outcome: import("../outcome/Outcome.js").Outcome<unknown>;
   readonly durationMs: number;
 }
+
+/** @deprecated Use {@link CommandKind} */
+export type DirectiveKind = CommandKind;
+
+/** @deprecated Use {@link CommandContext} */
+export type DirectiveContext = CommandContext;

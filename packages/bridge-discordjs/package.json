@@ -1,0 +1,35 @@
+{
+  "name": "@stratum/bridge-discordjs",
+  "version": "0.0.1",
+  "description": "discord.js transport bridge for Stratum",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "peerDependencies": {
+    "@stratum/core": "workspace:*",
+    "discord.js": "^14.16.0"
+  },
+  "devDependencies": {
+    "@stratum/core": "workspace:*",
+    "@types/node": "^22.13.4",
+    "discord.js": "^14.19.0",
+    "tsup": "^8.3.6",
+    "typescript": "^5.7.3",
+    "vitest": "^3.0.5"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

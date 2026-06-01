@@ -71,5 +71,8 @@ cd examples/tier-split && pnpm gateway
 | `createRestWorkerServer` | `@stratum/core` | Generic HTTP REST worker |
 | `InMemoryTierBus` | `@stratum/core` | In-process event bus (tests / future scale) |
 | `createDiscordRestWorker` | `@stratum/bridge-discordjs` | Discord REST worker bootstrap |
+| `createNativeRestPort` | `@stratum/rest` | Stratum-native REST (no discord.js) |
 
 `distributed` tier (multiple gateway shards) is reserved for a future phase.
+
+See [TRANSPORT.md](./TRANSPORT.md) for the bridge → native migration path (`pnpm rest:native` in `examples/tier-split`).

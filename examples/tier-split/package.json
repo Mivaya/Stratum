@@ -13,12 +13,14 @@
   "type": "module",
   "scripts": {
     "rest": "tsx src/rest.ts",
+    "rest:native": "tsx src/rest-native.ts",
     "gateway": "tsx src/gateway.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@stratum/bridge-discordjs": "workspace:*",
     "@stratum/core": "workspace:*",
+    "@stratum/rest": "workspace:*",
     "@stratum/loader": "workspace:*",
     "discord.js": "^14.19.0"
   },

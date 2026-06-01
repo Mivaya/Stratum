@@ -62,7 +62,7 @@ Discordeno’s value is **operational scale** — split gateway/REST, rate-limit
 | Feature | Discordeno | Stratum today | Target |
 |---------|------------|---------------|--------|
 | Split gateway / REST / bot processes | First-class | **Partial** — `RestPort`, tier split, REST worker | Native transport Phase 15–16 |
-| Centralized REST rate limits | `@discordeno/rest` proxy | **Partial** — REST worker (discord.js) | Native REST manager Phase 16 |
+| Centralized REST rate limits | `@discordeno/rest` proxy | **Partial** — `@stratum/rest` queue + bridge REST worker | Native REST worker Phase 16 |
 | desiredProperties (RAM trim) | Per-bot property mask | **Partial** — Discordeno bridge preset only | Core context slimming Phase 17 |
 | Transformers (Discord ↔ internal) | Bidirectional transformers | **Planned** — Phase 17 | `@stratum/transform` |
 | Gateway manager + shard workers | `@discordeno/gateway` | **Planned** — Phase 18 | `@stratum/gateway` |
@@ -171,7 +171,7 @@ Phases 1–10 are complete — see [PHASES.md](./PHASES.md#completed).
 
 ---
 
-### Phase 15 — Transport foundation (`@stratum/transport`)
+### Phase 15 — Transport foundation (`@stratum/transport`) ✅
 
 **From Discordeno:** Own the Discord wire protocol inside Stratum (not a bridge).
 
@@ -181,7 +181,7 @@ Phases 1–10 are complete — see [PHASES.md](./PHASES.md#completed).
 | `@stratum/rest` | REST client with centralized queue (Discordeno-inspired) |
 | Bridge deprecation path | Document: new bots → transport; existing → bridges |
 
-**Branch:** `feature/transport`
+**Branch:** `feature/transport` · **Docs:** [TRANSPORT.md](./TRANSPORT.md)
 
 ---
 

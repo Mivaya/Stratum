@@ -284,6 +284,8 @@ Full guide: [docs/PROJECT_STRUCTURE.md](docs/PROJECT_STRUCTURE.md).
 | [`@stratum/gates`](packages/gates) | Built-in gates — cooldown, permissions, NSFW, RunIn |
 | [`@stratum/args`](packages/args) | Prefix + slash argument parsing |
 | [`@stratum/plugins`](packages/plugins) | Plugin hooks, container, logger |
+| [`@stratum/transport`](packages/transport) | Session info, route keys, rate-limit buckets |
+| [`@stratum/rest`](packages/rest) | Native Discord REST + centralized queue |
 | [`@stratum/metrics`](packages/metrics) | Prometheus metrics + `/metrics` HTTP server |
 
 ---
@@ -320,6 +322,7 @@ pnpm start
 | [docs/ARGS.md](docs/ARGS.md) | Argument parsing (`@stratum/args`) |
 | [docs/COMMAND_TREE.md](docs/COMMAND_TREE.md) | Subcommands, aliases, autocomplete, deploy |
 | [docs/PLUGINS.md](docs/PLUGINS.md) | Plugins & container (`@stratum/plugins`) |
+| [docs/TRANSPORT.md](docs/TRANSPORT.md) | Native transport & REST (`@stratum/transport`, `@stratum/rest`) |
 | [docs/METRICS.md](docs/METRICS.md) | Prometheus observability |
 | [docs/PHASES.md](docs/PHASES.md) | Roadmap and phase history |
 | [docs/ROADMAP.md](docs/ROADMAP.md) | Future goals — Sapphire + Discordeno parity + Stratum originals |

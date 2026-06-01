@@ -19,8 +19,9 @@
 | 12 Args | `feature/args` | `@stratum/args` (prefix lexer + slash options) |
 | 13 Command tree | `feature/command-tree` | Subcommands, aliases, autocomplete, deploy v2 |
 | 14 Plugins | `feature/plugins` | `@stratum/plugins` (hooks, container, logger) |
+| 15 Transport | `feature/transport` | `@stratum/transport`, `@stratum/rest` |
 
-## Future (phases 15–21)
+## Future (phases 16–21)
 
 Full feature matrix, Sapphire + Discordeno parity plan, and Stratum originals: **[ROADMAP.md](./ROADMAP.md)**.
 
@@ -32,7 +33,8 @@ Summary:
 | ~~12~~ | ~~Arguments (`@stratum/args`)~~ | ~~Sapphire ArgumentStore~~ **Done** |
 | ~~13~~ | ~~Command tree & deploy~~ | ~~Sapphire commands~~ **Done** |
 | ~~14~~ | ~~Plugins & container~~ | ~~Sapphire plugins~~ **Done** |
-| 15–16 | Native transport + REST | Discordeno architecture |
+| ~~15~~ | ~~Transport foundation~~ | ~~Discordeno REST model~~ **Done** |
+| 16–17 | Native REST worker + desired properties | Discordeno architecture |
 | 17 | Desired properties & transformers | Discordeno memory model |
 | 18–19 | Gateway, cache, resharding | Discordeno big bot |
 | 20 | Cross-runtime (Node, Bun, Deno) | Discordeno |

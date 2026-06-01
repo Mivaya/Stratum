@@ -1,5 +1,6 @@
 import { EventEmitter } from "node:events";
-import type { Bridge, Tier } from "../bridge/types.js";
+import type { Bridge, Tier, WorkerRole } from "../bridge/types.js";
+import type { RestPort, TierBus } from "../tier/types.js";
 import { Binder } from "../binder/Binder.js";
 import { Registry } from "../pieces/Registry.js";
 import { Command } from "../registries/Command.js";
@@ -22,6 +23,9 @@ import type { Outcome } from "../outcome/Outcome.js";
 
 export class StratumClient extends EventEmitter {
   readonly tier: Tier;
+  readonly workerRole: WorkerRole;
+  readonly restPort: RestPort | null;
+  readonly tierBus: TierBus | null;
   readonly binder = new Binder();
   readonly pipeline: ExecutionPipeline;
   readonly router: InboundRouter;
@@ -39,6 +43,10 @@ export class StratumClient extends EventEmitter {
   constructor(options: StratumClientOptions = {}) {
     super();
     this.tier = options.tier ?? "monolith";
+    this.workerRole =
+      options.workerRole ?? (this.tier === "split" ? "gateway" : "monolith");
+    this.restPort = options.restPort ?? null;
+    this.tierBus = options.tierBus ?? null;
     this.prefix = options.prefix ?? "!";
     this.bridge = options.bridge ?? null;
     this.pipeline = new ExecutionPipeline(this);
@@ -100,6 +108,9 @@ export class StratumClient extends EventEmitter {
   async start(): Promise<void> {
     if (!this.bridge) {
       throw new Error("No bridge configured. Pass bridge in options or call setBridge() before start().");
+    }
+    if (this.tier === "split" && this.workerRole === "gateway" && !this.restPort) {
+      throw new Error('Split-tier gateway requires a RestPort (e.g. new HttpRestPort({ baseUrl })).');
     }
     await this.bridge.connect();
     this.bindHooks();

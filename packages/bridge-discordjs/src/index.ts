@@ -19,3 +19,9 @@ export {
 export { signalContextFromInteraction } from "./signalContext.js";
 export { runSequence, type RunSequenceOptions } from "./sequence/runSequence.js";
 export { handleSequenceInteraction } from "./sequence/handleSequenceInteraction.js";
+export { DiscordRestPort, createDiscordRest } from "./tier/DiscordRestPort.js";
+export { createDiscordRestWorker, type DiscordRestWorkerOptions } from "./tier/createDiscordRestWorker.js";
+export {
+  commandContextFromSlashViaRest,
+  commandContextFromMessageViaRest,
+} from "./tier/splitContext.js";

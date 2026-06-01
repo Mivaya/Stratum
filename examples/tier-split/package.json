@@ -1,0 +1,20 @@
+{
+  "name": "@stratum/example-tier-split",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "rest": "tsx src/rest.ts",
+    "gateway": "tsx src/gateway.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@stratum/bridge-discordjs": "workspace:*",
+    "@stratum/core": "workspace:*",
+    "@stratum/loader": "workspace:*",
+    "discord.js": "^14.19.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3"
+  }
+}

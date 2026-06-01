@@ -7,7 +7,7 @@
 
 Stratum is a **transport-agnostic** bot framework with a first-class **native stack** — your command pipeline, vault, and workers do not depend on discord.js or Discordeno. Folder layout follows [Sapphire](https://sapphirejs.dev/) conventions so teams migrating off Sapphire keep familiar `commands/`, `listeners/`, and `preconditions/` → `gates/` paths.
 
-Legacy library bridges are **deprecated**; use `@stratum/rest`, `@stratum/gateway`, and `@stratum/transform` instead. See [docs/migration/](docs/migration/).
+Connect via `@stratum/rest`, `@stratum/gateway`, and `@stratum/transform`. See [docs/migration/](docs/migration/) and `examples/bot`.
 
 ---
 
@@ -79,7 +79,7 @@ Shared abstractions for Node.js, Bun, and Deno (env, fs, paths, timers).
 | Piece / command model | Built-in | Bring your own | **Sapphire-style folders** |
 | Preconditions | `@sapphire/*` plugins | DIY | **`@stratum/gates`** |
 | Settings | Plugins / manual | DIY | **Vault** |
-| Gateway + REST split | Manual | Native | **`RestPort` + tier split v2** |
+| Gateway + REST split | Manual | Native | **`RestPort` + tier split** |
 | Sharding / resharding | Manual | Built-in | **`@stratum/gateway`** |
 | Multi-step UI | Plugins | DIY | **Sequences** |
 | Observability | Community | DIY | **`@stratum/metrics`** |

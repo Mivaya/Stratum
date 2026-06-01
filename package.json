@@ -2,7 +2,7 @@
   "name": "stratum",
   "version": "0.0.1",
   "private": true,
-  "description": "Transport-agnostic Discord bot framework for Node.js and TypeScript — pluggable bridges, Sapphire/Klasa-style pieces, tier split, Vault, and Sequences.",
+  "description": "Native Discord bot framework for Node.js and TypeScript — Sapphire-style pieces on @stratum/rest + @stratum/gateway; Vault, Sequences, tier split, and metrics built in.",
   "author": "Interittus13 <arpit.gupta.0121@gmail.com>",
   "license": "MIT",
   "homepage": "https://github.com/Interittus13/Stratum#readme",
@@ -19,10 +19,14 @@
     "bot-framework",
     "typescript",
     "stratum",
-    "discordjs",
-    "discordeno",
     "sapphire",
-    "klasa"
+    "gateway",
+    "sharding",
+    "rest-api",
+    "tier-split",
+    "vault",
+    "sequences",
+    "metrics"
   ],
   "type": "module",
   "scripts": {
@@ -31,6 +35,8 @@
     "lint": "biome check .",
     "lint:fix": "biome check --write .",
     "typecheck": "pnpm -r run typecheck",
+    "demo": "pnpm --filter @stratum/example-bot demo",
+    "example:bot": "pnpm --filter @stratum/example-bot start",
     "docs:dev": "pnpm --filter @stratum/docs dev",
     "docs:build": "pnpm --filter @stratum/docs build",
     "docs:preview": "pnpm --filter @stratum/docs preview"

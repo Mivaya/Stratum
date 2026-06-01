@@ -1,7 +1,7 @@
 {
   "name": "@stratum/rest",
   "version": "0.0.1",
-  "description": "Stratum native Discord REST client with centralized rate-limit queue",
+  "description": "Native Discord REST client, rate-limit queue, REST worker, and slash command deploy",
   "author": "Interittus13 <arpit.gupta.0121@gmail.com>",
   "license": "MIT",
   "homepage": "https://github.com/Interittus13/Stratum/tree/main/packages/rest#readme",

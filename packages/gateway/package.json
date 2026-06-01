@@ -1,7 +1,7 @@
 {
   "name": "@stratum/gateway",
   "version": "0.0.1",
-  "description": "Stratum gateway shard manager and gateway↔bot worker protocol",
+  "description": "Gateway shard manager, resharding, worker bus, GatewayEventHub, and native Stratum routing",
   "author": "Interittus13 <arpit.gupta.0121@gmail.com>",
   "license": "MIT",
   "homepage": "https://github.com/Interittus13/Stratum/tree/main/packages/gateway#readme",

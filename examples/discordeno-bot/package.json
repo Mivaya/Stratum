@@ -1,6 +1,15 @@
 {
   "name": "@stratum/example-discordeno-bot",
+  "version": "0.0.1",
   "private": true,
+  "description": "Example Stratum bot using the Discordeno transport bridge and auto-loader",
+  "author": "Interittus13 <arpit.gupta.0121@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Interittus13/Stratum.git",
+    "directory": "examples/discordeno-bot"
+  },
   "type": "module",
   "scripts": {
     "start": "tsx src/main.ts",

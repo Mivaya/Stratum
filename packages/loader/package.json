@@ -1,7 +1,26 @@
 {
   "name": "@stratum/loader",
   "version": "0.0.1",
-  "description": "Auto-load Stratum pieces from Sapphire/Klasa-style folders",
+  "description": "Auto-load Stratum pieces from Sapphire/Klasa-style folders (commands, listeners, scouts, etc.)",
+  "author": "Interittus13 <arpit.gupta.0121@gmail.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/Interittus13/Stratum/tree/main/packages/loader#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Interittus13/Stratum.git",
+    "directory": "packages/loader"
+  },
+  "bugs": {
+    "url": "https://github.com/Interittus13/Stratum/issues"
+  },
+  "keywords": [
+    "discord",
+    "discord-bot",
+    "stratum",
+    "loader",
+    "sapphire",
+    "klasa"
+  ],
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

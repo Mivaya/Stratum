@@ -1,8 +1,14 @@
-import type { Bridge, Tier } from "../bridge/types.js";
-import type { Binder } from "../binder/Binder.js";
+import type { Bridge, Tier, WorkerRole } from "../bridge/types.js";
+import type { RestPort } from "../tier/types.js";
+import type { TierBus } from "../tier/types.js";
 
 export interface StratumClientOptions {
   tier?: Tier;
+  workerRole?: WorkerRole;
+  /** Remote REST worker (gateway role in split tier). */
+  restPort?: RestPort;
+  /** Optional cross-worker event bus. */
+  tierBus?: TierBus;
   bridge?: Bridge;
   prefix?: string;
 }
@@ -61,4 +67,4 @@ export type StratumClientEvents = {
   chronError: [{ chron: string; error: unknown }];
 };
 
-export type { Binder };
+export type { Binder } from "../binder/Binder.js";

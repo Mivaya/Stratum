@@ -24,6 +24,24 @@ export type { StratumClientOptions, CreateStratumBotOptions, StratumRegistries }
 
 // Bridge
 export type { Bridge, BridgeOptions, Tier, BridgeEventHandler } from "./bridge/types.js";
+export type {
+  WorkerRole,
+  RestMethod,
+  RestRequest,
+  RestResponse,
+  RestErrorResponse,
+  RestResult,
+  RestPort,
+  TierEvent,
+  TierBus,
+} from "./tier/types.js";
+export { InMemoryTierBus } from "./tier/InMemoryTierBus.js";
+export { HttpRestPort, type HttpRestPortOptions } from "./tier/HttpRestPort.js";
+export {
+  createRestWorkerServer,
+  type RestWorkerServerOptions,
+  type RestWorkerServerHandle,
+} from "./tier/createRestWorkerServer.js";
 export { MockBridge } from "./bridge/MockBridge.js";
 
 // Pieces

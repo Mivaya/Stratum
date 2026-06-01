@@ -3,6 +3,10 @@ import { handleSequenceInteraction } from "./sequence/handleSequenceInteraction.
 import type { Message } from "discord.js";
 import { DiscordJsBridge } from "./DiscordJsBridge.js";
 import { commandContextFromMessage, commandContextFromSlash, scoutContextFromMessage } from "./context.js";
+import {
+  commandContextFromMessageViaRest,
+  commandContextFromSlashViaRest,
+} from "./tier/splitContext.js";
 import { signalContextFromInteraction } from "./signalContext.js";
 
 export interface AttachStratumOptions {
@@ -45,14 +49,20 @@ export function attachStratum(
       const parsed = client.router.parsePrefixCommand(message.content);
       if (!parsed) return;
 
-      const ctx = commandContextFromMessage(message, parsed.name);
+      const ctx =
+        client.restPort && client.workerRole === "gateway"
+          ? commandContextFromMessageViaRest(message, parsed.name, client.restPort)
+          : commandContextFromMessage(message, parsed.name);
       await client.router.processPrefixCommand(ctx);
     });
   }
 
   bridge.client.on("interactionCreate", async (interaction) => {
     if (interaction.isChatInputCommand() && slashCommands) {
-      const ctx = commandContextFromSlash(interaction);
+      const ctx =
+        client.restPort && client.workerRole === "gateway"
+          ? commandContextFromSlashViaRest(interaction, client.restPort)
+          : commandContextFromSlash(interaction);
       await client.router.processSlashCommand(ctx);
       return;
     }

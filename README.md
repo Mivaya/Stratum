@@ -20,6 +20,7 @@ Sequences guide: [docs/SEQUENCES.md](docs/SEQUENCES.md).
 |---------|-------------|
 | `examples/minimal` | Mock bridge |
 | `examples/discord-bot` | Full bot: loader + SQLite vault + signals |
+| `examples/tier-split` | Split gateway + REST worker processes |
 
 ## Project layout
 
@@ -41,6 +42,7 @@ pnpm test
 
 ## Status
 
-Phases 1–7 on `feature/chron`. Next: `feature/tier-split` (REST/gateway workers).
+Phases 1–8 on `feature/tier-split`. Next: `feature/bridge-discordeno`.
 
+Tier split guide: [docs/TIER_SPLIT.md](docs/TIER_SPLIT.md).
 Chron guide: [docs/CHRON.md](docs/CHRON.md).

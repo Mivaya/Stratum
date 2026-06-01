@@ -15,9 +15,9 @@ Set `tier: "split"` and `workerRole: "gateway"` on the Stratum client, plus a `r
 ## REST worker
 
 ```ts
-import { createDiscordRestWorker } from "@stratum/bridge-discordjs";
+import { createNativeRestWorker } from "@stratum/rest";
 
-const server = await createDiscordRestWorker({
+const server = await createNativeRestWorker({
   token: process.env.DISCORD_TOKEN!,
   port: 4000,
   secret: process.env.REST_WORKER_SECRET, // optional
@@ -25,6 +25,8 @@ const server = await createDiscordRestWorker({
 
 console.log(`REST worker at ${server.url}`);
 ```
+
+Legacy discord.js REST worker: `createDiscordRestWorker` from `@stratum/bridge-discordjs` (see `pnpm rest:legacy` in the example).
 
 Endpoints:
 
@@ -70,9 +72,9 @@ cd examples/tier-split && pnpm gateway
 | `HttpRestPort` | `@stratum/core` | Gateway → REST worker client |
 | `createRestWorkerServer` | `@stratum/core` | Generic HTTP REST worker |
 | `InMemoryTierBus` | `@stratum/core` | In-process event bus (tests / future scale) |
-| `createDiscordRestWorker` | `@stratum/bridge-discordjs` | Discord REST worker bootstrap |
-| `createNativeRestPort` | `@stratum/rest` | Stratum-native REST (no discord.js) |
+| `createDiscordRestWorker` | `@stratum/bridge-discordjs` | discord.js REST worker (legacy) |
+| `createNativeRestWorker` | `@stratum/rest` | Stratum-native REST worker (default) |
 
 `distributed` tier (multiple gateway shards) is reserved for a future phase.
 
-See [TRANSPORT.md](./TRANSPORT.md) for the bridge → native migration path (`pnpm rest:native` in `examples/tier-split`).
+See [NATIVE_REST.md](./NATIVE_REST.md) for metrics and migration (`pnpm rest` in `examples/tier-split`).

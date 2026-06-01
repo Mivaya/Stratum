@@ -89,7 +89,7 @@ Gateway workers keep using `HttpRestPort`; only the REST process swaps from disc
 2. Keep gateway worker unchanged (`HttpRestPort` URL + secret).
 3. Compare rate-limit behavior under load; tune `RateLimitQueue` `maxRetries` if needed.
 
-Example: `examples/tier-split/src/rest-native.ts`
+Example: `examples/tier-split/src/rest.ts` (`pnpm rest`)
 
 ---
 

@@ -1,4 +1,5 @@
-import { createDiscordRestWorker } from "@stratum/bridge-discordjs";
+import { createMetricsServer, createPrometheusRestMetrics, restMetricsToTelemetry } from "@stratum/metrics";
+import { createNativeRestWorker } from "@stratum/rest";
 
 const token = process.env.DISCORD_TOKEN;
 if (!token) {
@@ -8,16 +9,28 @@ if (!token) {
 
 const port = Number(process.env.REST_WORKER_PORT ?? 4000);
 const secret = process.env.REST_WORKER_SECRET;
+const metricsPort = process.env.METRICS_PORT ? Number(process.env.METRICS_PORT) : 0;
 
-const server = await createDiscordRestWorker({
+const { register, collector } = createPrometheusRestMetrics();
+const telemetry = restMetricsToTelemetry(collector);
+
+const worker = await createNativeRestWorker({
   token,
   port,
   secret: secret || undefined,
+  telemetry,
 });
 
-console.log(`REST worker listening on ${server.url}`);
+console.log(`Native REST worker listening on ${worker.url}`);
+
+let metricsServer: Awaited<ReturnType<typeof createMetricsServer>> | undefined;
+if (metricsPort > 0) {
+  metricsServer = await createMetricsServer({ port: metricsPort, register });
+  console.log(`REST metrics at ${metricsServer.url}/metrics`);
+}
 
 process.on("SIGINT", async () => {
-  await server.close();
+  await metricsServer?.close();
+  await worker.close();
   process.exit(0);
 });

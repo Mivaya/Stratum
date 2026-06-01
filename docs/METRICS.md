@@ -57,3 +57,29 @@ attachClientMetrics(client, metrics);
 ```bash
 METRICS_PORT=9090 pnpm start
 ```
+
+## Native REST worker (tier split)
+
+When running `createNativeRestWorker`, pass a REST telemetry adapter:
+
+```ts
+import { createNativeRestWorker } from "@stratum/rest";
+import { createPrometheusRestMetrics, createMetricsServer, restMetricsToTelemetry } from "@stratum/metrics";
+
+const { register, collector } = createPrometheusRestMetrics();
+const worker = await createNativeRestWorker({
+  token: process.env.DISCORD_TOKEN!,
+  port: 4000,
+  telemetry: restMetricsToTelemetry(collector),
+});
+await createMetricsServer({ port: 9091, register });
+```
+
+| Name | Type | Labels |
+|------|------|--------|
+| `stratum_rest_requests_total` | Counter | `method`, `route`, `status` |
+| `stratum_rest_request_duration_seconds` | Histogram | `method`, `route` |
+| `stratum_rest_rate_limits_total` | Counter | `bucket` |
+| `stratum_rest_wait_duration_seconds` | Histogram | `bucket` |
+
+See [NATIVE_REST.md](./NATIVE_REST.md).

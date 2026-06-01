@@ -8,11 +8,14 @@ import {
   retryAfterMs,
 } from "@stratum/transport";
 
+import type { RateLimitQueueListener } from "./telemetry.js";
+
 export interface RateLimitQueueOptions {
   store?: RateLimitStore;
   /** Max automatic retries after HTTP 429. */
   maxRetries?: number;
   sleep?: (ms: number) => Promise<void>;
+  listener?: RateLimitQueueListener;
 }
 
 const defaultSleep = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms));
@@ -25,12 +28,14 @@ export class RateLimitQueue {
   readonly store: RateLimitStore;
   private readonly maxRetries: number;
   private readonly sleep: (ms: number) => Promise<void>;
+  private readonly listener: RateLimitQueueListener | undefined;
   private readonly chains = new Map<string, Promise<void>>();
 
   constructor(options: RateLimitQueueOptions = {}) {
     this.store = options.store ?? new RateLimitStore();
     this.maxRetries = options.maxRetries ?? 3;
     this.sleep = options.sleep ?? defaultSleep;
+    this.listener = options.listener;
   }
 
   /** Run `fn` when the bucket for `routeKey` allows it; retries on 429. */
@@ -55,7 +60,10 @@ export class RateLimitQueue {
   ): Promise<Response> {
     for (let attempt = 0; attempt <= this.maxRetries; attempt++) {
       const wait = this.store.waitMs(bucketId);
-      if (wait > 0) await this.sleep(wait);
+      if (wait > 0) {
+        this.listener?.onWait?.(bucketId, wait);
+        await this.sleep(wait);
+      }
 
       const response = await fn();
       const headers = headersFromFetch(response.headers);
@@ -66,6 +74,7 @@ export class RateLimitQueue {
 
       const ms = retryAfterMs(headers);
       this.store.block(snapshot?.bucketId ?? bucketId, ms);
+      this.listener?.onRateLimited?.(snapshot?.bucketId ?? bucketId, ms);
       if (attempt === this.maxRetries) return response;
     }
 

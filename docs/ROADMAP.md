@@ -62,7 +62,7 @@ Discordeno’s value is **operational scale** — split gateway/REST, rate-limit
 | Feature | Discordeno | Stratum today | Target |
 |---------|------------|---------------|--------|
 | Split gateway / REST / bot processes | First-class | **Partial** — `RestPort`, tier split, REST worker | Native transport Phase 15–16 |
-| Centralized REST rate limits | `@discordeno/rest` proxy | **Partial** — `@stratum/rest` queue + bridge REST worker | Native REST worker Phase 16 |
+| Centralized REST rate limits | `@discordeno/rest` proxy | **Done** — `@stratum/rest` + metrics | Native gateway Phase 18 |
 | desiredProperties (RAM trim) | Per-bot property mask | **Partial** — Discordeno bridge preset only | Core context slimming Phase 17 |
 | Transformers (Discord ↔ internal) | Bidirectional transformers | **Planned** — Phase 17 | `@stratum/transform` |
 | Gateway manager + shard workers | `@discordeno/gateway` | **Planned** — Phase 18 | `@stratum/gateway` |
@@ -185,18 +185,18 @@ Phases 1–10 are complete — see [PHASES.md](./PHASES.md#completed).
 
 ---
 
-### Phase 16 — Native REST worker
+### Phase 16 — Native REST worker ✅
 
 **From Discordeno:** Standalone REST process, proxy from gateway workers.
 
 | Deliverable | Description |
 |-------------|-------------|
-| REST worker server | Replace discord.js REST worker for split tier |
-| `RestPort` implementation | Native client for gateway role |
-| Bearer auth + health | Parity with current `HttpRestPort` |
-| Rate-limit metrics | Extend `@stratum/metrics` |
+| REST worker server | `createNativeRestWorker` replaces discord.js REST worker |
+| `RestPort` implementation | `NativeRestPort` + `HttpRestPort` gateway client |
+| Bearer auth + health | Parity with `createRestWorkerServer` |
+| Rate-limit metrics | `createPrometheusRestMetrics` in `@stratum/metrics` |
 
-**Branch:** `feature/native-rest`
+**Branch:** `feature/native-rest` · **Docs:** [NATIVE_REST.md](./NATIVE_REST.md)
 
 ---
 

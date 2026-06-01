@@ -1,5 +1,4 @@
-import { createRestWorkerServer } from "@stratum/core";
-import { createNativeRestPort } from "@stratum/rest";
+import { createDiscordRestWorker } from "@stratum/bridge-discordjs";
 
 const token = process.env.DISCORD_TOKEN;
 if (!token) {
@@ -10,15 +9,13 @@ if (!token) {
 const port = Number(process.env.REST_WORKER_PORT ?? 4000);
 const secret = process.env.REST_WORKER_SECRET;
 
-const portImpl = createNativeRestPort(token);
-
-const server = await createRestWorkerServer({
+const server = await createDiscordRestWorker({
+  token,
   port,
-  portImpl,
   secret: secret || undefined,
 });
 
-console.log(`Native REST worker listening on ${server.url}`);
+console.log(`discord.js REST worker listening on ${server.url}`);
 
 process.on("SIGINT", async () => {
   await server.close();

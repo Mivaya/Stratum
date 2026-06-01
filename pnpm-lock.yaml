@@ -104,6 +104,9 @@ importers:
       '@stratum/loader':
         specifier: workspace:*
         version: link:../../packages/loader
+      '@stratum/metrics':
+        specifier: workspace:*
+        version: link:../../packages/metrics
       '@stratum/rest':
         specifier: workspace:*
         version: link:../../packages/rest

@@ -3,6 +3,8 @@ import { createSession, type SessionInfo } from "@stratum/transport";
 import { RateLimitQueue, toHttpMethod } from "./RateLimitQueue.js";
 import { parseRouteKey } from "@stratum/transport";
 
+import type { RestTelemetry } from "./telemetry.js";
+
 export interface RestClientOptions {
   token: string;
   applicationId?: string;
@@ -10,6 +12,7 @@ export interface RestClientOptions {
   apiBaseUrl?: string;
   fetchImpl?: typeof fetch;
   queue?: RateLimitQueue;
+  telemetry?: RestTelemetry;
 }
 
 export interface DiscordApiErrorBody {
@@ -22,6 +25,7 @@ export class RestClient implements RestPort {
   readonly session: SessionInfo;
   readonly queue: RateLimitQueue;
   private readonly fetchImpl: typeof fetch;
+  private readonly telemetry: RestTelemetry | undefined;
 
   constructor(options: RestClientOptions) {
     this.session = createSession({
@@ -32,11 +36,20 @@ export class RestClient implements RestPort {
     });
     this.queue = options.queue ?? new RateLimitQueue();
     this.fetchImpl = options.fetchImpl ?? fetch;
+    this.telemetry = options.telemetry;
   }
 
   async request<T = unknown>(req: RestRequest): Promise<T> {
     const routeKey = parseRouteKey(req.route, toHttpMethod(req.method));
+    const started = performance.now();
     const response = await this.queue.run(routeKey, () => this.fetch(req));
+    const durationMs = performance.now() - started;
+    this.telemetry?.recordRequest({
+      method: req.method,
+      route: routeKey.route,
+      status: response.status,
+      durationMs,
+    });
 
     const text = await response.text();
     const body = text.length > 0 ? (JSON.parse(text) as unknown) : undefined;
@@ -78,7 +91,11 @@ export class RestClient implements RestPort {
 
 /** {@link RestPort} backed by {@link RestClient}. */
 export class NativeRestPort implements RestPort {
-  constructor(private readonly client: RestClient) {}
+  readonly client: RestClient;
+
+  constructor(client: RestClient) {
+    this.client = client;
+  }
 
   request<T = unknown>(req: RestRequest): Promise<T> {
     return this.client.request<T>(req);

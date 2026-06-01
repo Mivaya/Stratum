@@ -8,6 +8,7 @@ A transport-agnostic Discord bot framework for Node.js and TypeScript.
 |---------|-------------|
 | `@stratum/core` | Client, registries, pipeline, signals |
 | `@stratum/bridge-discordjs` | discord.js bridge + slash deploy |
+| `@stratum/bridge-discordeno` | Discordeno bridge (second transport) |
 | `@stratum/vault` | Ledger / Blueprint / Record persistence |
 | `@stratum/vault-sql` | SQLite + PostgreSQL drivers |
 | `@stratum/loader` | Auto-load pieces from `src/commands/`, etc. |
@@ -21,6 +22,7 @@ Sequences guide: [docs/SEQUENCES.md](docs/SEQUENCES.md).
 | `examples/minimal` | Mock bridge |
 | `examples/discord-bot` | Full bot: loader + SQLite vault + signals |
 | `examples/tier-split` | Split gateway + REST worker processes |
+| `examples/discordeno-bot` | Discordeno transport + loader |
 
 ## Project layout
 
@@ -42,7 +44,7 @@ pnpm test
 
 ## Status
 
-Phases 1–8 on `feature/tier-split`. Next: `feature/bridge-discordeno`.
+Phases 1–9 on `feature/bridge-discordeno`. Next: `feature/metrics`.
 
+Discordeno bridge: [docs/BRIDGE_DISCORDENO.md](docs/BRIDGE_DISCORDENO.md).
 Tier split guide: [docs/TIER_SPLIT.md](docs/TIER_SPLIT.md).
-Chron guide: [docs/CHRON.md](docs/CHRON.md).

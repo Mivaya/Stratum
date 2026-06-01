@@ -13,12 +13,12 @@
 | 6 Sequences | `feature/sequences` | Multi-step flows (`sequence()`, `runSequence`) |
 | 7 Chron | `feature/chron` | Scheduled tasks (`Chron`, `src/tasks/`) |
 | 8 Tier split | `feature/tier-split` | REST / gateway workers (`RestPort`, split tier) |
+| 9 Bridge Discordeno | `feature/bridge-discordeno` | `@stratum/bridge-discordeno` |
 
 ## Next phases
 
 | Phase | Branch | Scope |
 |-------|--------|--------|
-| 9 Bridge Discordeno | `feature/bridge-discordeno` | Second transport adapter |
 | 10 Metrics | `feature/metrics` | Prometheus / observability extension |
 
 ## Branch rule

@@ -1,0 +1,35 @@
+{
+  "name": "@stratum/bridge-discordeno",
+  "version": "0.0.1",
+  "description": "Discordeno transport bridge for Stratum",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "peerDependencies": {
+    "@discordeno/bot": "^21.0.0",
+    "@stratum/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@discordeno/bot": "^21.0.0",
+    "@stratum/core": "workspace:*",
+    "@types/node": "^22.13.4",
+    "tsup": "^8.3.6",
+    "typescript": "^5.7.3",
+    "vitest": "^3.0.5"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

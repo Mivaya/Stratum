@@ -51,8 +51,8 @@ export function attachStratum(
 
       const ctx =
         client.restPort && client.workerRole === "gateway"
-          ? commandContextFromMessageViaRest(message, parsed.name, client.restPort)
-          : commandContextFromMessage(message, parsed.name);
+          ? commandContextFromMessageViaRest(message, parsed.name, client.restPort, parsed.args)
+          : commandContextFromMessage(message, parsed.name, parsed.args);
       await client.router.processPrefixCommand(ctx);
     });
   }

@@ -1,4 +1,5 @@
 import type { CommandContextMeta } from "./meta.js";
+import type { ArgsText, SlashOption } from "./args.js";
 
 /** How the user invoked a command. */
 export type CommandKind = "slash" | "prefix" | "contextMenu" | "message";
@@ -12,6 +13,10 @@ export interface CommandContext {
   readonly channelId: string | null;
   /** Populated by transport bridges for permission / channel gates. */
   readonly meta?: CommandContextMeta;
+  /** Prefix commands: raw argument string after the command name. */
+  readonly argsText?: ArgsText;
+  /** Slash commands: normalized option values from the interaction. */
+  readonly slashOptions?: readonly SlashOption[];
   readonly raw: unknown;
   reply(text: string): Promise<void>;
   replyEphemeral(text: string): Promise<void>;

@@ -47,7 +47,7 @@ export function attachStratum(
     if (prefixCommands && message.content && !isMessageAuthorBot(message)) {
       const parsed = client.router.parsePrefixCommand(message.content);
       if (parsed) {
-        const ctx = commandContextFromMessage(bot, message, parsed.name);
+        const ctx = commandContextFromMessage(bot, message, parsed.name, parsed.args);
         await client.router.processPrefixCommand(ctx);
       }
     }

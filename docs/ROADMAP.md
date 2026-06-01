@@ -39,7 +39,7 @@ Sapphire’s value is **structure and DX** on top of discord.js — command stor
 | Global inhibitors | — (use plugins) | **Done** — `Barrier` (Klasa-aligned) | Keep |
 | Post-command hooks | — | **Done** — `Epilogue` (Klasa finalizers) | Keep |
 | Middleware | — | **Done** — `Conduit` | Keep |
-| Arguments / `Args` parsing | ArgumentStore, typed resolvers | **Planned** — Phase 12 | `@stratum/args` |
+| Arguments / `Args` parsing | ArgumentStore, typed resolvers | **Done** — `@stratum/args` | Maintain |
 | Slash subcommands & groups | Command options tree | **Planned** — Phase 13 | Core + deploy |
 | Prefix aliases | Command aliases | **Planned** — Phase 13 | Router |
 | Command categories | category / subCategory | **Planned** — Phase 13 | Metadata + help |
@@ -122,17 +122,18 @@ Phases 1–10 are complete — see [PHASES.md](./PHASES.md#completed).
 
 ---
 
-### Phase 12 — Arguments (`@stratum/args`)
+### Phase 12 — Arguments (`@stratum/args`) ✅
 
 **From Sapphire:** ArgumentStore, `Args`, resolvers (string, integer, member, channel, …).
 
-| Deliverable | Description |
-|-------------|-------------|
-| `@stratum/args` | Lexer + resolver registry |
-| Prefix parsing | Integrate with `InboundRouter.parsePrefixCommand` |
-| Slash options | Map interaction options to typed args |
-| Custom resolvers | User-defined argument types |
-| Validation errors | Structured `commandDenied` / user-facing messages |
+| Deliverable | Status |
+|-------------|--------|
+| `@stratum/args` | Done |
+| Prefix lexer + `Args` | Done |
+| `CommandContext.argsText` | Done — bridges pass prefix args |
+| Slash options | Done — `SlashArgs`, `slashOptions` on context |
+| Custom resolvers | Done — `defineArgResolver`, `ArgRegistry` |
+| Validation UX | Done — `replyArgError`, `replyIfArgError` |
 
 **Branch:** `feature/args`
 

@@ -10,6 +10,7 @@ import {
   commandContextMetaFromMessage,
   commandContextMetaFromSlash,
 } from "./contextMeta.js";
+import { slashOptionsFromInteraction } from "./slashOptions.js";
 
 const replied = new WeakSet<object>();
 
@@ -41,6 +42,7 @@ export function commandContextFromMessage(
   bot: StratumBot,
   message: DiscordenoMessage,
   commandName: string,
+  argsText = "",
 ): CommandContext {
   const meta = commandContextMetaFromMessage(message);
   return {
@@ -50,6 +52,7 @@ export function commandContextFromMessage(
     guildId: idString(message.guildId),
     channelId: idString(message.channelId),
     ...(meta !== undefined ? { meta } : {}),
+    ...(argsText.length > 0 ? { argsText } : {}),
     raw: message,
     reply: async (text) => {
       if (!message.channelId) return;
@@ -78,6 +81,7 @@ export function commandContextFromSlash(
 ): CommandContext {
   const name = interaction.data?.name ?? "unknown";
   const meta = commandContextMetaFromSlash(interaction);
+  const slashOptions = slashOptionsFromInteraction(interaction);
 
   return {
     kind: "slash",
@@ -86,6 +90,7 @@ export function commandContextFromSlash(
     guildId: idString(interaction.guildId),
     channelId: idString(interaction.channelId),
     ...(meta !== undefined ? { meta } : {}),
+    ...(slashOptions.length > 0 ? { slashOptions } : {}),
     raw: interaction,
     reply: async (text) => {
       if (!interaction.id || !interaction.token) return;

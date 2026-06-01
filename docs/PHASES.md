@@ -16,8 +16,9 @@
 | 9 Bridge Discordeno | `feature/bridge-discordeno` | `@stratum/bridge-discordeno` |
 | 10 Metrics | `feature/metrics` | `@stratum/metrics` (Prometheus) |
 | 11 Gates | `feature/gates` | `@stratum/gates` (cooldown, permissions, NSFW, RunIn) |
+| 12 Args | `feature/args` | `@stratum/args` (prefix lexer + slash options) |
 
-## Future (phases 12–21)
+## Future (phases 13–21)
 
 Full feature matrix, Sapphire + Discordeno parity plan, and Stratum originals: **[ROADMAP.md](./ROADMAP.md)**.
 
@@ -26,8 +27,8 @@ Summary:
 | Phase | Focus | Inspired by |
 |-------|--------|-------------|
 | ~~11~~ | ~~Built-in gates (`@stratum/gates`)~~ | ~~Sapphire preconditions~~ **Done** |
-| 12 | Arguments (`@stratum/args`) | Sapphire ArgumentStore |
-| 13 | Subcommands, aliases, deploy v2 | Sapphire commands |
+| ~~12~~ | ~~Arguments (`@stratum/args`)~~ | ~~Sapphire ArgumentStore~~ **Done** |
+| 13 | Command tree & deploy | Sapphire commands |
 | 14 | Plugins & container | Sapphire plugins |
 | 15–16 | Native transport + REST | Discordeno architecture |
 | 17 | Desired properties & transformers | Discordeno memory model |

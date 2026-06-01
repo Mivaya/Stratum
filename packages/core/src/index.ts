@@ -89,6 +89,7 @@ export type {
 } from "./context/types.js";
 export type { ChannelType, CommandContextMeta } from "./context/meta.js";
 export { isGuildChannelType } from "./context/meta.js";
+export type { SlashOption, SlashOptionType, ArgsText } from "./context/args.js";
 
 // Outcome
 export {

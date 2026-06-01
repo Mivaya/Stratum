@@ -9,6 +9,7 @@ import {
   commandContextMetaFromMessage,
   commandContextMetaFromSlash,
 } from "./contextMeta.js";
+import { slashOptionsFromInteraction } from "./slashOptions.js";
 
 export function scoutContextFromMessage(
   message: Message | PartialMessage,
@@ -29,7 +30,11 @@ export function scoutContextFromMessage(
   };
 }
 
-export function commandContextFromMessage(message: Message, commandName: string): CommandContext {
+export function commandContextFromMessage(
+  message: Message,
+  commandName: string,
+  argsText = "",
+): CommandContext {
   const meta = commandContextMetaFromMessage(message);
   return {
     kind: "prefix",
@@ -38,6 +43,7 @@ export function commandContextFromMessage(message: Message, commandName: string)
     guildId: message.guildId,
     channelId: message.channelId,
     ...(meta !== undefined ? { meta } : {}),
+    ...(argsText.length > 0 ? { argsText } : {}),
     raw: message,
     reply: async (text) => {
       await message.reply(text);
@@ -50,6 +56,7 @@ export function commandContextFromMessage(message: Message, commandName: string)
 
 export function commandContextFromSlash(interaction: ChatInputCommandInteraction): CommandContext {
   const meta = commandContextMetaFromSlash(interaction);
+  const slashOptions = slashOptionsFromInteraction(interaction);
   return {
     kind: "slash",
     commandName: interaction.commandName,
@@ -57,6 +64,7 @@ export function commandContextFromSlash(interaction: ChatInputCommandInteraction
     guildId: interaction.guildId,
     channelId: interaction.channelId,
     ...(meta !== undefined ? { meta } : {}),
+    ...(slashOptions.length > 0 ? { slashOptions } : {}),
     raw: interaction,
     reply: async (text) => {
       if (interaction.replied || interaction.deferred) {

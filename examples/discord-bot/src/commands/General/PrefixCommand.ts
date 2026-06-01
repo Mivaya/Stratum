@@ -1,4 +1,5 @@
 import { Command, ok, type CommandContext, type Registry } from "@stratum/core";
+import { Args, replyIfArgError, slashArgsFromContext } from "@stratum/args";
 import type { Vault } from "@stratum/vault";
 import type { LoaderContext } from "@stratum/loader";
 
@@ -28,8 +29,16 @@ export class PrefixCommand extends Command {
     const record = this.vault.ledger("guild").acquire(ctx.guildId);
     await record.sync();
 
-    const args = (ctx.raw as { options?: { getString?: (n: string) => string | null } })?.options;
-    const newPrefix = args?.getString?.("value") ?? null;
+    let newPrefix: string | null = null;
+
+    if (ctx.kind === "slash") {
+      newPrefix = slashArgsFromContext(ctx).getString("value");
+    } else {
+      const args = Args.fromContext(ctx);
+      const picked = args.maybeType("string");
+      if (await replyIfArgError(ctx, picked)) return ok(undefined);
+      newPrefix = picked.ok ? picked.value : null;
+    }
 
     if (newPrefix) {
       record.set("prefix", newPrefix);

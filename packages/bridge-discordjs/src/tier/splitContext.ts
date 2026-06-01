@@ -10,6 +10,7 @@ import {
   commandContextMetaFromMessage,
   commandContextMetaFromSlash,
 } from "../contextMeta.js";
+import { slashOptionsFromInteraction } from "../slashOptions.js";
 
 function applicationId(interaction: ChatInputCommandInteraction): string {
   return interaction.applicationId;
@@ -20,6 +21,7 @@ export function commandContextFromSlashViaRest(
   restPort: RestPort,
 ): CommandContext {
   const meta = commandContextMetaFromSlash(interaction);
+  const slashOptions = slashOptionsFromInteraction(interaction);
   return {
     kind: "slash",
     commandName: interaction.commandName,
@@ -27,6 +29,7 @@ export function commandContextFromSlashViaRest(
     guildId: interaction.guildId,
     channelId: interaction.channelId,
     ...(meta !== undefined ? { meta } : {}),
+    ...(slashOptions.length > 0 ? { slashOptions } : {}),
     raw: interaction,
     reply: async (text) => {
       if (interaction.replied || interaction.deferred) {
@@ -72,6 +75,7 @@ export function commandContextFromMessageViaRest(
   message: Message,
   commandName: string,
   restPort: RestPort,
+  argsText = "",
 ): CommandContext {
   const meta = commandContextMetaFromMessage(message);
   return {
@@ -81,6 +85,7 @@ export function commandContextFromMessageViaRest(
     guildId: message.guildId,
     channelId: message.channelId,
     ...(meta !== undefined ? { meta } : {}),
+    ...(argsText.length > 0 ? { argsText } : {}),
     raw: message,
     reply: async (text) => {
       await restPort.request({

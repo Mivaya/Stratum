@@ -287,6 +287,8 @@ Full guide: [docs/PROJECT_STRUCTURE.md](docs/PROJECT_STRUCTURE.md).
 | [`@stratum/transport`](packages/transport) | Session info, route keys, rate-limit buckets |
 | [`@stratum/rest`](packages/rest) | Native Discord REST + centralized queue |
 | [`@stratum/transform`](packages/transform) | Transport ↔ Stratum shapes, REST payloads |
+| [`@stratum/gateway`](packages/gateway) | Shard manager, identify/resume, gateway↔bot worker bus |
+| [`@stratum/cache`](packages/cache) | Pluggable cache (memory; Redis planned) |
 | [`@stratum/metrics`](packages/metrics) | Prometheus metrics + `/metrics` HTTP server |
 
 ---
@@ -323,6 +325,7 @@ pnpm start
 | [docs/ARGS.md](docs/ARGS.md) | Argument parsing (`@stratum/args`) |
 | [docs/COMMAND_TREE.md](docs/COMMAND_TREE.md) | Subcommands, aliases, autocomplete, deploy |
 | [docs/PLUGINS.md](docs/PLUGINS.md) | Plugins & container (`@stratum/plugins`) |
+| [docs/GATEWAY.md](docs/GATEWAY.md) | Gateway shard manager, worker protocol, cache |
 | [docs/TRANSPORT.md](docs/TRANSPORT.md) | Native transport & REST (`@stratum/transport`, `@stratum/rest`) |
 | [docs/NATIVE_REST.md](docs/NATIVE_REST.md) | Native REST worker & split-tier metrics |
 | [docs/DESIRED_PROPERTIES.md](docs/DESIRED_PROPERTIES.md) | Context slimming & `@stratum/transform` |

@@ -75,6 +75,25 @@ cd examples/tier-split && pnpm gateway
 | `createDiscordRestWorker` | `@stratum/bridge-discordjs` | discord.js REST worker (legacy) |
 | `createNativeRestWorker` | `@stratum/rest` | Stratum-native REST worker (default) |
 
-`distributed` tier (multiple gateway shards) is reserved for a future phase.
+`distributed` tier (multiple gateway shards) is reserved for Phase 19 resharding.
+
+### Tier split v2 (gateway relay + bot worker)
+
+Three processes: REST worker, gateway relay (bridge only), bot worker (StratumClient + `createWorkerServer`).
+
+```bash
+# Terminal 1 — REST
+cd examples/tier-split-v2 && pnpm rest
+
+# Terminal 2 — bot worker
+cd examples/tier-split-v2 && pnpm bot
+
+# Terminal 3 — gateway relay
+cd examples/tier-split-v2 && pnpm gateway
+```
+
+Single-process demo with `InMemoryWorkerBus`: `pnpm demo` in `examples/tier-split-v2`.
+
+See [GATEWAY.md](./GATEWAY.md) for shard manager, worker messages, and cache.
 
 See [NATIVE_REST.md](./NATIVE_REST.md) for metrics and migration (`pnpm rest` in `examples/tier-split`).

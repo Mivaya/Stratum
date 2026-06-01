@@ -22,8 +22,9 @@
 | 15 Transport | `feature/transport` | `@stratum/transport`, `@stratum/rest` |
 | 16 Native REST worker | `feature/native-rest` | `createNativeRestWorker`, REST metrics |
 | 17 Desired properties | `feature/desired-properties` | `@stratum/transform`, context slimming |
+| 18 Gateway & cache | `feature/gateway` | `@stratum/gateway`, `@stratum/cache`, tier split v2 |
 
-## Future (phases 18–21)
+## Future (phases 19–21)
 
 Full feature matrix, Sapphire + Discordeno parity plan, and Stratum originals: **[ROADMAP.md](./ROADMAP.md)**.
 
@@ -38,9 +39,8 @@ Summary:
 | ~~15~~ | ~~Transport foundation~~ | ~~Discordeno REST model~~ **Done** |
 | ~~16~~ | ~~Native REST worker~~ | ~~Split-tier REST process~~ **Done** |
 | ~~17~~ | ~~Desired properties & transformers~~ | ~~Discordeno memory model~~ **Done** |
-| 18–19 | Gateway, cache, resharding | Discordeno big bot |
-| 17 | Desired properties & transformers | Discordeno memory model |
-| 18–19 | Gateway, cache, resharding | Discordeno big bot |
+| ~~18~~ | ~~Gateway, cache, worker protocol~~ | ~~Discordeno big bot~~ **Done** |
+| 19 | Sharding & resharding | Discordeno big bot |
 | 20 | Cross-runtime (Node, Bun, Deno) | Discordeno |
 | 21 | Migration docs | Stratum onboarding |
 

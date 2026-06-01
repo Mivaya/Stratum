@@ -62,16 +62,16 @@ Discordeno’s value is **operational scale** — split gateway/REST, rate-limit
 | Feature | Discordeno | Stratum today | Target |
 |---------|------------|---------------|--------|
 | Split gateway / REST / bot processes | First-class | **Partial** — `RestPort`, tier split, REST worker | Native transport Phase 15–16 |
-| Centralized REST rate limits | `@discordeno/rest` proxy | **Done** — `@stratum/rest` + metrics | Native gateway Phase 18 |
+| Centralized REST rate limits | `@discordeno/rest` proxy | **Done** — `@stratum/rest` + metrics | Native gateway **Done** (Phase 18) |
 | desiredProperties (RAM trim) | Per-bot property mask | **Done** — client mask + Discordeno sync | Maintain |
 | Transformers (Discord ↔ internal) | Bidirectional transformers | **Done** — `@stratum/transform` | Bridge adapters |
-| Gateway manager + shard workers | `@discordeno/gateway` | **Planned** — Phase 18 | `@stratum/gateway` |
+| Gateway manager + shard workers | `@discordeno/gateway` | **Done** — Phase 18 | `@stratum/gateway` |
 | Zero-downtime resharding | Automated / manual | **Planned** — Phase 19 | Gateway manager |
 | Gateway proxy / fast resume | DD proxy patterns | **Planned** — Phase 19 | Optional proxy package |
-| Custom caches | Pluggable cache layer | **Planned** — Phase 18 | `@stratum/cache` |
+| Custom caches | Pluggable cache layer | **Done** — Phase 18 (memory) | `@stratum/cache` |
 | Cross-runtime (Node, Deno, Bun) | Yes | **Planned** — Phase 20 | ESM + runtime guards |
 | Functional handlers (no classes) | Preferred style | **Won't** — class pieces match Sapphire/Klasa | Gates/args support functions |
-| Horizontal worker scaling | Cluster / workers | **Partial** — tier split example | Worker orchestration Phase 18 |
+| Horizontal worker scaling | Cluster / workers | **Partial** — tier split v1 + v2 | Worker orchestration Phase 19 |
 | REST proxy from gateway | `rest.proxy` | **Partial** — `HttpRestPort` | Unified with native REST |
 
 ### Stratum originals (neither Sapphire nor Discordeno)
@@ -226,7 +226,7 @@ Phases 1–10 are complete — see [PHASES.md](./PHASES.md#completed).
 | `@stratum/cache` | Pluggable cache (memory, Redis) |
 | Tier split v2 | Native gateway + REST + bot workers |
 
-**Branch:** `feature/gateway`
+**Branch:** `feature/gateway` · **Docs:** [GATEWAY.md](./GATEWAY.md)
 
 ---
 

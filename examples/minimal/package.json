@@ -1,6 +1,15 @@
 {
   "name": "@stratum/example-minimal",
+  "version": "0.0.1",
   "private": true,
+  "description": "Minimal Stratum example using MockBridge for tests and local development",
+  "author": "Interittus13 <arpit.gupta.0121@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Interittus13/Stratum.git",
+    "directory": "examples/minimal"
+  },
   "type": "module",
   "scripts": {
     "start": "tsx src/main.ts",

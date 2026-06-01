@@ -21,7 +21,7 @@ export interface NativeRestWorkerHandle extends RestWorkerServerHandle {
 
 /**
  * Standalone native REST worker — drop-in replacement for
- * `createDiscordRestWorker` from `@stratum/bridge-discordjs`.
+ * Native REST worker — replaces legacy discord.js REST workers.
  */
 export async function createNativeRestWorker(
   options: NativeRestWorkerOptions,

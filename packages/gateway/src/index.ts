@@ -45,6 +45,17 @@ export {
 } from "./worker/gatewayRelay.js";
 
 export {
+  GatewayEventHub,
+  createGatewayEventHub,
+  type GatewayEventHubReadyPayload,
+} from "./GatewayEventHub.js";
+
+export {
+  attachStratumClient,
+  type AttachStratumClientOptions,
+} from "./attachStratumClient.js";
+
+export {
   evaluateReshard,
   type ReshardPolicyOptions,
   type ReshardEvaluation,

@@ -14,8 +14,9 @@
 ## Packages touched
 
 - [ ] `@stratum/core`
-- [ ] `@stratum/bridge-discordjs`
-- [ ] `@stratum/bridge-discordeno`
+- [ ] `@stratum/rest`
+- [ ] `@stratum/gateway`
+- [ ] `@stratum/transform`
 - [ ] `@stratum/loader`
 - [ ] `@stratum/vault`
 - [ ] `@stratum/vault-sql`

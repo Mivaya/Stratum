@@ -30,7 +30,10 @@
     "test": "pnpm -r run test",
     "lint": "biome check .",
     "lint:fix": "biome check --write .",
-    "typecheck": "pnpm -r run typecheck"
+    "typecheck": "pnpm -r run typecheck",
+    "docs:dev": "pnpm --filter @stratum/docs dev",
+    "docs:build": "pnpm --filter @stratum/docs build",
+    "docs:preview": "pnpm --filter @stratum/docs preview"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",

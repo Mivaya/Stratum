@@ -26,5 +26,12 @@ export {
   webhookMessageBody,
 } from "./rest.js";
 
+export {
+  scoutContextFromStratumMessage,
+  commandContextFromStratumMessageViaRest,
+  commandContextFromStratumSlashViaRest,
+  type ContextBuildOptions,
+} from "./splitContext.js";
+
 /** @deprecated Use {@link defaultDiscordenoDesiredProperties} */
 export { defaultDiscordenoDesiredProperties as stratumDesiredProperties } from "./discordeno.js";

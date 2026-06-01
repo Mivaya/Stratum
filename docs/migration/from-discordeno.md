@@ -1,0 +1,197 @@
+# Migrating from Discordeno
+
+This guide helps [Discordeno](https://discordeno.deno.dev/) “big bot” setups adopt Stratum while keeping operational patterns (split REST, sharding, desired properties).
+
+---
+
+## Mental model
+
+| Discordeno | Stratum |
+|------------|---------|
+| `createBot()` | `createStratumBot()` + native transport |
+| `@discordeno/gateway` workers | `@stratum/gateway` relay + your WebSocket worker |
+| `@discordeno/rest` proxy | `@stratum/rest` + `createNativeRestWorker` |
+| Desired properties / transformers | `desiredProperties` + `@stratum/transform` |
+| Custom cache | `@stratum/cache` (memory; Redis planned) |
+| Shard manager / resharding | `@stratum/gateway` shard + reshard APIs |
+
+Stratum's **native transport** replaces Discordeno library coupling while keeping big-bot topology (split REST, sharding, desired properties).
+
+---
+
+## Minimal bot (native)
+
+```ts
+import { createStratumBot } from "@stratum/core";
+import { attachStratumClient, createGatewayEventHub } from "@stratum/gateway";
+import { createNativeRestPort } from "@stratum/rest";
+
+const client = createStratumBot({
+  prefix: "!",
+  restPort: createNativeRestPort(process.env.DISCORD_TOKEN!),
+});
+
+const hub = createGatewayEventHub();
+attachStratumClient(hub, client);
+client.setBridge(hub);
+
+hub.markReady({ user: { id: "YOUR_BOT_USER_ID" } });
+await client.start();
+```
+
+---
+
+## Big bot → tier layout
+
+| Process | Discordeno | Stratum packages |
+|---------|------------|------------------|
+| REST worker | REST proxy / `@discordeno/rest` | `@stratum/rest` → `createNativeRestWorker` |
+| Gateway | `@discordeno/gateway` | `@stratum/gateway` relay + your WebSocket worker |
+| Bot / events | Bot worker handlers | `createStratumBot` + worker bus consumer |
+
+### Tier split (monolith gateway + REST worker)
+
+```ts
+const client = createStratumBot({
+  tier: "split",
+  workerRole: "gateway",
+  restPort: new HttpRestPort({ baseUrl: "http://127.0.0.1:4000", secret }),
+});
+```
+
+REST worker:
+
+```ts
+import { createNativeRestWorker } from "@stratum/rest";
+
+await createNativeRestWorker({ token, port: 4000, secret });
+```
+
+Example: `examples/bot`.
+
+### Tier split (gateway relay + bot worker)
+
+Three processes — see [Tier split](/deployment/tier-split) and `examples/bot` (`pnpm split:rest`, `split:bot`, `split:gateway`):
+
+1. **REST** — `pnpm split:rest`
+2. **Bot worker** — `createWorkerServer` + StratumClient
+3. **Gateway relay** — `GatewayEventHub` + `attachGatewayRelay`
+
+---
+
+## Desired properties
+
+Discordeno trims payload memory with desired properties. Stratum exposes the same idea on the client:
+
+```ts
+const client = createStratumBot({
+  desiredProperties: {
+    context: { meta: true },
+    meta: { channelId: true, guildId: true },
+  },
+});
+```
+
+See [Desired properties](/features/desired-properties).
+
+---
+
+## REST migration path
+
+| Step | Action |
+|------|--------|
+| 1 | Deploy `@stratum/rest` worker alongside existing REST proxy |
+| 2 | Point gateway `HttpRestPort` at new worker URL |
+| 3 | Compare rate limits / 429 behavior under load |
+| 4 | Remove Discordeno REST proxy when stable |
+
+Details: [Native REST](/deployment/native-rest), [Transport](/reference/transport).
+
+---
+
+## Sharding & resharding
+
+Discordeno automates shard workers and resharding. Stratum Phase 19 primitives:
+
+```ts
+import {
+  createShardManager,
+  evaluateReshard,
+  createReshardController,
+  createIdentifyBudget,
+} from "@stratum/gateway";
+
+const manager = createShardManager({ totalShards: 4 });
+const controller = createReshardController({
+  manager,
+  budget: createIdentifyBudget({ minIntervalMs: 5500 }),
+});
+
+const evaluation = controller.evaluate(guildCount);
+if (evaluation.needed) {
+  controller.planManual(evaluation.recommendedShards);
+  controller.start();
+  // loop nextIdentify() + markIdentifyComplete()
+  controller.complete();
+}
+```
+
+See [Resharding](/deployment/resharding).
+
+Native WebSocket gateway wiring is your shard worker calling `hub.emit` — see [Gateway](/deployment/gateway).
+
+---
+
+## Cache
+
+Discordeno custom caches map to `@stratum/cache`:
+
+```ts
+import { createMemoryCache } from "@stratum/cache";
+
+const cache = createMemoryCache({ defaultTtlMs: 60_000 });
+```
+
+Wire into your guild/user hydration layer; gateway-backed cache adapters are planned.
+
+---
+
+## Cross-runtime
+
+Discordeno often runs on Deno. Stratum core pieces use `@stratum/runtime` for env, fs, and paths:
+
+- **Full bot on Deno**: core + `@stratum/runtime` (HTTP REST/gateway workers Node-only today)
+- **Loader / sequences**: runtime-portable
+
+See [Cross-runtime](/deployment/cross-runtime).
+
+---
+
+## Command & interaction code
+
+Discordeno bots usually hand-roll handlers. With Stratum:
+
+- Commands → `Command` class + `@stratum/args`
+- Buttons/modals → `Signal` + `stratum:` custom ids
+- Multi-step flows → `sequence()` + `client.sequences`
+
+Deploy slash commands: `deployCommands` from `@stratum/rest`.
+
+---
+
+## Migration checklist
+
+1. Create `createStratumBot` + `createGatewayEventHub` + `attachStratumClient`.
+2. Move handlers into `Command` / `Hook` / `Scout` pieces; use `loadPieces`.
+3. Replace REST proxy with `createNativeRestWorker` (keep same HTTP contract).
+4. Enable `desiredProperties` to match Discordeno memory profile.
+5. (Optional) Split gateway relay + bot worker (tier v2).
+6. (Optional) Add reshard controller when guild count grows.
+7. Add `@stratum/metrics` for Prometheus parity with custom Discordeno metrics.
+
+---
+
+## Related
+
+- [Gateway](/deployment/gateway)
+- [From Sapphire](/migration/from-sapphire) — piece pipeline (gates, args)

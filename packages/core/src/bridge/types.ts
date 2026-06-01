@@ -2,8 +2,9 @@
 export type { Tier, WorkerRole } from "../tier/types.js";
 
 /**
- * Transport-agnostic facade over discord.js, Discordeno, or other libraries.
- * Implemented by `@stratum/bridge-discordjs` and `@stratum/bridge-discordeno`.
+ * Transport-agnostic facade for inbound gateway events.
+ * Production bots use {@link GatewayEventHub} from `@stratum/gateway`.
+ * Tests use {@link MockBridge}. Production bots use {@link GatewayEventHub} from `@stratum/gateway`.
  */
 export interface Bridge {
   readonly id: string;

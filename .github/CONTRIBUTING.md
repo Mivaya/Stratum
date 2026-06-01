@@ -101,10 +101,10 @@ Use clear, imperative subject lines:
 fix(core): handle empty customId in signal router
 feat(vault): add debounce flush on shutdown
 docs: add Discordeno tier-split example
-test(bridge-discordjs): cover deferred reply path
+test(rest): cover deployCommands dry-run
 ```
 
-Optional scope: `core`, `bridge-discordjs`, `bridge-discordeno`, `vault`, `vault-sql`, `loader`, `metrics`, `docs`, `examples`.
+Optional scope: `core`, `rest`, `gateway`, `transform`, `vault`, `vault-sql`, `loader`, `metrics`, `docs`, `examples`.
 
 ## Code guidelines
 
@@ -115,7 +115,7 @@ Stratum is a **transport-agnostic** framework. Keep these principles in mind:
 | Layer | Responsibility |
 |-------|----------------|
 | `@stratum/core` | Routing, pipeline, registries, sequences, chron — **no** discord.js or Discordeno imports |
-| `@stratum/bridge-*` | Translate gateway events and REST into Stratum contexts |
+| `@stratum/transform` | Normalize Discord payloads ↔ Stratum contexts |
 | `@stratum/vault`, `@stratum/loader`, etc. | Optional packages that integrate via `@stratum/core` types |
 
 Do not import bridge-specific types into core. If core needs a capability, add a small interface in core and implement it in the bridge.

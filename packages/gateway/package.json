@@ -31,10 +31,15 @@
   },
   "peerDependencies": {
     "@stratum/core": "workspace:*",
-    "@stratum/transport": "workspace:*"
+    "@stratum/transport": "workspace:*",
+    "@stratum/transform": "workspace:*"
+  },
+  "dependencies": {
+    "@stratum/transform": "workspace:*"
   },
   "devDependencies": {
     "@stratum/core": "workspace:*",
+    "@stratum/transform": "workspace:*",
     "@stratum/transport": "workspace:*",
     "@types/node": "^22.13.4",
     "tsup": "^8.3.6",

@@ -4,23 +4,37 @@ import { cwd } from "./env.js";
 
 /** Join path segments with forward slashes (portable across runtimes). */
 export function join(...parts: string[]): string {
+  if (parts.length === 0) return ".";
+
+  let absolute = false;
   const segments: string[] = [];
+
   for (const part of parts) {
-    for (const segment of part.split(/[/\\]/)) {
-      if (segment.length > 0 && segment !== ".") {
-        segments.push(segment);
+    if (!part) continue;
+    let segmentPath = part;
+    if (segmentPath.startsWith("/")) {
+      absolute = true;
+      segmentPath = segmentPath.slice(1);
+    }
+
+    for (const segment of segmentPath.split(/[/\\]/)) {
+      if (segment.length === 0 || segment === ".") continue;
+      if (segment === "..") {
+        if (segments.length > 0) segments.pop();
+        continue;
       }
+      segments.push(segment);
     }
   }
+
   const joined = segments.join("/");
-  if (parts[0]?.startsWith("/")) return `/${joined}`;
-  return joined;
+  return absolute ? `/${joined}` : joined;
 }
 
 /** Resolve a path relative to optional base (defaults to {@link cwd}). */
 export function resolve(...parts: string[]): string {
-  const base = parts[0]?.startsWith("/") ? "" : cwd();
-  return join(base, ...parts);
+  if (parts[0]?.startsWith("/")) return join(...parts);
+  return join(cwd(), ...parts);
 }
 
 export function basename(file: string, ext?: string): string {

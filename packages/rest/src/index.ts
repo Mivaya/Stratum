@@ -12,5 +12,10 @@ export {
   type NativeRestWorkerOptions,
   type NativeRestWorkerHandle,
 } from "./createNativeRestWorker.js";
+export {
+  deployCommands,
+  type DeployCommandsOptions,
+  type DeployCommandsResult,
+} from "./deployCommands.js";
 export type { RestTelemetry, RateLimitQueueListener } from "./telemetry.js";
 export { createRestTelemetryListener } from "./telemetry.js";

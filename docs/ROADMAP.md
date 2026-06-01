@@ -69,7 +69,7 @@ Discordeno’s value is **operational scale** — split gateway/REST, rate-limit
 | Zero-downtime resharding | Automated / manual | **Done** — Phase 19 | `@stratum/gateway` reshard API |
 | Gateway proxy / fast resume | DD proxy patterns | **Planned** — Phase 19 | Optional proxy package |
 | Custom caches | Pluggable cache layer | **Done** — Phase 18 (memory) | `@stratum/cache` |
-| Cross-runtime (Node, Deno, Bun) | Yes | **Planned** — Phase 20 | ESM + runtime guards |
+| Cross-runtime (Node, Deno, Bun) | Yes | **Done** — Phase 20 | `@stratum/runtime` |
 | Functional handlers (no classes) | Preferred style | **Won't** — class pieces match Sapphire/Klasa | Gates/args support functions |
 | Horizontal worker scaling | Cluster / workers | **Partial** — tier split v1 + v2 | Worker orchestration Phase 19 |
 | REST proxy from gateway | `rest.proxy` | **Partial** — `HttpRestPort` | Unified with native REST |
@@ -255,7 +255,7 @@ Phases 1–10 are complete — see [PHASES.md](./PHASES.md#completed).
 | CI matrix | Node 20+, Bun, Deno |
 | Publish `exports` conditions | Dual package if required |
 
-**Branch:** `feature/cross-runtime`
+**Branch:** `feature/cross-runtime` · **Docs:** [CROSS_RUNTIME.md](./CROSS_RUNTIME.md)
 
 ---
 

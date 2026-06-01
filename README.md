@@ -289,6 +289,7 @@ Full guide: [docs/PROJECT_STRUCTURE.md](docs/PROJECT_STRUCTURE.md).
 | [`@stratum/transform`](packages/transform) | Transport ↔ Stratum shapes, REST payloads |
 | [`@stratum/gateway`](packages/gateway) | Shard manager, identify/resume, gateway↔bot worker bus |
 | [`@stratum/cache`](packages/cache) | Pluggable cache (memory; Redis planned) |
+| [`@stratum/runtime`](packages/runtime) | Cross-runtime env, fs, path, crypto, timers |
 | [`@stratum/metrics`](packages/metrics) | Prometheus metrics + `/metrics` HTTP server |
 
 ---
@@ -325,6 +326,7 @@ pnpm start
 | [docs/ARGS.md](docs/ARGS.md) | Argument parsing (`@stratum/args`) |
 | [docs/COMMAND_TREE.md](docs/COMMAND_TREE.md) | Subcommands, aliases, autocomplete, deploy |
 | [docs/PLUGINS.md](docs/PLUGINS.md) | Plugins & container (`@stratum/plugins`) |
+| [docs/CROSS_RUNTIME.md](docs/CROSS_RUNTIME.md) | Node, Bun, Deno — `@stratum/runtime` |
 | [docs/GATEWAY.md](docs/GATEWAY.md) | Gateway shard manager, worker protocol, cache |
 | [docs/RESHARDING.md](docs/RESHARDING.md) | Sharding, resharding policy, identify budget |
 | [docs/TRANSPORT.md](docs/TRANSPORT.md) | Native transport & REST (`@stratum/transport`, `@stratum/rest`) |

@@ -232,6 +232,9 @@ importers:
 
   packages/core:
     dependencies:
+      '@stratum/runtime':
+        specifier: workspace:*
+        version: link:../runtime
       cron-parser:
         specifier: ^5.0.4
         version: 5.5.0
@@ -289,6 +292,10 @@ importers:
         version: 3.2.4(@types/node@22.19.19)(tsx@4.22.3)
 
   packages/loader:
+    dependencies:
+      '@stratum/runtime':
+        specifier: workspace:*
+        version: link:../runtime
     devDependencies:
       '@stratum/core':
         specifier: workspace:*
@@ -354,6 +361,21 @@ importers:
       '@stratum/transport':
         specifier: workspace:*
         version: link:../transport
+      '@types/node':
+        specifier: ^22.13.4
+        version: 22.19.19
+      tsup:
+        specifier: ^8.3.6
+        version: 8.5.1(postcss@8.5.15)(tsx@4.22.3)(typescript@5.9.3)
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
+      vitest:
+        specifier: ^3.0.5
+        version: 3.2.4(@types/node@22.19.19)(tsx@4.22.3)
+
+  packages/runtime:
+    devDependencies:
       '@types/node':
         specifier: ^22.13.4
         version: 22.19.19

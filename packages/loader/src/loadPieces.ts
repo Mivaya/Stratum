@@ -1,5 +1,10 @@
-import path from "node:path";
-import { pathToFileURL } from "node:url";
+import {
+  basename,
+  cwd,
+  extname,
+  pathToFileURL,
+  resolve,
+} from "@stratum/runtime";
 import { PiecePaths, type StratumClient } from "@stratum/core";
 import type { Command } from "@stratum/core";
 import type { Hook } from "@stratum/core";
@@ -32,7 +37,7 @@ export async function loadPieces(
   client: StratumClient,
   options: LoadPiecesOptions = {},
 ): Promise<LoadPiecesResult> {
-  const basePath = options.basePath ?? process.cwd();
+  const basePath = options.basePath ?? cwd();
   const ctx: LoaderContext = { client, ...options.context };
 
   const result: LoadPiecesResult = {
@@ -57,7 +62,7 @@ export async function loadPieces(
     if (custom === false) continue;
 
     const rel = custom ?? DEFAULT_PATHS[kind];
-    const abs = path.resolve(basePath, rel);
+    const abs = resolve(basePath, rel);
     const files = await scanFiles(abs);
 
     for (const file of files) {
@@ -83,7 +88,7 @@ function resolveExport(mod: Record<string, unknown>, file: string): (new (...a: 
   if (typeof mod.default === "function") {
     return mod.default as new (...a: never[]) => unknown;
   }
-  const base = path.basename(file, path.extname(file));
+  const base = basename(file, extname(file));
   const named = mod[base];
   if (typeof named === "function") return named as new (...a: never[]) => unknown;
   return null;

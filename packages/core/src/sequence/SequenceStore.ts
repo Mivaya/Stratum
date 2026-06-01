@@ -1,4 +1,4 @@
-import { randomUUID } from "node:crypto";
+import { randomUUID } from "@stratum/runtime";
 import type { SequenceSession } from "./types.js";
 
 interface PendingStep {

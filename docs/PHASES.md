@@ -24,8 +24,9 @@
 | 17 Desired properties | `feature/desired-properties` | `@stratum/transform`, context slimming |
 | 18 Gateway & cache | `feature/gateway` | `@stratum/gateway`, `@stratum/cache`, tier split v2 |
 | 19 Sharding & resharding | `feature/resharding` | Reshard policy, identify budget, operator HTTP API |
+| 20 Cross-runtime | `feature/cross-runtime` | `@stratum/runtime`, CI matrix Node/Bun/Deno |
 
-## Future (phases 20–21)
+## Future (phase 21)
 
 Full feature matrix, Sapphire + Discordeno parity plan, and Stratum originals: **[ROADMAP.md](./ROADMAP.md)**.
 
@@ -42,7 +43,7 @@ Summary:
 | ~~17~~ | ~~Desired properties & transformers~~ | ~~Discordeno memory model~~ **Done** |
 | ~~18~~ | ~~Gateway, cache, worker protocol~~ | ~~Discordeno big bot~~ **Done** |
 | ~~19~~ | ~~Sharding & resharding~~ | ~~Discordeno big bot~~ **Done** |
-| 20 | Cross-runtime (Node, Bun, Deno) | Discordeno |
+| ~~20~~ | ~~Cross-runtime (Node, Bun, Deno)~~ | ~~Discordeno~~ **Done** |
 | 21 | Migration docs | Stratum onboarding |
 
 ## Branch rule

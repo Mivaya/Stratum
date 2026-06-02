@@ -1,6 +1,6 @@
 {
   "name": "@stratum/args",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Typed argument parsing for Stratum — prefix lexer and slash options (Sapphire Args parity)",
   "author": "Interittus13 <arpit.gupta.0121@gmail.com>",
   "license": "MIT",

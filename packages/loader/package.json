@@ -1,6 +1,6 @@
 {
   "name": "@stratum/loader",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Auto-load Stratum pieces from Sapphire/Klasa-style folders (commands, listeners, scouts, etc.)",
   "author": "Interittus13 <arpit.gupta.0121@gmail.com>",
   "license": "MIT",

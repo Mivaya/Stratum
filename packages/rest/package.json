@@ -1,6 +1,6 @@
 {
   "name": "@stratum/rest",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Native Discord REST client, rate-limit queue, REST worker, and slash command deploy",
   "author": "Interittus13 <arpit.gupta.0121@gmail.com>",
   "license": "MIT",

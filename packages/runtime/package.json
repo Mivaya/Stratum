@@ -1,6 +1,6 @@
 {
   "name": "@stratum/runtime",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Cross-runtime abstractions for Stratum — Node.js, Bun, and Deno",
   "author": "Interittus13 <arpit.gupta.0121@gmail.com>",
   "license": "MIT",

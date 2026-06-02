@@ -1,6 +1,6 @@
 {
   "name": "@stratum/cache",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pluggable cache layer for Stratum gateway and bot workers",
   "author": "Interittus13 <arpit.gupta.0121@gmail.com>",
   "license": "MIT",

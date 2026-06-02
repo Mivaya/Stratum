@@ -276,4 +276,4 @@ Branch naming: `feature/{short-description}`.
 
 ## Status
 
-Early development (`0.0.1`). Native transport stack is the default; bridge packages are deprecated. API may change before `1.0.0`.
+**v0.1.0** — first public release of the native stack. Bridge packages are removed; see [CHANGELOG.md](CHANGELOG.md). API may still evolve before `1.0.0`.

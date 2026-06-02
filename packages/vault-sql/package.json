@@ -1,6 +1,6 @@
 {
   "name": "@stratum/vault-sql",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "SQL drivers for Stratum Vault — SQLite and PostgreSQL backends",
   "author": "Interittus13 <arpit.gupta.0121@gmail.com>",
   "license": "MIT",

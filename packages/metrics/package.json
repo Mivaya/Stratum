@@ -1,6 +1,6 @@
 {
   "name": "@stratum/metrics",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Prometheus metrics and observability for Stratum — counters, histograms, and /metrics HTTP server",
   "author": "Interittus13 <arpit.gupta.0121@gmail.com>",
   "license": "MIT",

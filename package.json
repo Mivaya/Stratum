@@ -1,6 +1,6 @@
 {
   "name": "stratum",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "private": true,
   "description": "Native Discord bot framework for Node.js and TypeScript — Sapphire-style pieces on @stratum/rest + @stratum/gateway; Vault, Sequences, tier split, and metrics built in.",
   "author": "Interittus13 <arpit.gupta.0121@gmail.com>",

@@ -1,6 +1,6 @@
 {
   "name": "@stratum/example-minimal",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "private": true,
   "description": "Minimal Stratum example using MockBridge for tests and local development",
   "author": "Interittus13 <arpit.gupta.0121@gmail.com>",

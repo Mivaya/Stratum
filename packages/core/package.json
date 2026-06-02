@@ -1,7 +1,7 @@
 {
   "name": "@stratum/core",
   "version": "0.0.1",
-  "description": "Transport-agnostic Discord bot framework core — client, registries, pipeline, signals, sequences, and chron",
+  "description": "Transport-agnostic Discord bot core — client, pipeline, registries, sequences, chron, and tier split (no discord.js or Discordeno)",
   "author": "Interittus13 <arpit.gupta.0121@gmail.com>",
   "license": "MIT",
   "homepage": "https://github.com/Interittus13/Stratum/tree/main/packages/core#readme",
@@ -42,6 +42,7 @@
     "vitest": "^3.0.5"
   },
   "dependencies": {
+    "@stratum/runtime": "workspace:*",
     "cron-parser": "^5.0.4"
   },
   "engines": {

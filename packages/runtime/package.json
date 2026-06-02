@@ -1,0 +1,46 @@
+{
+  "name": "@stratum/runtime",
+  "version": "0.0.1",
+  "description": "Cross-runtime abstractions for Stratum — Node.js, Bun, and Deno",
+  "author": "Interittus13 <arpit.gupta.0121@gmail.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/Interittus13/Stratum/tree/main/packages/runtime#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Interittus13/Stratum.git",
+    "directory": "packages/runtime"
+  },
+  "bugs": {
+    "url": "https://github.com/Interittus13/Stratum/issues"
+  },
+  "keywords": ["discord", "discord-bot", "stratum", "deno", "bun", "runtime"],
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "deno": "./dist/index.js",
+      "bun": "./dist/index.js",
+      "node": "./dist/index.js",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "smoke": "node dist/smoke.js"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.4",
+    "tsup": "^8.3.6",
+    "typescript": "^5.7.3",
+    "vitest": "^3.0.5"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

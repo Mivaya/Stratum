@@ -2,6 +2,9 @@ import { EventEmitter } from "node:events";
 import type { Bridge, Tier, WorkerRole } from "../bridge/types.js";
 import type { RestPort, TierBus } from "../tier/types.js";
 import { Binder } from "../binder/Binder.js";
+import { DefaultStratumContainer } from "../container/DefaultStratumContainer.js";
+import type { StratumContainerLike } from "../container/types.js";
+import type { PluginLifecycle } from "../plugins/types.js";
 import { Registry } from "../pieces/Registry.js";
 import { Command } from "../registries/Command.js";
 import { Hook } from "../registries/Hook.js";
@@ -17,7 +20,10 @@ import { ExecutionPipeline } from "../pipeline/ExecutionPipeline.js";
 import { InboundRouter } from "./InboundRouter.js";
 import { SignalRouter } from "./SignalRouter.js";
 import { SequenceStore } from "../sequence/SequenceStore.js";
+import { CommandIndex } from "../command/CommandIndex.js";
 import type { CommandContext } from "../context/types.js";
+import type { ResolvedDesiredProperties } from "../desired/DesiredProperties.js";
+import { resolveDesiredProperties } from "../desired/DesiredProperties.js";
 import type { StratumClientEvents, StratumClientOptions, StratumRegistries } from "./types.js";
 import type { Outcome } from "../outcome/Outcome.js";
 
@@ -26,17 +32,22 @@ export class StratumClient extends EventEmitter {
   readonly workerRole: WorkerRole;
   readonly restPort: RestPort | null;
   readonly tierBus: TierBus | null;
-  readonly binder = new Binder();
+  readonly binder: Binder;
+  readonly container: StratumContainerLike;
   readonly pipeline: ExecutionPipeline;
   readonly router: InboundRouter;
   readonly signalRouter: SignalRouter;
   readonly sequences: SequenceStore;
   readonly chronScheduler: ChronScheduler;
+  readonly commandIndex: CommandIndex;
+  readonly desiredProperties: ResolvedDesiredProperties;
   readonly registries: StratumRegistries;
 
   bridge: Bridge | null = null;
   prefix: string;
   botUserId: string | null = null;
+  /** Set via {@link createPluginManager} from `@stratum/plugins`. */
+  pluginLifecycle: PluginLifecycle | null = null;
   private started = false;
   private hooksBound = false;
 
@@ -49,11 +60,15 @@ export class StratumClient extends EventEmitter {
     this.tierBus = options.tierBus ?? null;
     this.prefix = options.prefix ?? "!";
     this.bridge = options.bridge ?? null;
+    this.container = options.container ?? new DefaultStratumContainer();
+    this.binder = this.container.binder;
     this.pipeline = new ExecutionPipeline(this);
     this.router = new InboundRouter(this);
     this.signalRouter = new SignalRouter(this);
     this.sequences = new SequenceStore();
     this.chronScheduler = new ChronScheduler();
+    this.commandIndex = new CommandIndex();
+    this.desiredProperties = resolveDesiredProperties(options.desiredProperties);
 
     this.registries = {
       commands: new Registry<Command>(this, "commands"),
@@ -82,7 +97,13 @@ export class StratumClient extends EventEmitter {
   }
 
   register(command: Command): Command {
-    return this.registries.commands.register(command);
+    const registered = this.registries.commands.register(command);
+    this.rebuildCommandIndex();
+    return registered;
+  }
+
+  rebuildCommandIndex(): void {
+    this.commandIndex.rebuild(this.registries.commands.values());
   }
 
   getCommand(name: string): Command | undefined {
@@ -112,11 +133,14 @@ export class StratumClient extends EventEmitter {
     if (this.tier === "split" && this.workerRole === "gateway" && !this.restPort) {
       throw new Error('Split-tier gateway requires a RestPort (e.g. new HttpRestPort({ baseUrl })).');
     }
+    await this.pluginLifecycle?.runHook("preStart");
     await this.bridge.connect();
     this.bindHooks();
     this.startChrons();
+    this.rebuildCommandIndex();
     this.started = true;
     this.emit("ready");
+    await this.pluginLifecycle?.runHook("postStart");
   }
 
   async stop(): Promise<void> {

@@ -1,7 +1,7 @@
 /** Process role when {@link Tier} is `split` or `distributed`. */
 export type WorkerRole = "monolith" | "gateway" | "rest";
 
-/** Deployment mode — see [docs/TIER_SPLIT.md](../../../docs/TIER_SPLIT.md). */
+/** Deployment mode — see docs/deployment/tier-split.md. */
 export type Tier = "monolith" | "split" | "distributed";
 
 export type RestMethod = "GET" | "POST" | "PATCH" | "PUT" | "DELETE";

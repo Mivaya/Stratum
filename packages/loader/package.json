@@ -39,6 +39,9 @@
   "peerDependencies": {
     "@stratum/core": "workspace:*"
   },
+  "dependencies": {
+    "@stratum/runtime": "workspace:*"
+  },
   "devDependencies": {
     "@stratum/core": "workspace:*",
     "@types/node": "^22.13.4",

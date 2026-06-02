@@ -1,0 +1,53 @@
+{
+  "name": "@stratum/rest",
+  "version": "0.0.1",
+  "description": "Native Discord REST client, rate-limit queue, REST worker, and slash command deploy",
+  "author": "Interittus13 <arpit.gupta.0121@gmail.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/Interittus13/Stratum/tree/main/packages/rest#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Interittus13/Stratum.git",
+    "directory": "packages/rest"
+  },
+  "bugs": {
+    "url": "https://github.com/Interittus13/Stratum/issues"
+  },
+  "keywords": [
+    "discord",
+    "discord-bot",
+    "stratum",
+    "rest",
+    "rate-limit"
+  ],
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "peerDependencies": {
+    "@stratum/core": "workspace:*",
+    "@stratum/transport": "workspace:*"
+  },
+  "devDependencies": {
+    "@stratum/core": "workspace:*",
+    "@stratum/transport": "workspace:*",
+    "@types/node": "^22.13.4",
+    "tsup": "^8.3.6",
+    "typescript": "^5.7.3",
+    "vitest": "^3.0.5"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

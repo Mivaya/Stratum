@@ -1,0 +1,57 @@
+name: Feature request
+description: Propose an enhancement for Stratum
+title: "[feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        For large features (new package, breaking API, new transport), please describe the problem before opening a PR.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or use case
+      description: What are you trying to build? Why do existing pieces (Command, Vault, Sequence, tier split, etc.) not cover it?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: API sketch, package placement (core vs bridge vs optional), and how it stays transport-agnostic if applicable.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Core pipeline / registries
+        - discord.js bridge
+        - Discordeno bridge
+        - Vault / persistence
+        - Loader / pieces
+        - Sequences / Signals
+        - Chron / tasks
+        - Tier split / RestPort
+        - Metrics / observability
+        - Docs / examples
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Workarounds, Sapphire/Klasa patterns, or plugin-only approaches.
+
+  - type: checkboxes
+    id: willing
+    attributes:
+      label: Contribution
+      options:
+        - label: I am willing to open a PR for this (after discussion if needed)

@@ -21,6 +21,23 @@ export type {
   SequenceSession,
 } from "./sequence/types.js";
 export type { StratumClientOptions, CreateStratumBotOptions, StratumRegistries } from "./client/types.js";
+export type { StratumLogger, StratumContainerLike } from "./container/types.js";
+export { ConsoleLogger } from "./container/ConsoleLogger.js";
+export { DefaultStratumContainer } from "./container/DefaultStratumContainer.js";
+export type { PluginHookName, PluginLifecycle } from "./plugins/types.js";
+export type {
+  DesiredProperties,
+  DesiredContextFields,
+  DesiredMetaFields,
+  ResolvedDesiredProperties,
+} from "./desired/DesiredProperties.js";
+export {
+  defaultDesiredProperties,
+  minimalDesiredProperties,
+  gatesDesiredProperties,
+  resolveDesiredProperties,
+} from "./desired/DesiredProperties.js";
+export { slimCommandContext, slimMeta } from "./desired/slimContext.js";
 
 // Bridge
 export type { Bridge, BridgeOptions, Tier, BridgeEventHandler } from "./bridge/types.js";
@@ -87,6 +104,22 @@ export type {
   DirectiveContext,
   DirectiveKind,
 } from "./context/types.js";
+export type { ChannelType, CommandContextMeta } from "./context/meta.js";
+export { isGuildChannelType } from "./context/meta.js";
+export type { SlashOption, ParsedSlashOptionType, ArgsText } from "./context/args.js";
+export type { AutocompleteContext, AutocompleteChoice } from "./context/autocomplete.js";
+export type {
+  SlashOptionDefinition,
+  SlashChoiceDefinition,
+  SubcommandDefinition,
+  SubcommandGroupDefinition,
+  ApplicationCommandJSON,
+  ApplicationCommandOptionJSON,
+  CommandSlashPath,
+} from "./command/slashTypes.js";
+export { SlashOptionType } from "./command/slashTypes.js";
+export { buildApplicationCommands, diffApplicationCommands } from "./command/buildSlashPayload.js";
+export { CommandIndex } from "./command/CommandIndex.js";
 
 // Outcome
 export {

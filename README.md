@@ -1,42 +1,88 @@
 # Stratum
 
-**A transport-agnostic Discord bot framework for Node.js and TypeScript**
+**Native Discord bot framework for Node.js and TypeScript**
 
 [![GitHub](https://img.shields.io/github/license/Interittus13/Stratum)](https://github.com/Interittus13/Stratum/blob/main/LICENSE)
 [![Node](https://img.shields.io/node/v/@stratum/core?color=339933&logo=node.js)](https://nodejs.org)
 
-Stratum separates **bot logic** from **Discord transport**. Write commands, hooks, gates, and vault schemas once; run them through **discord.js**, **Discordeno**, or a mock bridge for tests. Folder layout matches [Sapphire](https://sapphirejs.dev/) and [Klasa](https://github.com/dirigeants/klasa) so existing bots migrate without renaming everything.
+Stratum is a **transport-agnostic** bot framework with a first-class **native stack** — your command pipeline, vault, and workers do not depend on discord.js or Discordeno. Folder layout follows [Sapphire](https://sapphirejs.dev/) conventions so teams migrating off Sapphire keep familiar `commands/`, `listeners/`, and `preconditions/` → `gates/` paths.
+
+Connect via `@stratum/rest`, `@stratum/gateway`, and `@stratum/transform`. See [docs/migration/](docs/migration/) and `examples/bot`.
 
 ---
 
-## Why Stratum?
+## Features
 
-Most Discord frameworks pick one library and bake it in. Sapphire and Klasa are excellent on **discord.js**, but your command pipeline, settings layer, and deployment topology are tied to that stack. Discordeno gives you performance and sharding primitives, but you still build structure yourself.
+### Command pipeline
 
-Stratum sits in the middle:
+Piece-based architecture inspired by Sapphire — commands, hooks, middleware, and post-run epilogues in a predictable pipeline.
 
-- **Core first** — routing, pipeline, registries, sequences, and scheduled tasks live in `@stratum/core`, independent of any Discord library.
-- **Bridges second** — thin adapters translate gateway events and REST calls into Stratum contexts. Swap or add transports without rewriting business logic.
-- **Production shapes built in** — tier-split gateway/REST workers, schema-driven **Vault** persistence, **Chron** cron tasks, and Prometheus **metrics** are first-class, not bolt-on plugins.
-- **No CLI required** — bootstrap programmatically; your repo layout stays yours.
+- **Commands** — slash, prefix, and context menu in one `Command` class
+- **Hooks** — gateway event listeners (`src/listeners/`)
+- **Scouts** — passive message watchers (`src/scouts/`)
+- **Barriers** — global command blockers (`src/barriers/`)
+- **Gates** — per-command checks, Sapphire precondition equivalent (`src/gates/`)
+- **Conduits** — middleware before gates (`src/conduits/`)
+- **Epilogues** — post-command hooks (`src/epilogues/`)
+- **Signals** — buttons, selects, modals via `stratum:` custom ids
+- **Chron** — cron scheduled tasks (`src/tasks/`)
 
-If you want Sapphire’s piece model and Klasa’s monitors/inhibitors, but need Discordeno, split processes, or testable core logic, Stratum is aimed at you.
+Auto-load pieces from disk with `@stratum/loader`.
+
+### Arguments (`@stratum/args`)
+
+Typed prefix lexer and slash option parsing — Sapphire `ArgumentStore` equivalent without coupling to discord.js.
+
+### Gates (`@stratum/gates`)
+
+Built-in preconditions: cooldown, permissions, NSFW, RunIn, guild/DM-only. Attach to commands or register globally.
+
+### Vault (`@stratum/vault`)
+
+Schema-first guild, user, and channel settings — Blueprint + Ledger with optional SQLite/PostgreSQL drivers.
+
+### Sequences
+
+Multi-step flows with `sequence()` and `stratum:seq:` custom ids — wizards and confirmations without manual state machines.
+
+### Native REST (`@stratum/rest`)
+
+Discordeno-inspired centralized REST queue, rate-limit buckets, and split-tier REST worker. No discord.js in the REST process.
+
+### Gateway & sharding (`@stratum/gateway`)
+
+Shard manager, identify/resume payloads, identify budget, resharding policy, gateway↔bot worker bus, and `GatewayEventHub` for native WebSocket workers.
+
+### Tier split
+
+Run gateway, REST, and bot logic in separate processes — see [docs/deployment/tier-split.md](docs/deployment/tier-split.md) and `examples/bot` (`pnpm split:*`).
+
+### Desired properties (`@stratum/transform`)
+
+Slim command contexts and REST payloads — Discordeno-style memory control for large bots.
+
+### Metrics (`@stratum/metrics`)
+
+Prometheus counters and histograms with optional `/metrics` HTTP server.
+
+### Cross-runtime (`@stratum/runtime`)
+
+Shared abstractions for Node.js, Bun, and Deno (env, fs, paths, timers).
 
 ---
 
-## How is this different?
+## How Stratum compares
 
-| | [Sapphire](https://sapphirejs.dev/) | [Klasa](https://github.com/dirigeants/klasa) | [Discordeno](https://discordeno.deno.dev/) | **Stratum** |
-|---|:---:|:---:|:---:|:---:|
-| Primary transport | discord.js | discord.js | Low-level bot API | **Pluggable bridges** |
-| Command / listener model | Built-in stores | Built-in stores | Bring your own | **Same folder names** as Sapphire/Klasa |
-| Multi-step UI flows | Plugins / manual | Manual | Manual | **Sequences** (`stratum:seq:…`) |
-| Guild / user settings | Plugins | Providers | DIY | **Vault** (Blueprint + Ledger) |
-| Gateway + REST split | Manual | Manual | Supported natively | **`RestPort` + tier split** |
-| Observability | Community plugins | Community plugins | DIY | **`@stratum/metrics`** |
-| Entry point | CLI + client subclass | CLI + client subclass | `createBot()` | **`createStratumBot()`** |
-
-Stratum is **not** a replacement for discord.js or Discordeno — it orchestrates them. You still install the transport you prefer; Stratum wires events into a shared pipeline.
+| | [Sapphire](https://sapphirejs.dev/) | [Discordeno](https://discordeno.deno.dev/) | **Stratum** |
+|---|:---:|:---:|:---:|
+| Discord coupling | discord.js required | Low-level API | **Native transport** — no library bridge layer |
+| Piece / command model | Built-in | Bring your own | **Sapphire-style folders** |
+| Preconditions | `@sapphire/*` plugins | DIY | **`@stratum/gates`** |
+| Settings | Plugins / manual | DIY | **Vault** |
+| Gateway + REST split | Manual | Native | **`RestPort` + tier split** |
+| Sharding / resharding | Manual | Built-in | **`@stratum/gateway`** |
+| Multi-step UI | Plugins | DIY | **Sequences** |
+| Observability | Community | DIY | **`@stratum/metrics`** |
 
 ---
 
@@ -45,96 +91,48 @@ Stratum is **not** a replacement for discord.js or Discordeno — it orchestrate
 ```mermaid
 flowchart TB
     subgraph Discord["Discord"]
-        GW["Gateway (WebSocket)"]
+        GW["Gateway WebSocket"]
         API["REST API"]
     end
 
-    subgraph Bridges["Transport bridges"]
-        DJS["@stratum/bridge-discordjs"]
-        DENO["@stratum/bridge-discordeno"]
-        MOCK["MockBridge (tests)"]
+    subgraph Native["Native transport"]
+        GWH["GatewayEventHub"]
+        REST["@stratum/rest"]
+        TR["@stratum/transform"]
     end
 
-    subgraph Core["@stratum/core — StratumClient"]
+    subgraph Core["@stratum/core"]
         IR["InboundRouter"]
-        SR["SignalRouter"]
-        SQ["SequenceStore"]
-        CR["ChronScheduler"]
+        PL["Pipeline"]
     end
 
-    subgraph Pipeline["Execution pipeline"]
-        direction LR
-        CD["Conduits"]
-        BR["Barriers"]
-        GT["Gates"]
-        CMD["Commands"]
-        EP["Epilogues"]
-        CD --> BR --> GT --> CMD --> EP
-    end
-
-    subgraph Optional["Optional packages"]
-        LD["@stratum/loader"]
-        VT["@stratum/vault"]
-        SQL["@stratum/vault-sql"]
-        MT["@stratum/metrics"]
-        RP["RestPort (tier split)"]
-    end
-
-    GW --> DJS & DENO
-    API <-->|"split tier"| RP
-    DJS & DENO & MOCK --> IR & SR & SQ
-    IR & SR & SQ --> CD
-    CR --> IR
-    LD -.->|"auto-load pieces"| Core
-    VT & SQL -.-> Core
-    MT -.-> Core
-    RP -.-> DJS & DENO
+    GW --> GWH
+    API <--> REST
+    GWH --> TR --> IR --> PL
+    REST --> PL
 ```
 
-**Inbound flow:** a bridge receives a Discord event → routers build a typed context → **Conduits** (middleware) → **Barriers** (global blockers) → **Gates** (per-command checks) → **Command** → **Epilogues** (post-run hooks).
+**Inbound:** your shard worker normalizes gateway payloads → `GatewayEventHub.emit` → `attachStratumClient` → pipeline.
 
-**Tier split:** a gateway worker handles events only; outbound REST goes through `HttpRestPort` to a dedicated REST worker (`POST /v1/rest`). See [docs/TIER_SPLIT.md](docs/TIER_SPLIT.md).
-
----
-
-## Features
-
-- Written in TypeScript with strict, transport-agnostic types
-- **Commands**, **Hooks**, **Scouts**, **Barriers**, **Gates**, **Epilogues**, **Conduits**, **Signals**, **Chron**
-- Auto-loader for Sapphire/Klasa-style folders (`@stratum/loader`)
-- **Sequences** for guided multi-step interactions
-- **Vault** — schema-first guild/user persistence with SQLite and PostgreSQL drivers
-- **Metrics** — Prometheus counters and histograms with optional `/metrics` server
-- **discord.js** and **Discordeno** bridges; mock bridge for unit tests
-- Programmatic bootstrap — no framework CLI
+**Outbound:** commands reply through `RestPort` (in-process `createNativeRestPort` or split-tier `HttpRestPort`).
 
 ---
 
 ## Installation
 
-Stratum is a monorepo. Published packages are scoped under `@stratum/*`. Install the core plus the bridge you use:
-
-**discord.js**
-
 ```sh
-pnpm add @stratum/core @stratum/bridge-discordjs @stratum/loader discord.js
+pnpm add @stratum/core @stratum/rest @stratum/gateway @stratum/transform @stratum/loader
 ```
 
-**Discordeno**
+Optional: `@stratum/vault`, `@stratum/vault-sql`, `@stratum/gates`, `@stratum/args`, `@stratum/metrics`, `@stratum/cache`.
 
-```sh
-pnpm add @stratum/core @stratum/bridge-discordeno @stratum/loader @discordeno/bot
-```
-
-Optional: `@stratum/vault`, `@stratum/vault-sql`, `@stratum/metrics`.
-
-Requires **Node.js 20+** (22.5+ for `@stratum/vault-sql` SQLite).
+Requires **Node.js 20+**.
 
 ---
 
-## Quick start
+## Quick start (native stack)
 
-### 1. Create a command
+### 1. Command
 
 ```ts
 // src/commands/General/PingCommand.ts
@@ -145,7 +143,7 @@ export class PingCommand extends Command {
     super(registry, {
       name: "ping",
       description: "Replies with Pong!",
-      kinds: ["slash", "prefix"],
+      kinds: ["prefix"],
     });
   }
 
@@ -156,118 +154,63 @@ export class PingCommand extends Command {
 }
 ```
 
-### 2. Create a listener (Hook)
-
-```ts
-// src/listeners/ReadyListener.ts
-import { Hook, type Registry } from "@stratum/core";
-
-export class ReadyListener extends Hook {
-  constructor(registry: Registry<Hook>) {
-    super(registry, { name: "ready", event: "ready", once: true });
-  }
-
-  handle(): void {
-    console.log("Bot is ready.");
-  }
-}
-```
-
-### 3. Bootstrap the bot
+### 2. Bootstrap
 
 ```ts
 // src/main.ts
 import { createStratumBot } from "@stratum/core";
-import { createDiscordJsBridge } from "@stratum/bridge-discordjs";
+import { attachStratumClient, createGatewayEventHub } from "@stratum/gateway";
 import { loadPieces } from "@stratum/loader";
-import { GatewayIntentBits } from "discord.js";
+import { createNativeRestPort } from "@stratum/rest";
 
 const token = process.env.DISCORD_TOKEN!;
-const client = createStratumBot({ prefix: "!" });
-
-await loadPieces(client, { context: { client } });
-
-const bridge = createDiscordJsBridge(
-  {
-    token,
-    intents: [
-      GatewayIntentBits.Guilds,
-      GatewayIntentBits.GuildMessages,
-      GatewayIntentBits.MessageContent,
-    ],
-  },
-  client,
-);
-
-client.setBridge(bridge);
-
-client.on("ready", () => {
-  console.log(`Online as ${client.botUserId}`);
+const client = createStratumBot({
+  prefix: "!",
+  restPort: createNativeRestPort(token),
 });
 
-await client.start();
-```
+await loadPieces(client);
 
-Deploy slash commands with `@stratum/bridge-discordjs` (`deploySlashCommands`) — see [examples/discord-bot](examples/discord-bot).
+const hub = createGatewayEventHub();
+attachStratumClient(hub, client);
+client.setBridge(hub);
 
-### Minimal test (no Discord)
-
-```ts
-import { createStratumBot, MockBridge, type CommandContext } from "@stratum/core";
-import { PingCommand } from "./commands/General/PingCommand.js";
-
-const client = createStratumBot({ bridge: new MockBridge(), prefix: "!" });
-client.register(new PingCommand(client.registries.commands));
+hub.markReady({ user: { id: "YOUR_BOT_USER_ID" } });
 await client.start();
 
-await client.invoke("ping", {
-  kind: "slash",
-  commandName: "ping",
-  userId: "u1",
-  guildId: "g1",
-  channelId: "c1",
-  raw: {},
-  reply: async (text) => console.log(text),
-  replyEphemeral: async (text) => console.log(text),
-});
-
-await client.stop();
+// Your WebSocket shard worker feeds events, e.g.:
+// hub.emit("messageCreate", { id, content, channelId, guildId, author: { id, bot: false } });
 ```
 
-See [examples/minimal](examples/minimal) for a runnable version.
+### 3. Tier split (production)
+
+```bash
+cd examples/bot
+pnpm rest    # REST worker
+pnpm bot     # bot worker
+pnpm gateway # gateway relay (native hub)
+```
 
 ---
 
-## Project layout
-
-Stratum uses the same folders as Sapphire and Klasa:
+## Project layout (Sapphire-aligned)
 
 ```text
 src/
   commands/       # slash, prefix, context menu
-  listeners/      # gateway events (Sapphire listeners / Klasa events)
-  scouts/         # passive message watchers (Klasa monitors)
-  barriers/       # global command blockers (Klasa inhibitors)
-  gates/          # per-command checks (Sapphire preconditions)
-  epilogues/      # post-command hooks (Klasa finalizers)
-  conduits/       # middleware before barriers/gates
-  signals/        # buttons, selects, modals
-  tasks/          # scheduled Chron jobs
+  listeners/      # Hook pieces (Sapphire listeners)
+  gates/          # Gate pieces (Sapphire preconditions)
+  scouts/         # passive watchers
+  barriers/       # global blockers
+  epilogues/      # post-command hooks
+  conduits/       # middleware
+  signals/        # buttons, modals, selects
+  tasks/          # Chron cron jobs
   schemas/        # Vault blueprints
   main.ts
 ```
 
-| Folder | Sapphire | Klasa | Stratum class |
-|--------|----------|-------|---------------|
-| `commands/` | commands | commands | `Command` |
-| `listeners/` | listeners | events | `Hook` |
-| `scouts/` | — | monitors | `Scout` |
-| `barriers/` | — | inhibitors | `Barrier` |
-| `gates/` | preconditions | — | `Gate` |
-| `epilogues/` | — | finalizers | `Epilogue` |
-| `tasks/` | — | tasks | `Chron` |
-
-Full guide: [docs/PROJECT_STRUCTURE.md](docs/PROJECT_STRUCTURE.md).
+Full mapping: [docs/guide/project-structure.md](docs/guide/project-structure.md).
 
 ---
 
@@ -275,46 +218,45 @@ Full guide: [docs/PROJECT_STRUCTURE.md](docs/PROJECT_STRUCTURE.md).
 
 | Package | Description |
 |---------|-------------|
-| [`@stratum/core`](packages/core) | Client, registries, pipeline, signals, sequences, chron |
-| [`@stratum/bridge-discordjs`](packages/bridge-discordjs) | discord.js bridge + slash deploy |
-| [`@stratum/bridge-discordeno`](packages/bridge-discordeno) | Discordeno v21 bridge |
-| [`@stratum/loader`](packages/loader) | Auto-load pieces from `src/commands/`, etc. |
-| [`@stratum/vault`](packages/vault) | Ledger / Blueprint / Record persistence |
-| [`@stratum/vault-sql`](packages/vault-sql) | SQLite + PostgreSQL drivers |
-| [`@stratum/metrics`](packages/metrics) | Prometheus metrics + `/metrics` HTTP server |
+| [`@stratum/core`](packages/core) | Client, pipeline, registries, sequences, chron |
+| [`@stratum/rest`](packages/rest) | **Native REST** client + worker |
+| [`@stratum/gateway`](packages/gateway) | **Native gateway** hub, sharding, worker bus |
+| [`@stratum/transform`](packages/transform) | Payload normalization + REST contexts |
+| [`@stratum/loader`](packages/loader) | Auto-load Sapphire-style folders |
+| [`@stratum/gates`](packages/gates) | Built-in gates (Sapphire preconditions) |
+| [`@stratum/args`](packages/args) | Argument parsing |
+| [`@stratum/vault`](packages/vault) | Settings persistence |
+| [`@stratum/metrics`](packages/metrics) | Prometheus metrics |
+| [`@stratum/cache`](packages/cache) | Pluggable cache |
+| [`@stratum/runtime`](packages/runtime) | Node / Bun / Deno helpers |
 
 ---
 
 ## Examples
 
-| Example | Description |
-|---------|-------------|
-| [`examples/minimal`](examples/minimal) | Mock bridge + manual command registration |
-| [`examples/discord-bot`](examples/discord-bot) | Full bot: loader, SQLite vault, signals, metrics |
-| [`examples/discordeno-bot`](examples/discordeno-bot) | Discordeno transport + loader |
-| [`examples/tier-split`](examples/tier-split) | Split gateway + REST worker processes |
+| Example | Stack |
+|---------|--------|
+| [`examples/bot`](examples/bot) | Full Sapphire-style layout — commands, gates, vault, signals, … |
+| [`examples/minimal`](examples/minimal) | MockBridge + unit-style invoke |
 
-```bash
-cd examples/discord-bot
-cp .env.example .env   # set DISCORD_TOKEN
-pnpm install
-pnpm start
-```
+See [`examples/README.md`](examples/README.md) for run instructions.
 
 ---
 
 ## Documentation
 
-| Guide | Topic |
-|-------|-------|
-| [docs/PROJECT_STRUCTURE.md](docs/PROJECT_STRUCTURE.md) | Folders and piece naming |
-| [docs/VAULT.md](docs/VAULT.md) | Guild settings with Blueprints |
-| [docs/SEQUENCES.md](docs/SEQUENCES.md) | Multi-step UI flows |
-| [docs/CHRON.md](docs/CHRON.md) | Scheduled tasks |
-| [docs/TIER_SPLIT.md](docs/TIER_SPLIT.md) | Gateway / REST workers |
-| [docs/BRIDGE_DISCORDENO.md](docs/BRIDGE_DISCORDENO.md) | Discordeno bridge |
-| [docs/METRICS.md](docs/METRICS.md) | Prometheus observability |
-| [docs/PHASES.md](docs/PHASES.md) | Roadmap and phase history |
+**Community site:** run `pnpm docs:dev` and open the VitePress preview, or read markdown under [`docs/`](docs/).
+
+Deploy to GitHub Pages: see [Hosting the docs](docs/guide/hosting-the-docs.md).
+
+| Section | Topic |
+|---------|-------|
+| [Getting started](docs/guide/getting-started.md) | Install and first bot |
+| [Features](docs/features/gates.md) | Gates, vault, sequences, … |
+| [Deployment](docs/deployment/overview.md) | Tier split, gateway, metrics |
+| [Migration](docs/migration/) | From Sapphire or Discordeno |
+
+Contributor planning docs: [`docs/internal/`](docs/internal/).
 
 ---
 
@@ -328,12 +270,10 @@ pnpm build
 pnpm test
 ```
 
-Branch naming: `feature/{short-description}` (e.g. `feature/sequences`).
-
-Report issues on [GitHub Issues](https://github.com/Interittus13/Stratum/issues).
+Branch naming: `feature/{short-description}`.
 
 ---
 
 ## Status
 
-Early development (`0.0.1`). Core pipeline, both bridges, loader, vault, sequences, chron, tier split, and metrics are implemented. API may change before `1.0.0`.
+Early development (`0.0.1`). Native transport stack is the default; bridge packages are deprecated. API may change before `1.0.0`.

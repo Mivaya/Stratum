@@ -1,4 +1,5 @@
 import type { CommandContext, ScoutContext } from "../context/types.js";
+import type { CommandSlashPath } from "../command/slashTypes.js";
 import type { Outcome } from "../outcome/Outcome.js";
 import type { StratumClient } from "./StratumClient.js";
 
@@ -26,7 +27,8 @@ export class InboundRouter {
     const [name, ...rest] = body.split(/\s+/);
     if (!name) return null;
 
-    return { name: name.toLowerCase(), args: rest.join(" ") };
+    const resolved = this.client.commandIndex.resolvePrefixName(name.toLowerCase());
+    return { name: resolved, args: rest.join(" ") };
   }
 
   async processPrefixCommand(ctx: CommandContext): Promise<Outcome<unknown, unknown> | null> {
@@ -37,6 +39,11 @@ export class InboundRouter {
   }
 
   async processSlashCommand(ctx: CommandContext): Promise<Outcome<unknown, unknown>> {
-    return this.client.invoke(ctx.commandName, ctx);
+    const path: CommandSlashPath = ctx.slashPath ?? { root: ctx.commandName };
+    const command = this.client.commandIndex.resolveSlash(path);
+    if (!command) {
+      return { ok: false, error: new Error(`Unknown slash command: ${path.root}`) };
+    }
+    return this.client.invoke(command.name, ctx);
   }
 }

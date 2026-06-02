@@ -1,13 +1,19 @@
 import { describe, expect, it } from "vitest";
 import { defineBlueprint, field, Vault } from "@stratum/vault";
-import { SQLiteDriver } from "./SQLiteDriver.js";
 
 const GuildBlueprint = defineBlueprint({
   prefix: field.string().default("!"),
 });
 
-describe("SQLiteDriver", () => {
+/** `node:sqlite` is built-in from Node 22.5+; package engines match that floor. */
+function supportsNodeSqlite(): boolean {
+  const [major, minor] = process.versions.node.split(".").map(Number);
+  return major > 22 || (major === 22 && minor >= 5);
+}
+
+describe.skipIf(!supportsNodeSqlite())("SQLiteDriver", () => {
   it("persists in-memory within one database", async () => {
+    const { SQLiteDriver } = await import("./SQLiteDriver.js");
     const driver = new SQLiteDriver({ path: ":memory:" });
     const vault = new Vault({ driver, debounceMs: 0 });
     vault.registerLedger("guild", { blueprint: GuildBlueprint });
@@ -25,6 +31,7 @@ describe("SQLiteDriver", () => {
   });
 
   it("survives reopen with file database", async () => {
+    const { SQLiteDriver } = await import("./SQLiteDriver.js");
     const path = `/tmp/stratum-vault-test-${Date.now()}.db`;
     const driver1 = new SQLiteDriver({ path });
     const vault1 = new Vault({ driver: driver1, debounceMs: 0 });

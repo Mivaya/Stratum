@@ -1,0 +1,39 @@
+# Security Policy
+
+## Supported versions
+
+| Version | Supported |
+| ------- | --------- |
+| 0.1.x   | Yes       |
+| < 0.1   | No        |
+
+## Reporting a vulnerability
+
+**Do not open a public GitHub issue** for security vulnerabilities.
+
+Use one of these channels:
+
+1. **[GitHub private vulnerability reporting](https://github.com/Interittus13/Stratum/security/advisories/new)** (preferred)
+2. Email **arpit.gupta.0121@gmail.com** with subject `Stratum Security`
+
+Include:
+
+- Description of the issue and potential impact
+- Steps to reproduce (proof-of-concept if available)
+- Affected package/version (`@stratum/core`, `@stratum/rest`, etc.)
+
+## Response timeline
+
+| Stage | Target |
+| ----- | ------ |
+| Initial acknowledgment | 7 days |
+| Status update | 14 days |
+| Fix or mitigation plan | 30 days (severity-dependent) |
+
+## Disclosure
+
+We coordinate disclosure with reporters. Credit is given in the release notes unless you prefer to remain anonymous.
+
+## Safe harbor
+
+Good-faith security research on this repository is welcome. Do not access other users' data, disrupt services, or violate applicable law.

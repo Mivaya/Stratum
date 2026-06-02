@@ -1,0 +1,13 @@
+# Default owner for the repository.
+* @Interittus13
+
+# Native transport & core (high-impact changes)
+/packages/core/ @Interittus13
+/packages/rest/ @Interittus13
+/packages/gateway/ @Interittus13
+/packages/transport/ @Interittus13
+/packages/transform/ @Interittus13
+
+# Security-sensitive config
+/.github/workflows/ @Interittus13
+/SECURITY.md @Interittus13

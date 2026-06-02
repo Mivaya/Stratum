@@ -7,6 +7,9 @@ export default defineConfig({
   cleanUrls: true,
   lastUpdated: true,
 
+  /** Contributor-only planning docs — not published to GitHub Pages. */
+  srcExclude: ["internal/**"],
+
   themeConfig: {
     logo: "/logo.svg",
     nav: [

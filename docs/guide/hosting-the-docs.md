@@ -96,4 +96,4 @@ Move markdown from `/docs/guide`, `/docs/features`, etc. into `website/docs/`. S
 
 ## Internal docs
 
-Contributor-only material (roadmap, phases, ADRs) lives in `/docs/internal` and is **excluded from the public sidebar**. Edit those files for planning; keep user guides in `/guide`, `/features`, and `/deployment`.
+Contributor-only material (roadmap, phases, ADRs) lives in `/docs/internal`. It is **excluded from the public site build** (`srcExclude` in `.vitepress/config.ts`) and from the sidebar. Keep secrets and private URLs out of all docs folders.

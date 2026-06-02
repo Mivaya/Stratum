@@ -28,7 +28,7 @@ You do **not** need to rename folders for most Sapphire projects.
 | `@sapphire/utilities` Result | `ok()` / `err()` from `@stratum/core` | Pipeline outcomes |
 | `@sapphire/decorators` | Class-based pieces (same pattern) | No decorator required |
 | `@sapphire/plugin-subcommands` | Built-in command tree | See [Command tree](/features/command-tree) |
-| `@sapphire/plugin-api` | Bring your own HTTP | Not bundled |
+| `@sapphire/plugin-api` | `@stratum/dashboard` (plugins repo) or BYO HTTP | [ADR 003](/internal/adr/003-plugins-monorepo) — not `@stratum/plugin-api` |
 | `@sapphire/plugin-hmr` | Not bundled | Use your bundler |
 
 Folder aliases in `PiecePaths`: `preconditions` → `src/gates`.

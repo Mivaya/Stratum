@@ -121,6 +121,23 @@ resolveInteractionTarget(client, { kind: "signal", customId: "stratum:confirm:ab
 
 ---
 
+## Official extensions (separate repo)
+
+**`@stratum/plugins` is the host** — hooks and DI only. Optional add-ons (dashboard HTTP, i18n, cron, etc.) live in a **separate monorepo**, same idea as [sapphiredev/plugins](https://github.com/sapphiredev/plugins):
+
+- Planned org/repo: **`stratumdev/plugins`**
+- Package names describe **capability**, not Sapphire’s `plugin-*` pattern
+
+| Extension | Package |
+|-----------|---------|
+| Dashboard / OAuth / Vault HTTP | `@stratum/dashboard` |
+| Translations | `@stratum/i18n` |
+| Scheduled tasks | `@stratum/cron` |
+
+Install from npm, register with `attachPlugins()` like any local plugin. See [ADR 003](/internal/adr/003-plugins-monorepo) (internal).
+
+---
+
 ## Related
 
 - [ROADMAP.md](./ROADMAP.md) — Phase 14

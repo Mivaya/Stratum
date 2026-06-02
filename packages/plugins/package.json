@@ -1,7 +1,7 @@
 {
   "name": "@stratum/plugins",
   "version": "0.0.1",
-  "description": "Stratum plugin lifecycle hooks and container (Sapphire @sapphire/plugin-* parity)",
+  "description": "Stratum plugin lifecycle hooks and container (definePlugin, StratumContainer)",
   "author": "Interittus13 <arpit.gupta.0121@gmail.com>",
   "license": "MIT",
   "homepage": "https://github.com/Interittus13/Stratum/tree/main/packages/plugins#readme",

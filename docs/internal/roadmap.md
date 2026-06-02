@@ -165,7 +165,7 @@ Phases 1–10 are complete — see [PHASES.md](./PHASES.md#completed).
 | `@stratum/plugins` | `preInit`, `postInit`, `preStart`, `postStart`, `postLoad` hooks |
 | `StratumContainer` | Logger, config, shared services (extends `DefaultStratumContainer`) |
 | Interaction handler unification | `resolveInteractionTarget` facade (Signal + autocomplete) |
-| Official plugins list | e.g. `@stratum/plugin-api`, `@stratum/plugin-i18n` (later) |
+| Official extensions | Separate repo **`stratumdev/plugins`** — e.g. `@stratum/dashboard`, `@stratum/i18n` ([ADR 003](./adr/003-plugins-monorepo.md); no `@stratum/plugin-*` names) |
 
 **Branch:** `feature/plugins` · **Docs:** [PLUGINS.md](./PLUGINS.md)
 

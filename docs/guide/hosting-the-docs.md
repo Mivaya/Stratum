@@ -50,16 +50,15 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
       - run: pnpm install --frozen-lockfile
-        working-directory: docs
-      - run: pnpm build
-        working-directory: docs
+      - run: pnpm --filter @stratum/docs build
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

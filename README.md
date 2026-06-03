@@ -1,13 +1,13 @@
-# Stratum
+# Stambha
 
 **Native Discord bot framework for Node.js and TypeScript**
 
-[![GitHub](https://img.shields.io/github/license/mivaya/Stratum)](https://github.com/mivaya/Stratum/blob/main/LICENSE)
-[![Node](https://img.shields.io/node/v/@stratum/core?color=339933&logo=node.js)](https://nodejs.org)
+[![GitHub](https://img.shields.io/github/license/mivaya/Stambha)](https://github.com/mivaya/Stambha/blob/main/LICENSE)
+[![Node](https://img.shields.io/node/v/@stambha/core?color=339933&logo=node.js)](https://nodejs.org)
 
-Stratum is a **transport-agnostic** bot framework with a first-class **native stack** — your command pipeline, vault, and workers do not depend on discord.js or Discordeno. Folder layout follows [Sapphire](https://sapphirejs.dev/) conventions so teams migrating off Sapphire keep familiar `commands/`, `listeners/`, and `preconditions/` → `gates/` paths.
+Stambha is a **transport-agnostic** bot framework with a first-class **native stack** — your command pipeline, vault, and workers do not depend on discord.js or Discordeno. Folder layout follows [Sapphire](https://sapphirejs.dev/) conventions so teams migrating off Sapphire keep familiar `commands/`, `listeners/`, and `preconditions/` → `gates/` paths.
 
-Connect via `@stratum/rest`, `@stratum/gateway`, and `@stratum/transform`. See [docs/migration/](docs/migration/) and `examples/bot`.
+Connect via `@stambha/rest`, `@stambha/gateway`, and `@stambha/transform`. See [docs/migration/](docs/migration/) and `examples/bot`.
 
 ---
 
@@ -24,32 +24,32 @@ Piece-based architecture inspired by Sapphire — commands, hooks, middleware, a
 - **Gates** — per-command checks, Sapphire precondition equivalent (`src/gates/`)
 - **Conduits** — middleware before gates (`src/conduits/`)
 - **Epilogues** — post-command hooks (`src/epilogues/`)
-- **Signals** — buttons, selects, modals via `stratum:` custom ids
+- **Signals** — buttons, selects, modals via `stambha:` custom ids
 - **Chron** — cron scheduled tasks (`src/tasks/`)
 
-Auto-load pieces from disk with `@stratum/loader`.
+Auto-load pieces from disk with `@stambha/loader`.
 
-### Arguments (`@stratum/args`)
+### Arguments (`@stambha/args`)
 
 Typed prefix lexer and slash option parsing — Sapphire `ArgumentStore` equivalent without coupling to discord.js.
 
-### Gates (`@stratum/gates`)
+### Gates (`@stambha/gates`)
 
 Built-in preconditions: cooldown, permissions, NSFW, RunIn, guild/DM-only. Attach to commands or register globally.
 
-### Vault (`@stratum/vault`)
+### Vault (`@stambha/vault`)
 
 Schema-first guild, user, and channel settings — Blueprint + Ledger with optional SQLite/PostgreSQL drivers.
 
 ### Sequences
 
-Multi-step flows with `sequence()` and `stratum:seq:` custom ids — wizards and confirmations without manual state machines.
+Multi-step flows with `sequence()` and `stambha:seq:` custom ids — wizards and confirmations without manual state machines.
 
-### Native REST (`@stratum/rest`)
+### Native REST (`@stambha/rest`)
 
 Discordeno-inspired centralized REST queue, rate-limit buckets, and split-tier REST worker. No discord.js in the REST process.
 
-### Gateway & sharding (`@stratum/gateway`)
+### Gateway & sharding (`@stambha/gateway`)
 
 Shard manager, identify/resume payloads, identify budget, resharding policy, gateway↔bot worker bus, and `GatewayEventHub` for native WebSocket workers.
 
@@ -57,32 +57,32 @@ Shard manager, identify/resume payloads, identify budget, resharding policy, gat
 
 Run gateway, REST, and bot logic in separate processes — see [docs/deployment/tier-split.md](docs/deployment/tier-split.md) and `examples/bot` (`pnpm split:*`).
 
-### Desired properties (`@stratum/transform`)
+### Desired properties (`@stambha/transform`)
 
 Slim command contexts and REST payloads — Discordeno-style memory control for large bots.
 
-### Metrics (`@stratum/metrics`)
+### Metrics (`@stambha/metrics`)
 
 Prometheus counters and histograms with optional `/metrics` HTTP server.
 
-### Cross-runtime (`@stratum/runtime`)
+### Cross-runtime (`@stambha/runtime`)
 
 Shared abstractions for Node.js, Bun, and Deno (env, fs, paths, timers).
 
 ---
 
-## How Stratum compares
+## How Stambha compares
 
-| | [Sapphire](https://sapphirejs.dev/) | [Discordeno](https://discordeno.deno.dev/) | **Stratum** |
+| | [Sapphire](https://sapphirejs.dev/) | [Discordeno](https://discordeno.deno.dev/) | **Stambha** |
 |---|:---:|:---:|:---:|
 | Discord coupling | discord.js required | Low-level API | **Native transport** — no library bridge layer |
 | Piece / command model | Built-in | Bring your own | **Sapphire-style folders** |
-| Preconditions | `@sapphire/*` plugins | DIY | **`@stratum/gates`** |
+| Preconditions | `@sapphire/*` plugins | DIY | **`@stambha/gates`** |
 | Settings | Plugins / manual | DIY | **Vault** |
 | Gateway + REST split | Manual | Native | **`RestPort` + tier split** |
-| Sharding / resharding | Manual | Built-in | **`@stratum/gateway`** |
+| Sharding / resharding | Manual | Built-in | **`@stambha/gateway`** |
 | Multi-step UI | Plugins | DIY | **Sequences** |
-| Observability | Community | DIY | **`@stratum/metrics`** |
+| Observability | Community | DIY | **`@stambha/metrics`** |
 
 ---
 
@@ -97,11 +97,11 @@ flowchart TB
 
     subgraph Native["Native transport"]
         GWH["GatewayEventHub"]
-        REST["@stratum/rest"]
-        TR["@stratum/transform"]
+        REST["@stambha/rest"]
+        TR["@stambha/transform"]
     end
 
-    subgraph Core["@stratum/core"]
+    subgraph Core["@stambha/core"]
         IR["InboundRouter"]
         PL["Pipeline"]
     end
@@ -112,7 +112,7 @@ flowchart TB
     REST --> PL
 ```
 
-**Inbound:** your shard worker normalizes gateway payloads → `GatewayEventHub.emit` → `attachStratumClient` → pipeline.
+**Inbound:** your shard worker normalizes gateway payloads → `GatewayEventHub.emit` → `attachStambhaClient` → pipeline.
 
 **Outbound:** commands reply through `RestPort` (in-process `createNativeRestPort` or split-tier `HttpRestPort`).
 
@@ -121,10 +121,10 @@ flowchart TB
 ## Installation
 
 ```sh
-pnpm add @stratum/core @stratum/rest @stratum/gateway @stratum/transform @stratum/loader
+pnpm add @stambha/core @stambha/rest @stambha/gateway @stambha/transform @stambha/loader
 ```
 
-Optional: `@stratum/vault`, `@stratum/vault-sql`, `@stratum/gates`, `@stratum/args`, `@stratum/metrics`, `@stratum/cache`.
+Optional: `@stambha/vault`, `@stambha/vault-sql`, `@stambha/gates`, `@stambha/args`, `@stambha/metrics`, `@stambha/cache`.
 
 Requires **Node.js 20+**.
 
@@ -136,7 +136,7 @@ Requires **Node.js 20+**.
 
 ```ts
 // src/commands/General/PingCommand.ts
-import { Command, ok, type CommandContext, type Registry } from "@stratum/core";
+import { Command, ok, type CommandContext, type Registry } from "@stambha/core";
 
 export class PingCommand extends Command {
   constructor(registry: Registry<Command>) {
@@ -158,13 +158,13 @@ export class PingCommand extends Command {
 
 ```ts
 // src/main.ts
-import { createStratumBot } from "@stratum/core";
-import { attachStratumClient, createGatewayEventHub } from "@stratum/gateway";
-import { loadPieces } from "@stratum/loader";
-import { createNativeRestPort } from "@stratum/rest";
+import { createStambhaBot } from "@stambha/core";
+import { attachStambhaClient, createGatewayEventHub } from "@stambha/gateway";
+import { loadPieces } from "@stambha/loader";
+import { createNativeRestPort } from "@stambha/rest";
 
 const token = process.env.DISCORD_TOKEN!;
-const client = createStratumBot({
+const client = createStambhaBot({
   prefix: "!",
   restPort: createNativeRestPort(token),
 });
@@ -172,7 +172,7 @@ const client = createStratumBot({
 await loadPieces(client);
 
 const hub = createGatewayEventHub();
-attachStratumClient(hub, client);
+attachStambhaClient(hub, client);
 client.setBridge(hub);
 
 hub.markReady({ user: { id: "YOUR_BOT_USER_ID" } });
@@ -218,17 +218,17 @@ Full mapping: [docs/guide/project-structure.md](docs/guide/project-structure.md)
 
 | Package | Description |
 |---------|-------------|
-| [`@stratum/core`](packages/core) | Client, pipeline, registries, sequences, chron |
-| [`@stratum/rest`](packages/rest) | **Native REST** client + worker |
-| [`@stratum/gateway`](packages/gateway) | **Native gateway** hub, sharding, worker bus |
-| [`@stratum/transform`](packages/transform) | Payload normalization + REST contexts |
-| [`@stratum/loader`](packages/loader) | Auto-load Sapphire-style folders |
-| [`@stratum/gates`](packages/gates) | Built-in gates (Sapphire preconditions) |
-| [`@stratum/args`](packages/args) | Argument parsing |
-| [`@stratum/vault`](packages/vault) | Settings persistence |
-| [`@stratum/metrics`](packages/metrics) | Prometheus metrics |
-| [`@stratum/cache`](packages/cache) | Pluggable cache |
-| [`@stratum/runtime`](packages/runtime) | Node / Bun / Deno helpers |
+| [`@stambha/core`](packages/core) | Client, pipeline, registries, sequences, chron |
+| [`@stambha/rest`](packages/rest) | **Native REST** client + worker |
+| [`@stambha/gateway`](packages/gateway) | **Native gateway** hub, sharding, worker bus |
+| [`@stambha/transform`](packages/transform) | Payload normalization + REST contexts |
+| [`@stambha/loader`](packages/loader) | Auto-load Sapphire-style folders |
+| [`@stambha/gates`](packages/gates) | Built-in gates (Sapphire preconditions) |
+| [`@stambha/args`](packages/args) | Argument parsing |
+| [`@stambha/vault`](packages/vault) | Settings persistence |
+| [`@stambha/metrics`](packages/metrics) | Prometheus metrics |
+| [`@stambha/cache`](packages/cache) | Pluggable cache |
+| [`@stambha/runtime`](packages/runtime) | Node / Bun / Deno helpers |
 
 ---
 
@@ -263,8 +263,8 @@ Contributor planning docs: [`docs/internal/`](docs/internal/).
 ## Development
 
 ```bash
-git clone git@github.com:mivaya/Stratum.git
-cd Stratum
+git clone git@github.com:mivaya/Stambha.git
+cd Stambha
 pnpm install
 pnpm build
 pnpm test

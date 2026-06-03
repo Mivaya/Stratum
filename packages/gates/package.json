@@ -1,22 +1,22 @@
 {
-  "name": "@stratum/gates",
+  "name": "@stambha/gates",
   "version": "0.1.0",
-  "description": "Built-in Stratum gates — cooldown, permissions, NSFW, and RunIn (Sapphire preconditions parity)",
+  "description": "Built-in Stambha gates — cooldown, permissions, NSFW, and RunIn (Sapphire preconditions parity)",
   "author": "Mivaya",
   "license": "MIT",
-  "homepage": "https://github.com/mivaya/Stratum/tree/main/packages/gates#readme",
+  "homepage": "https://github.com/mivaya/Stambha/tree/main/packages/gates#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mivaya/Stratum.git",
+    "url": "git+https://github.com/mivaya/Stambha.git",
     "directory": "packages/gates"
   },
   "bugs": {
-    "url": "https://github.com/mivaya/Stratum/issues"
+    "url": "https://github.com/mivaya/Stambha/issues"
   },
   "keywords": [
     "discord",
     "discord-bot",
-    "stratum",
+    "stambha",
     "gates",
     "preconditions",
     "sapphire"
@@ -37,10 +37,10 @@
     "test": "vitest run"
   },
   "peerDependencies": {
-    "@stratum/core": "workspace:*"
+    "@stambha/core": "workspace:*"
   },
   "devDependencies": {
-    "@stratum/core": "workspace:*",
+    "@stambha/core": "workspace:*",
     "@types/node": "^22.13.4",
     "tsup": "^8.3.6",
     "typescript": "^5.7.3",

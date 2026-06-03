@@ -9,7 +9,7 @@ export class MockBridge implements Bridge {
 
   async connect(): Promise<void> {
     this.connected = true;
-    queueMicrotask(() => this.emit("ready", { user: { id: "0", username: "stratum-bot" } }));
+    queueMicrotask(() => this.emit("ready", { user: { id: "0", username: "stambha-bot" } }));
   }
 
   async disconnect(): Promise<void> {

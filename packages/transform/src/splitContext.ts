@@ -1,7 +1,7 @@
-import type { CommandContext, ResolvedDesiredProperties, RestPort, ScoutContext } from "@stratum/core";
-import { slimCommandContext, slimMeta } from "@stratum/core";
+import type { CommandContext, ResolvedDesiredProperties, RestPort, ScoutContext } from "@stambha/core";
+import { slimCommandContext, slimMeta } from "@stambha/core";
 import { channelMessageBody, interactionReplyBody } from "./rest.js";
-import type { StratumMessage, StratumSlashInteraction } from "./shapes.js";
+import type { StambhaMessage, StambhaSlashInteraction } from "./shapes.js";
 
 export interface ContextBuildOptions {
   desired?: ResolvedDesiredProperties;
@@ -20,8 +20,8 @@ function finalize(ctx: CommandContext, desired?: ResolvedDesiredProperties): Com
 }
 
 /** Build scout context from a transport-agnostic message. */
-export function scoutContextFromStratumMessage(
-  message: StratumMessage,
+export function scoutContextFromStambhaMessage(
+  message: StambhaMessage,
   trigger: ScoutContext["trigger"],
 ): ScoutContext {
   return {
@@ -38,8 +38,8 @@ export function scoutContextFromStratumMessage(
 }
 
 /** Prefix command context — replies via {@link RestPort} (native / split tier). */
-export function commandContextFromStratumMessageViaRest(
-  message: StratumMessage,
+export function commandContextFromStambhaMessageViaRest(
+  message: StambhaMessage,
   commandName: string,
   restPort: RestPort,
   argsText = "",
@@ -84,8 +84,8 @@ export function commandContextFromStratumMessageViaRest(
 }
 
 /** Slash command context — replies via {@link RestPort}. */
-export function commandContextFromStratumSlashViaRest(
-  interaction: StratumSlashInteraction,
+export function commandContextFromStambhaSlashViaRest(
+  interaction: StambhaSlashInteraction,
   commandName: string,
   restPort: RestPort,
   options?: ContextBuildOptions,

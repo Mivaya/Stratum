@@ -1,6 +1,6 @@
 // Client
-export { StratumClient } from "./client/StratumClient.js";
-export { createStratumBot } from "./client/createStratumBot.js";
+export { StambhaClient } from "./client/StambhaClient.js";
+export { createStambhaBot } from "./client/createStambhaBot.js";
 export { InboundRouter } from "./client/InboundRouter.js";
 export { SignalRouter } from "./client/SignalRouter.js";
 export { SequenceStore } from "./sequence/SequenceStore.js";
@@ -20,10 +20,10 @@ export type {
   SequenceResult,
   SequenceSession,
 } from "./sequence/types.js";
-export type { StratumClientOptions, CreateStratumBotOptions, StratumRegistries } from "./client/types.js";
-export type { StratumLogger, StratumContainerLike } from "./container/types.js";
+export type { StambhaClientOptions, CreateStambhaBotOptions, StambhaRegistries } from "./client/types.js";
+export type { StambhaLogger, StambhaContainerLike } from "./container/types.js";
 export { ConsoleLogger } from "./container/ConsoleLogger.js";
-export { DefaultStratumContainer } from "./container/DefaultStratumContainer.js";
+export { DefaultStambhaContainer } from "./container/DefaultStambhaContainer.js";
 export type { PluginHookName, PluginLifecycle } from "./plugins/types.js";
 export type {
   DesiredProperties,
@@ -127,7 +127,7 @@ export {
   err,
   isOk,
   isErr,
-  StratumError,
+  StambhaError,
   type Outcome,
   type Ok,
   type Err,

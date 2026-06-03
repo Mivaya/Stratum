@@ -7,5 +7,5 @@ export default defineConfig({
   sourcemap: true,
   clean: true,
   target: "node22",
-  external: ["@stratum/vault", "pg"],
+  external: ["@stambha/vault", "pg"],
 });

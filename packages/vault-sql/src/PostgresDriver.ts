@@ -1,5 +1,5 @@
 import pg from "pg";
-import type { VaultDriver } from "@stratum/vault";
+import type { VaultDriver } from "@stambha/vault";
 import { VAULT_TABLE } from "./sql/schema.js";
 
 const { Pool } = pg;

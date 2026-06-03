@@ -1,4 +1,4 @@
-import { Hook, type Registry } from "@stratum/core";
+import { Hook, type Registry } from "@stambha/core";
 
 export class ReadyListener extends Hook {
   constructor(registry: Registry<Hook>) {

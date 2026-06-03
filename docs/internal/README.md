@@ -1,6 +1,6 @@
 # Contributor documentation
 
-Planning and architecture notes for Stratum maintainers. **Not linked in the public docs sidebar.**
+Planning and architecture notes for Stambha maintainers. **Not linked in the public docs sidebar.**
 
 | Document | Purpose |
 |----------|---------|

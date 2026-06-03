@@ -1,12 +1,12 @@
 import { describe, expect, it, vi } from "vitest";
-import { createStratumBot, MockBridge } from "@stratum/core";
-import { attachPlugins, ContainerToken, definePlugin, LoggerToken, StratumContainer } from "./index.js";
+import { createStambhaBot, MockBridge } from "@stambha/core";
+import { attachPlugins, ContainerToken, definePlugin, LoggerToken, StambhaContainer } from "./index.js";
 
-describe("@stratum/plugins", () => {
+describe("@stambha/plugins", () => {
   it("runs hooks in order", async () => {
     const order: string[] = [];
-    const container = new StratumContainer();
-    const client = createStratumBot({ container });
+    const container = new StambhaContainer();
+    const client = createStambhaBot({ container });
     const bridge = new MockBridge();
     client.setBridge(bridge);
 
@@ -39,8 +39,8 @@ describe("@stratum/plugins", () => {
   });
 
   it("registers container and logger on binder", async () => {
-    const container = new StratumContainer();
-    const client = createStratumBot({ container });
+    const container = new StambhaContainer();
+    const client = createStambhaBot({ container });
 
     await attachPlugins(client, { plugins: [] });
 
@@ -50,10 +50,10 @@ describe("@stratum/plugins", () => {
 
   it("logs via container logger in plugin hook", async () => {
     const info = vi.fn();
-    const container = new StratumContainer({
+    const container = new StambhaContainer({
       logger: { debug: vi.fn(), info, warn: vi.fn(), error: vi.fn() },
     });
-    const client = createStratumBot({ container });
+    const client = createStambhaBot({ container });
 
     await attachPlugins(client, {
       plugins: [

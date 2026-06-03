@@ -1,6 +1,6 @@
-import { Command, ok, type CommandContext, type Registry } from "@stratum/core";
-import type { LoaderContext } from "@stratum/loader";
-import type { Vault } from "@stratum/vault";
+import { Command, ok, type CommandContext, type Registry } from "@stambha/core";
+import type { LoaderContext } from "@stambha/loader";
+import type { Vault } from "@stambha/vault";
 
 export class ConfigCommand extends Command {
   static create(ctx: LoaderContext) {

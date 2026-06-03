@@ -1,4 +1,4 @@
-import { defineGate, type CommandContext, type GateLike } from "@stratum/core";
+import { defineGate, type CommandContext, type GateLike } from "@stambha/core";
 import { type CooldownStore, defaultCooldownStore } from "./cooldownStore.js";
 
 export type CooldownScope = "user" | "guild" | "global" | "userGuild";
@@ -19,7 +19,7 @@ export interface CooldownGateOptions {
 }
 
 function cooldownKey(ctx: CommandContext, scope: CooldownScope, perCommand: boolean): string {
-  const parts = ["stratum:cooldown"];
+  const parts = ["stambha:cooldown"];
   if (perCommand) parts.push(ctx.commandName);
 
   switch (scope) {

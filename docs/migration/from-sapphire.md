@@ -1,12 +1,12 @@
 # Migrating from Sapphire
 
-This guide helps [Sapphire](https://sapphirejs.dev/) bots move to Stratum while keeping familiar folder layout and concepts.
+This guide helps [Sapphire](https://sapphirejs.dev/) bots move to Stambha while keeping familiar folder layout and concepts.
 
 ## Why migrate
 
-Sapphire is excellent on **discord.js**. Stratum gives you the same piece model plus:
+Sapphire is excellent on **discord.js**. Stambha gives you the same piece model plus:
 
-- **Native transport** — no discord.js dependency; `@stratum/rest` + `@stratum/gateway`
+- **Native transport** — no discord.js dependency; `@stambha/rest` + `@stambha/gateway`
 - Tier-split gateway + REST workers
 - Vault (schema-driven guild/user settings)
 - Sequences, Chron, and built-in metrics
@@ -17,18 +17,18 @@ You do **not** need to rename folders for most Sapphire projects.
 
 ## Quick mapping
 
-| Sapphire | Stratum | Notes |
+| Sapphire | Stambha | Notes |
 |----------|---------|-------|
-| `SapphireClient` | `createStratumBot()` | No CLI required |
+| `SapphireClient` | `createStambhaBot()` | No CLI required |
 | `@sapphire/framework` stores | `client.registries.*` | Commands, listeners, etc. |
 | `commands/` | `src/commands/` | Same |
-| `listeners/` | `src/listeners/` | Stratum class: `Hook` |
-| `preconditions/` | `src/gates/` | Stratum class: `Gate` |
-| `@sapphire/plugin-logger` | `@stratum/plugins` | Container + lifecycle hooks |
-| `@sapphire/utilities` Result | `ok()` / `err()` from `@stratum/core` | Pipeline outcomes |
+| `listeners/` | `src/listeners/` | Stambha class: `Hook` |
+| `preconditions/` | `src/gates/` | Stambha class: `Gate` |
+| `@sapphire/plugin-logger` | `@stambha/plugins` | Container + lifecycle hooks |
+| `@sapphire/utilities` Result | `ok()` / `err()` from `@stambha/core` | Pipeline outcomes |
 | `@sapphire/decorators` | Class-based pieces (same pattern) | No decorator required |
 | `@sapphire/plugin-subcommands` | Built-in command tree | See [Command tree](/features/command-tree) |
-| `@sapphire/plugin-api` | `@stratum/dashboard` (plugins repo) or BYO HTTP | [ADR 003](/internal/adr/003-plugins-monorepo) — not `@stratum/plugin-api` |
+| `@sapphire/plugin-api` | `@stambha/dashboard` (plugins repo) or BYO HTTP | [ADR 003](/internal/adr/003-plugins-monorepo) — not `@stambha/plugin-api` |
 | `@sapphire/plugin-hmr` | Not bundled | Use your bundler |
 
 Folder aliases in `PiecePaths`: `preconditions` → `src/gates`.
@@ -46,15 +46,15 @@ const client = new SapphireClient({ /* intents, etc. */ });
 await client.login(token);
 ```
 
-**After (Stratum — native stack):**
+**After (Stambha — native stack):**
 
 ```ts
-import { createStratumBot } from "@stratum/core";
-import { attachStratumClient, createGatewayEventHub } from "@stratum/gateway";
-import { loadPieces } from "@stratum/loader";
-import { createNativeRestPort } from "@stratum/rest";
+import { createStambhaBot } from "@stambha/core";
+import { attachStambhaClient, createGatewayEventHub } from "@stambha/gateway";
+import { loadPieces } from "@stambha/loader";
+import { createNativeRestPort } from "@stambha/rest";
 
-const client = createStratumBot({
+const client = createStambhaBot({
   prefix: "!",
   restPort: createNativeRestPort(process.env.DISCORD_TOKEN!),
 });
@@ -62,12 +62,12 @@ const client = createStratumBot({
 await loadPieces(client);
 
 const hub = createGatewayEventHub();
-attachStratumClient(hub, client);
+attachStambhaClient(hub, client);
 client.setBridge(hub);
 
 hub.markReady({ user: { id: "YOUR_BOT_USER_ID" } });
 await client.start();
-// Wire your WebSocket shard worker to hub.emit("messageCreate", stratumMessage)
+// Wire your WebSocket shard worker to hub.emit("messageCreate", stambhaMessage)
 ```
 
 ---
@@ -89,10 +89,10 @@ export class PingCommand extends Command {
 }
 ```
 
-**Stratum:**
+**Stambha:**
 
 ```ts
-import { Command, ok, type CommandContext, type Registry } from "@stratum/core";
+import { Command, ok, type CommandContext, type Registry } from "@stambha/core";
 
 export class PingCommand extends Command {
   constructor(registry: Registry<Command>) {
@@ -110,22 +110,22 @@ export class PingCommand extends Command {
 }
 ```
 
-Register manually or via `loadPieces`. Slash deploy: `deployCommands` from `@stratum/rest`.
+Register manually or via `loadPieces`. Slash deploy: `deployCommands` from `@stambha/rest`.
 
-Arguments: use `@stratum/args` — see [Arguments](/features/args).
+Arguments: use `@stambha/args` — see [Arguments](/features/args).
 
 ---
 
 ## Listeners → Hooks
 
-| Sapphire | Stratum |
+| Sapphire | Stambha |
 |----------|---------|
 | `Listener` | `Hook` |
 | `events: [Events.ClientReady]` | `event: "ready"` |
 | `once: true` | `once: true` on `Hook` options |
 
 ```ts
-import { Hook, type Registry } from "@stratum/core";
+import { Hook, type Registry } from "@stambha/core";
 
 export class ReadyListener extends Hook {
   constructor(registry: Registry<Hook>) {
@@ -138,17 +138,17 @@ export class ReadyListener extends Hook {
 }
 ```
 
-Load from `src/listeners/` with `@stratum/loader`.
+Load from `src/listeners/` with `@stambha/loader`.
 
 ---
 
 ## Preconditions → Gates
 
-Sapphire **preconditions** map to Stratum **gates** (`src/gates/` or per-command `gates: [...]`).
+Sapphire **preconditions** map to Stambha **gates** (`src/gates/` or per-command `gates: [...]`).
 
-| Sapphire precondition | Stratum |
+| Sapphire precondition | Stambha |
 |-----------------------|---------|
-| `Precondition` class | `Gate` class or `@stratum/gates` factory |
+| `Precondition` class | `Gate` class or `@stambha/gates` factory |
 | `Cooldown` | `cooldownGate()` |
 | `UserPermissions` | `userPermissionsGate()` |
 | `ClientPermissions` | `clientPermissionsGate()` |
@@ -168,11 +168,11 @@ export class UserPermissionPrecondition extends Precondition {
 }
 ```
 
-**Stratum:**
+**Stambha:**
 
 ```ts
-import { userPermissionsGate, attachGateDeniedReply } from "@stratum/gates";
-import { Permission } from "@stratum/gates";
+import { userPermissionsGate, attachGateDeniedReply } from "@stambha/gates";
+import { Permission } from "@stambha/gates";
 
 attachGateDeniedReply(client); // optional auto-reply on deny
 
@@ -186,11 +186,11 @@ Global gates: register on `client.registries.gates` or use conduits/barriers for
 
 ## Plugins
 
-| Sapphire | Stratum |
+| Sapphire | Stambha |
 |----------|---------|
-| `@sapphire/plugin-*` | `@stratum/plugins` |
+| `@sapphire/plugin-*` | `@stambha/plugins` |
 | `container` | `client.container` |
-| `preStart`, `postLoad` hooks | `pluginLifecycle` on `createStratumBot` |
+| `preStart`, `postLoad` hooks | `pluginLifecycle` on `createStambhaBot` |
 
 See [Plugins](/features/plugins).
 
@@ -198,10 +198,10 @@ See [Plugins](/features/plugins).
 
 ## Settings / config
 
-Sapphire often uses `@sapphire/plugin-api` or custom JSON. Stratum **Vault** provides typed guild/user/channel settings:
+Sapphire often uses `@sapphire/plugin-api` or custom JSON. Stambha **Vault** provides typed guild/user/channel settings:
 
 - Blueprints in `src/schemas/`
-- `@stratum/vault` + optional `@stratum/vault-sql`
+- `@stambha/vault` + optional `@stambha/vault-sql`
 
 See [Vault](/features/vault).
 
@@ -209,13 +209,13 @@ See [Vault](/features/vault).
 
 ## Migration checklist
 
-1. Replace `SapphireClient` with `createStratumBot` + native gateway hub.
+1. Replace `SapphireClient` with `createStambhaBot` + native gateway hub.
 2. Rename `preconditions/` → `gates/` (or keep path via loader `paths: { gates: "src/preconditions" }`).
 3. Convert commands to `Command` + `execute(ctx)` returning `ok()` / `err()`.
 4. Convert listeners to `Hook`.
-5. Swap precondition classes for `@stratum/gates` factories or custom `Gate` classes.
+5. Swap precondition classes for `@stambha/gates` factories or custom `Gate` classes.
 6. Run `loadPieces(client)` instead of Sapphire's loader.
-7. Register slash commands via `deployCommands` from `@stratum/rest`.
+7. Register slash commands via `deployCommands` from `@stambha/rest`.
 8. (Optional) Add Vault; add tier split — see [Tier split](/deployment/tier-split).
 
 ## Related

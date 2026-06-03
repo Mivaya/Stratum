@@ -2,7 +2,7 @@
 layout: home
 
 hero:
-  name: Stratum
+  name: Stambha
   text: Native Discord bot framework
   tagline: Sapphire-style pieces. Discordeno-style scale. No discord.js required.
   actions:
@@ -11,13 +11,13 @@ hero:
       link: /guide/getting-started
     - theme: alt
       text: View on GitHub
-      link: https://github.com/mivaya/Stratum
+      link: https://github.com/mivaya/Stambha
 
 features:
   - title: Command pipeline
     details: Commands, hooks, gates, scouts, barriers, and epilogues — the same mental model as Sapphire preconditions and listeners.
   - title: Native REST
-    details: Centralized rate limits and split-tier REST workers via @stratum/rest — no discord.js in your REST process.
+    details: Centralized rate limits and split-tier REST workers via @stambha/rest — no discord.js in your REST process.
   - title: Gateway & sharding
     details: GatewayEventHub, worker bus, identify budget, and resharding helpers for large bots.
   - title: Vault
@@ -31,7 +31,7 @@ features:
 ## Quick install
 
 ```bash
-pnpm add @stratum/core @stratum/rest @stratum/gateway @stratum/transform @stratum/loader
+pnpm add @stambha/core @stambha/rest @stambha/gateway @stambha/transform @stambha/loader
 ```
 
 Requires **Node.js 20+**.

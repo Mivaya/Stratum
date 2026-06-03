@@ -15,9 +15,9 @@ describe("createPrometheusRestMetrics", () => {
     collector.recordRestWait("abc123", 500);
 
     const text = await register.metrics();
-    expect(text).toContain("stratum_rest_requests_total");
+    expect(text).toContain("stambha_rest_requests_total");
     expect(text).toContain('method="GET"');
-    expect(text).toContain("stratum_rest_rate_limits_total");
-    expect(text).toContain("stratum_rest_wait_duration_seconds");
+    expect(text).toContain("stambha_rest_rate_limits_total");
+    expect(text).toContain("stambha_rest_wait_duration_seconds");
   });
 });

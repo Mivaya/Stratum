@@ -1,5 +1,5 @@
 import { DatabaseSync } from "node:sqlite";
-import type { VaultDriver } from "@stratum/vault";
+import type { VaultDriver } from "@stambha/vault";
 import { CREATE_INDEX_SQL, CREATE_TABLE_SQL, VAULT_TABLE } from "./sql/schema.js";
 
 export interface SQLiteDriverOptions {

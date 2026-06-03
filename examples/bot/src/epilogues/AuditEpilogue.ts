@@ -1,4 +1,4 @@
-import { Epilogue, isOk, type EpilogueContext, type Registry } from "@stratum/core";
+import { Epilogue, isOk, type EpilogueContext, type Registry } from "@stambha/core";
 
 export class AuditEpilogue extends Epilogue {
   constructor(registry: Registry<Epilogue>) {

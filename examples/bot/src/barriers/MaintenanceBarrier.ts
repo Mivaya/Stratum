@@ -1,4 +1,4 @@
-import { Barrier, type BarrierResult, type CommandContext, type Registry } from "@stratum/core";
+import { Barrier, type BarrierResult, type CommandContext, type Registry } from "@stambha/core";
 
 export class MaintenanceBarrier extends Barrier {
   constructor(registry: Registry<Barrier>) {

@@ -1,13 +1,13 @@
 import { Binder } from "../binder/Binder.js";
 import { ConsoleLogger } from "./ConsoleLogger.js";
-import type { StratumContainerLike, StratumLogger } from "./types.js";
+import type { StambhaContainerLike, StambhaLogger } from "./types.js";
 
 /** Default container with console logger and {@link Binder}. */
-export class DefaultStratumContainer implements StratumContainerLike {
+export class DefaultStambhaContainer implements StambhaContainerLike {
   readonly binder = new Binder();
-  readonly logger: StratumLogger;
+  readonly logger: StambhaLogger;
 
-  constructor(logger?: StratumLogger) {
+  constructor(logger?: StambhaLogger) {
     this.logger = logger ?? new ConsoleLogger();
   }
 }

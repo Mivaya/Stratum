@@ -1,6 +1,6 @@
 # Full bot example
 
-Sapphire-style folder layout with the **native** Stratum stack (`@stratum/gateway`, `@stratum/rest`, `@stratum/transform`).
+Sapphire-style folder layout with the **native** Stambha stack (`@stambha/gateway`, `@stambha/rest`, `@stambha/transform`).
 
 ## Layout
 

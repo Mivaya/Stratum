@@ -1,10 +1,10 @@
 # Deployment overview
 
-Stratum supports three deployment shapes:
+Stambha supports three deployment shapes:
 
 | Shape | When to use | Packages |
 |-------|-------------|----------|
-| **Monolith** | Development, small bots | `@stratum/rest` in-process |
+| **Monolith** | Development, small bots | `@stambha/rest` in-process |
 | **Tier split** | Rate-limit isolation | REST worker + gateway with `HttpRestPort` |
 | **Tier split v2** | Maximum separation | REST + gateway relay + bot worker |
 
@@ -14,8 +14,8 @@ One process: `createNativeRestPort(token)` + `GatewayEventHub` + your WebSocket 
 
 ## Tier split (v1)
 
-- **REST worker** — `@stratum/rest` (`createNativeRestWorker`)
-- **Gateway** — `createStratumBot` with `HttpRestPort` pointing at the worker
+- **REST worker** — `@stambha/rest` (`createNativeRestWorker`)
+- **Gateway** — `createStambhaBot` with `HttpRestPort` pointing at the worker
 
 See [Tier split](/deployment/tier-split).
 
@@ -24,7 +24,7 @@ See [Tier split](/deployment/tier-split).
 Three processes:
 
 1. REST worker (`pnpm rest`)
-2. Bot worker — `createWorkerServer` + StratumClient
+2. Bot worker — `createWorkerServer` + StambhaClient
 3. Gateway relay — `GatewayEventHub` + `attachGatewayRelay`
 
 Example: `examples/bot` (`pnpm split:*` for three-process layout).

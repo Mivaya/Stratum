@@ -3,7 +3,7 @@ import {
   isGuildChannelType,
   type ChannelType,
   type GateLike,
-} from "@stratum/core";
+} from "@stambha/core";
 
 /** Sapphire-style RunIn channel presets. */
 export const RunIn = {

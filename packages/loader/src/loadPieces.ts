@@ -4,17 +4,17 @@ import {
   extname,
   pathToFileURL,
   resolve,
-} from "@stratum/runtime";
-import { PiecePaths, type StratumClient } from "@stratum/core";
-import type { Command } from "@stratum/core";
-import type { Hook } from "@stratum/core";
-import type { Scout } from "@stratum/core";
-import type { Barrier } from "@stratum/core";
-import type { Gate } from "@stratum/core";
-import type { Epilogue } from "@stratum/core";
-import type { Conduit } from "@stratum/core";
-import type { Signal } from "@stratum/core";
-import type { Chron } from "@stratum/core";
+} from "@stambha/runtime";
+import { PiecePaths, type StambhaClient } from "@stambha/core";
+import type { Command } from "@stambha/core";
+import type { Hook } from "@stambha/core";
+import type { Scout } from "@stambha/core";
+import type { Barrier } from "@stambha/core";
+import type { Gate } from "@stambha/core";
+import type { Epilogue } from "@stambha/core";
+import type { Conduit } from "@stambha/core";
+import type { Signal } from "@stambha/core";
+import type { Chron } from "@stambha/core";
 import { scanFiles } from "./scan.js";
 import type { LoadPiecesOptions, LoadPiecesResult, PieceKind, LoaderContext } from "./types.js";
 
@@ -34,7 +34,7 @@ const DEFAULT_PATHS: Record<PieceKind, string> = {
  * Load pieces from disk using Sapphire/Klasa folder conventions.
  */
 export async function loadPieces(
-  client: StratumClient,
+  client: StambhaClient,
   options: LoadPiecesOptions = {},
 ): Promise<LoadPiecesResult> {
   const basePath = options.basePath ?? cwd();
@@ -96,7 +96,7 @@ function resolveExport(mod: Record<string, unknown>, file: string): (new (...a: 
 
 function registerPiece(
   kind: PieceKind,
-  client: StratumClient,
+  client: StambhaClient,
   PieceClass: new (...args: never[]) => unknown,
   ctx: LoaderContext,
 ): void {

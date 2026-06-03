@@ -1,4 +1,4 @@
-import { Scout, type Registry, type ScoutContext } from "@stratum/core";
+import { Scout, type Registry, type ScoutContext } from "@stambha/core";
 
 export class MentionScout extends Scout {
   constructor(registry: Registry<Scout>) {

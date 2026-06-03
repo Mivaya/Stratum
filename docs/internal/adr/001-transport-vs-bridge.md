@@ -6,23 +6,23 @@
 
 ## Context
 
-Stratum targets three audiences:
+Stambha targets three audiences:
 
 1. **Sapphire / Klasa** users on discord.js who want structure without changing transport
 2. **Discordeno** users who want big-bot topology (split REST, sharding, desired properties)
 3. **Greenfield** bots that may never embed discord.js or Discordeno
 
-We need a clear rule for when to use **bridges** (library adapters) vs **native transport** (`@stratum/transport`, `@stratum/rest`, `@stratum/gateway`).
+We need a clear rule for when to use **bridges** (library adapters) vs **native transport** (`@stambha/transport`, `@stambha/rest`, `@stambha/gateway`).
 
 ## Decision
 
 ### 1. Core is transport-agnostic
 
-All command pipeline, vault, sequences, chron, and registries live in `@stratum/core`. Core never imports discord.js or Discordeno.
+All command pipeline, vault, sequences, chron, and registries live in `@stambha/core`. Core never imports discord.js or Discordeno.
 
 ### 2. Bridges are first-class, not legacy
 
-- `@stratum/bridge-discordjs` and `@stratum/bridge-discordeno` implement the `Bridge` interface.
+- `@stambha/bridge-discordjs` and `@stambha/bridge-discordeno` implement the `Bridge` interface.
 - New features (desired properties, signals, tier split) must work through bridges until native gateway reaches parity.
 - **Bridges are not deprecated** by native transport.
 
@@ -30,9 +30,9 @@ All command pipeline, vault, sequences, chron, and registries live in `@stratum/
 
 | Layer | Native package | Bridge alternative |
 |-------|----------------|-------------------|
-| REST | `@stratum/rest` | discord.js REST via bridge / `createDiscordRestWorker` |
-| Gateway events | `@stratum/gateway` relay + future WS | Bridge WebSocket |
-| Session / routes | `@stratum/transport` | Hidden inside bridge library |
+| REST | `@stambha/rest` | discord.js REST via bridge / `createDiscordRestWorker` |
+| Gateway events | `@stambha/gateway` relay + future WS | Bridge WebSocket |
+| Session / routes | `@stambha/transport` | Hidden inside bridge library |
 
 Adopt native pieces **incrementally** (REST worker first, then gateway relay, then full native WS when available).
 
@@ -41,18 +41,18 @@ Adopt native pieces **incrementally** (REST worker first, then gateway relay, th
 | Bot profile | Gateway | REST | Rationale |
 |-------------|---------|------|-----------|
 | Small / existing discord.js | `bridge-discordjs` | In-process | Lowest friction |
-| Medium discord.js, rate-limit pain | `bridge-discordjs` | `@stratum/rest` worker | Centralized REST without rewriting events |
-| Discordeno / large sharded | `bridge-discordeno` or gateway relay | `@stratum/rest` | Matches big-bot layout |
+| Medium discord.js, rate-limit pain | `bridge-discordjs` | `@stambha/rest` worker | Centralized REST without rewriting events |
+| Discordeno / large sharded | `bridge-discordeno` or gateway relay | `@stambha/rest` | Matches big-bot layout |
 | Tests | `MockBridge` | In-memory `RestPort` | No Discord I/O |
-| Greenfield (future) | Native gateway when ready | `@stratum/rest` | Fewer dependencies |
+| Greenfield (future) | Native gateway when ready | `@stambha/rest` | Fewer dependencies |
 
 ### 5. Tier split uses RestPort abstraction
 
-Gateway and bot workers communicate with Discord REST only through `RestPort` (`HttpRestPort` → worker HTTP). Swapping discord.js REST for `@stratum/rest` does not require changing command code.
+Gateway and bot workers communicate with Discord REST only through `RestPort` (`HttpRestPort` → worker HTTP). Swapping discord.js REST for `@stambha/rest` does not require changing command code.
 
 ### 6. One bridge per process
 
-A running Stratum client attaches **one** `Bridge` instance. Multi-shard gateway scale uses multiple processes (tier split v2, resharding), not multiple bridges in one client.
+A running Stambha client attaches **one** `Bridge` instance. Multi-shard gateway scale uses multiple processes (tier split v2, resharding), not multiple bridges in one client.
 
 ## Consequences
 
@@ -77,7 +77,7 @@ A running Stratum client attaches **one** `Bridge` instance. Multi-shard gateway
 
 1. **Bridge-only forever** — Rejected for large bots; duplicates Discordeno REST/sharding work.
 2. **Native-only (drop bridges)** — Rejected; destroys Sapphire migration story and forces big-bang rewrites.
-3. **Fork discord.js inside Stratum** — Rejected; maintenance burden.
+3. **Fork discord.js inside Stambha** — Rejected; maintenance burden.
 
 ## References
 

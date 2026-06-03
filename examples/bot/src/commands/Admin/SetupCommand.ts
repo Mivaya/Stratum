@@ -1,4 +1,4 @@
-import { Command, ok, sequence, type CommandContext, type Registry } from "@stratum/core";
+import { Command, ok, sequence, type CommandContext, type Registry } from "@stambha/core";
 
 export class SetupCommand extends Command {
   constructor(registry: Registry<Command>) {

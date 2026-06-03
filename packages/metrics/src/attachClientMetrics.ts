@@ -1,14 +1,14 @@
-import type { StratumClient } from "@stratum/core";
+import type { StambhaClient } from "@stambha/core";
 import type { MetricsCollector } from "./types.js";
 
-/** Subscribe to Stratum client events and forward them to a {@link MetricsCollector}. */
-export function attachClientMetrics(client: StratumClient, collector: MetricsCollector): () => void {
+/** Subscribe to Stambha client events and forward them to a {@link MetricsCollector}. */
+export function attachClientMetrics(client: StambhaClient, collector: MetricsCollector): () => void {
   const onReady = (): void => {
     collector.setReady(true);
   };
 
   const onSuccess = (payload: {
-    ctx: { kind: import("@stratum/core").CommandKind };
+    ctx: { kind: import("@stambha/core").CommandKind };
     command: string;
     durationMs: number;
   }): void => {
@@ -21,7 +21,7 @@ export function attachClientMetrics(client: StratumClient, collector: MetricsCol
   };
 
   const onError = (payload: {
-    ctx: { kind: import("@stratum/core").CommandKind };
+    ctx: { kind: import("@stambha/core").CommandKind };
     command: string;
   }): void => {
     collector.recordCommand({
@@ -31,7 +31,7 @@ export function attachClientMetrics(client: StratumClient, collector: MetricsCol
     });
   };
 
-  const onBlocked = (payload: { ctx: { commandName: string; kind: import("@stratum/core").CommandKind } }): void => {
+  const onBlocked = (payload: { ctx: { commandName: string; kind: import("@stambha/core").CommandKind } }): void => {
     collector.recordCommand({
       command: payload.ctx.commandName,
       kind: payload.ctx.kind,
@@ -39,7 +39,7 @@ export function attachClientMetrics(client: StratumClient, collector: MetricsCol
     });
   };
 
-  const onDenied = (payload: { ctx: { commandName: string; kind: import("@stratum/core").CommandKind } }): void => {
+  const onDenied = (payload: { ctx: { commandName: string; kind: import("@stambha/core").CommandKind } }): void => {
     collector.recordCommand({
       command: payload.ctx.commandName,
       kind: payload.ctx.kind,

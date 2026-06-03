@@ -1,5 +1,5 @@
 export { ContainerToken, LoggerToken } from "./tokens.js";
-export { StratumContainer, type StratumContainerOptions } from "./StratumContainer.js";
+export { StambhaContainer, type StambhaContainerOptions } from "./StambhaContainer.js";
 export { definePlugin } from "./definePlugin.js";
 export {
   PluginManager,
@@ -8,7 +8,7 @@ export {
   type CreatePluginManagerOptions,
 } from "./PluginManager.js";
 export { attachPlugins, type AttachPluginsOptions } from "./attachPlugins.js";
-export type { StratumPlugin, PluginContext, PluginHookFn } from "./types.js";
+export type { StambhaPlugin, PluginContext, PluginHookFn } from "./types.js";
 export {
   resolveAutocompleteCommand,
   resolveSignal,

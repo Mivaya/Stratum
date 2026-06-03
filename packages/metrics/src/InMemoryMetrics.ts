@@ -1,4 +1,4 @@
-import type { CommandKind } from "@stratum/core";
+import type { CommandKind } from "@stambha/core";
 import type { CommandOutcome, MetricsCollector, PieceKind } from "./types.js";
 
 export interface CommandRecord {

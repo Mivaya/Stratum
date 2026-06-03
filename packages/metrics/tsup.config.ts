@@ -7,5 +7,5 @@ export default defineConfig({
   sourcemap: true,
   clean: true,
   target: "node20",
-  external: ["@stratum/core", "prom-client"],
+  external: ["@stambha/core", "prom-client"],
 });

@@ -1,9 +1,9 @@
 import { defineConfig } from "vitepress";
 
 export default defineConfig({
-  title: "Stratum",
+  title: "Stambha",
   description: "Native Discord bot framework for Node.js and TypeScript",
-  base: "/Stratum/",
+  base: "/Stambha/",
   cleanUrls: true,
   lastUpdated: true,
 
@@ -17,7 +17,7 @@ export default defineConfig({
       { text: "Features", link: "/features/gates" },
       { text: "Deployment", link: "/deployment/overview" },
       { text: "Migration", link: "/migration/" },
-      { text: "GitHub", link: "https://github.com/mivaya/Stratum" },
+      { text: "GitHub", link: "https://github.com/mivaya/Stambha" },
     ],
 
     sidebar: [
@@ -68,16 +68,16 @@ export default defineConfig({
       },
     ],
 
-    socialLinks: [{ icon: "github", link: "https://github.com/mivaya/Stratum" }],
+    socialLinks: [{ icon: "github", link: "https://github.com/mivaya/Stambha" }],
 
     editLink: {
-      pattern: "https://github.com/mivaya/Stratum/edit/main/docs/:path",
+      pattern: "https://github.com/mivaya/Stambha/edit/main/docs/:path",
       text: "Edit this page on GitHub",
     },
 
     footer: {
       message: "Released under the MIT License.",
-      copyright: "Copyright © Stratum contributors",
+      copyright: "Copyright © Stambha contributors",
     },
 
     search: {

@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import { createMemoryCache } from "./MemoryCache.js";
 
-describe("@stratum/cache", () => {
+describe("@stambha/cache", () => {
   it("stores and retrieves values", async () => {
     const cache = createMemoryCache<string>();
     await cache.set("guild:1", "data");

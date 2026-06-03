@@ -1,5 +1,5 @@
 /** Result type for directive execution and gate checks. */
-export type Outcome<T, E = StratumError> = Ok<T> | Err<E>;
+export type Outcome<T, E = StambhaError> = Ok<T> | Err<E>;
 
 export interface Ok<T> {
   readonly ok: true;
@@ -27,13 +27,13 @@ export function isErr<T, E>(outcome: Outcome<T, E>): outcome is Err<E> {
   return !outcome.ok;
 }
 
-export class StratumError extends Error {
+export class StambhaError extends Error {
   constructor(
     message: string,
     readonly code?: string,
     readonly context?: Record<string, unknown>,
   ) {
     super(message);
-    this.name = "StratumError";
+    this.name = "StambhaError";
   }
 }

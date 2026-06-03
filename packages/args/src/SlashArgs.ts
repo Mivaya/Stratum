@@ -1,4 +1,4 @@
-import type { CommandContext, SlashOption } from "@stratum/core";
+import type { CommandContext, SlashOption } from "@stambha/core";
 import type { ArgResult } from "./errors.js";
 import { argInvalid, argMissing } from "./errors.js";
 import { Args } from "./Args.js";

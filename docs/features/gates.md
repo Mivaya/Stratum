@@ -1,26 +1,26 @@
-# Built-in gates (`@stratum/gates`)
+# Built-in gates (`@stambha/gates`)
 
-Phase 11 — Sapphire-style **preconditions** as Stratum **gates**. Use on individual commands or register globally.
+Phase 11 — Sapphire-style **preconditions** as Stambha **gates**. Use on individual commands or register globally.
 
 ## Installation
 
 ```bash
-pnpm add @stratum/gates
+pnpm add @stambha/gates
 ```
 
-Requires `@stratum/core`. Gateway workers should populate `CommandContext.meta` for permission and channel checks.
+Requires `@stambha/core`. Gateway workers should populate `CommandContext.meta` for permission and channel checks.
 
 ## Quick start
 
 ```ts
-import { Command, ok, type CommandContext, type Registry } from "@stratum/core";
+import { Command, ok, type CommandContext, type Registry } from "@stambha/core";
 import {
   attachGateDeniedReply,
   cooldownGate,
   guildOnlyGate,
   Permission,
   userPermissionsGate,
-} from "@stratum/gates";
+} from "@stambha/gates";
 
 // Auto-reply when a gate denies (optional)
 attachGateDeniedReply(client);
@@ -64,7 +64,7 @@ Compose with core helpers: `gateAnd()`, `gateOr()`, `defineGate()`.
 ## Permission flags
 
 ```ts
-import { Permission, combinePermissions } from "@stratum/gates";
+import { Permission, combinePermissions } from "@stambha/gates";
 
 const mod = combinePermissions(Permission.KickMembers, Permission.BanMembers);
 userPermissionsGate(mod);
@@ -96,15 +96,15 @@ cooldownGate({ limit: 1, delay: 5000, store: myRedisCooldownStore });
 | `memberPermissions` | `userPermissionsGate` |
 | `clientPermissions` | `clientPermissionsGate` |
 
-When metadata is missing, gates allow the command (graceful degradation). Populate `meta` when building contexts — `@stratum/transform` provides `metaFromDiscordJsMessage` / `metaFromDiscordenoMessage` if your gateway worker still uses those library types.
+When metadata is missing, gates allow the command (graceful degradation). Populate `meta` when building contexts — `@stambha/transform` provides `metaFromDiscordJsMessage` / `metaFromDiscordenoMessage` if your gateway worker still uses those library types.
 
 ## Global gates
 
 Register on the client registry (runs before command-level gates):
 
 ```ts
-import { Gate } from "@stratum/core";
-import { cooldownGate } from "@stratum/gates";
+import { Gate } from "@stambha/core";
+import { cooldownGate } from "@stambha/gates";
 
 class GlobalSlowdown extends Gate {
   constructor(registry: Registry<Gate>) {

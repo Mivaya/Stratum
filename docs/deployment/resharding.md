@@ -1,6 +1,6 @@
 # Sharding & resharding
 
-Phase 19 adds capacity planning, identify rate limiting, and operator APIs on top of `@stratum/gateway`.
+Phase 19 adds capacity planning, identify rate limiting, and operator APIs on top of `@stambha/gateway`.
 
 ## Shard calculator
 
@@ -10,7 +10,7 @@ import {
   guildShardId,
   shardCapacityRatio,
   guildsAffectedByReshard,
-} from "@stratum/gateway";
+} from "@stambha/gateway";
 
 recommendedShardCount(2500); // 3
 shardCapacityRatio(2500, 2); // ~1.25 (over 1000 guilds/shard cap)
@@ -21,7 +21,7 @@ guildsAffectedByReshard(2, 4, ["100000000000000001"]);
 ## Automated resharding (threshold)
 
 ```ts
-import { evaluateReshard } from "@stratum/gateway";
+import { evaluateReshard } from "@stambha/gateway";
 
 const evaluation = evaluateReshard(2500, 2, {
   guildsPerShard: 1000,
@@ -39,7 +39,7 @@ if (evaluation.needed && evaluation.reason === "scale_up") {
 Discord limits identify frequency (~1 per 5 seconds per bot token). `IdentifyBudget` queues identify starts:
 
 ```ts
-import { createIdentifyBudget } from "@stratum/gateway";
+import { createIdentifyBudget } from "@stambha/gateway";
 
 const budget = createIdentifyBudget({ minIntervalMs: 5500, maxConcurrent: 1 });
 
@@ -56,7 +56,7 @@ try {
 Plan migration, stagger identifies, then resize the shard manager:
 
 ```ts
-import { createShardManager, createReshardController } from "@stratum/gateway";
+import { createShardManager, createReshardController } from "@stambha/gateway";
 
 const manager = createShardManager({ totalShards: 2 });
 const controller = createReshardController({
@@ -82,7 +82,7 @@ if (auto.needed) {
 ## Manual resharding HTTP API
 
 ```ts
-import { createReshardServer, createReshardController, createShardManager } from "@stratum/gateway";
+import { createReshardServer, createReshardController, createShardManager } from "@stambha/gateway";
 
 const server = await createReshardServer({
   port: 5100,

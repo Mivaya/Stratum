@@ -13,7 +13,7 @@ export type ChannelType =
   | "unknown";
 
 /**
- * Optional metadata bridges attach for built-in gates (`@stratum/gates`).
+ * Optional metadata bridges attach for built-in gates (`@stambha/gates`).
  * When absent, gates that need metadata typically allow the command (graceful degradation).
  */
 export interface CommandContextMeta {

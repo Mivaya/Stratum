@@ -1,4 +1,4 @@
-/** Discord REST API version used by Stratum transport. */
+/** Discord REST API version used by Stambha transport. */
 export const DISCORD_API_VERSION = "10" as const;
 
 /** Default Discord REST base URL (no trailing slash). */

@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { Command } from "../registries/Command.js";
 import { Registry } from "../pieces/Registry.js";
-import { StratumClient } from "../client/StratumClient.js";
+import { StambhaClient } from "../client/StambhaClient.js";
 import { buildApplicationCommands } from "./buildSlashPayload.js";
 import { SlashOptionType } from "./slashTypes.js";
 import { ok } from "../outcome/Outcome.js";
@@ -60,7 +60,7 @@ class ConfigCommand extends Command {
 
 describe("buildApplicationCommands", () => {
   it("builds top-level commands", () => {
-    const client = new StratumClient();
+    const client = new StambhaClient();
     const ping = new PingCommand(client.registries.commands);
     client.register(ping);
 
@@ -70,7 +70,7 @@ describe("buildApplicationCommands", () => {
   });
 
   it("merges slashRoot leaf commands", () => {
-    const client = new StratumClient();
+    const client = new StambhaClient();
     client.register(new ModBanCommand(client.registries.commands));
     client.register(
       new (class extends Command {
@@ -94,7 +94,7 @@ describe("buildApplicationCommands", () => {
   });
 
   it("builds inline subcommands", () => {
-    const client = new StratumClient();
+    const client = new StambhaClient();
     client.register(new ConfigCommand(client.registries.commands));
     const body = buildApplicationCommands(client.registries.commands.values());
     expect(body[0]!.options?.map((o) => o.name)).toEqual(["show", "prefix"]);
@@ -103,13 +103,13 @@ describe("buildApplicationCommands", () => {
 
 describe("CommandIndex", () => {
   it("resolves prefix aliases", () => {
-    const client = new StratumClient();
+    const client = new StambhaClient();
     client.register(new PingCommand(client.registries.commands));
     expect(client.commandIndex.resolvePrefixName("p")).toBe("ping");
   });
 
   it("resolves slash subcommand paths", () => {
-    const client = new StratumClient();
+    const client = new StambhaClient();
     client.register(new ModBanCommand(client.registries.commands));
     const cmd = client.commandIndex.resolveSlash({ root: "mod", subcommand: "ban" });
     expect(cmd?.name).toBe("ban");
@@ -118,7 +118,7 @@ describe("CommandIndex", () => {
 
 describe("InboundRouter aliases", () => {
   it("maps alias to primary name when parsing prefix", () => {
-    const client = new StratumClient({ prefix: "!" });
+    const client = new StambhaClient({ prefix: "!" });
     client.register(new PingCommand(client.registries.commands));
     expect(client.router.parsePrefixCommand("!p")).toEqual({ name: "ping", args: "" });
   });

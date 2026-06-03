@@ -1,6 +1,6 @@
 # Project structure
 
-Stratum bots use **Sapphire-aligned folders** so teams migrating from Sapphire keep familiar paths.
+Stambha bots use **Sapphire-aligned folders** so teams migrating from Sapphire keep familiar paths.
 
 ## Recommended layout
 
@@ -25,7 +25,7 @@ src/
 ## Auto-load pieces
 
 ```ts
-import { loadPieces } from "@stratum/loader";
+import { loadPieces } from "@stambha/loader";
 
 await loadPieces(client, { context: { client, vault } });
 ```
@@ -34,13 +34,13 @@ Pieces with extra dependencies can expose `static create(ctx: LoaderContext)`.
 
 ## Sapphire mapping
 
-| Folder | Sapphire | Stratum class |
+| Folder | Sapphire | Stambha class |
 |--------|----------|---------------|
 | `commands/` | commands | `Command` |
 | `listeners/` | listeners | `Hook` |
 | `gates/` | preconditions | `Gate` |
 
-`PiecePaths` in `@stratum/core` lists default paths (`PiecePaths.commands === "src/commands"`, `PiecePaths.preconditions === "src/gates"`).
+`PiecePaths` in `@stambha/core` lists default paths (`PiecePaths.commands === "src/commands"`, `PiecePaths.preconditions === "src/gates"`).
 
 ## Manual registration
 

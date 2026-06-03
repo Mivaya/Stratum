@@ -2,14 +2,14 @@ import { describe, expect, it, vi } from "vitest";
 import { guildShardId, recommendedShardCount, shardIdsForWorker } from "./shard/calculator.js";
 import { createShardManager } from "./shard/ShardManager.js";
 import { buildIdentifyPayload, buildResumePayload, combineIntents, GatewayIntent } from "./shard/identify.js";
-import { createSession } from "@stratum/transport";
+import { createSession } from "@stambha/transport";
 import { InMemoryWorkerBus } from "./worker/InMemoryWorkerBus.js";
 import { createWorkerMessage, WorkerMessageTypes } from "./worker/types.js";
 import { attachGatewayRelay } from "./worker/gatewayRelay.js";
 import { createWorkerServer } from "./worker/HttpWorkerBus.js";
-import type { Bridge } from "@stratum/core";
+import type { Bridge } from "@stambha/core";
 
-describe("@stratum/gateway", () => {
+describe("@stambha/gateway", () => {
   it("calculates shard ids", () => {
     expect(recommendedShardCount(2500)).toBe(3);
     expect(guildShardId("123456789012345678", 4)).toBeGreaterThanOrEqual(0);

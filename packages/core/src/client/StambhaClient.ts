@@ -2,8 +2,8 @@ import { EventEmitter } from "node:events";
 import type { Bridge, Tier, WorkerRole } from "../bridge/types.js";
 import type { RestPort, TierBus } from "../tier/types.js";
 import { Binder } from "../binder/Binder.js";
-import { DefaultStratumContainer } from "../container/DefaultStratumContainer.js";
-import type { StratumContainerLike } from "../container/types.js";
+import { DefaultStambhaContainer } from "../container/DefaultStambhaContainer.js";
+import type { StambhaContainerLike } from "../container/types.js";
 import type { PluginLifecycle } from "../plugins/types.js";
 import { Registry } from "../pieces/Registry.js";
 import { Command } from "../registries/Command.js";
@@ -24,16 +24,16 @@ import { CommandIndex } from "../command/CommandIndex.js";
 import type { CommandContext } from "../context/types.js";
 import type { ResolvedDesiredProperties } from "../desired/DesiredProperties.js";
 import { resolveDesiredProperties } from "../desired/DesiredProperties.js";
-import type { StratumClientEvents, StratumClientOptions, StratumRegistries } from "./types.js";
+import type { StambhaClientEvents, StambhaClientOptions, StambhaRegistries } from "./types.js";
 import type { Outcome } from "../outcome/Outcome.js";
 
-export class StratumClient extends EventEmitter {
+export class StambhaClient extends EventEmitter {
   readonly tier: Tier;
   readonly workerRole: WorkerRole;
   readonly restPort: RestPort | null;
   readonly tierBus: TierBus | null;
   readonly binder: Binder;
-  readonly container: StratumContainerLike;
+  readonly container: StambhaContainerLike;
   readonly pipeline: ExecutionPipeline;
   readonly router: InboundRouter;
   readonly signalRouter: SignalRouter;
@@ -41,17 +41,17 @@ export class StratumClient extends EventEmitter {
   readonly chronScheduler: ChronScheduler;
   readonly commandIndex: CommandIndex;
   readonly desiredProperties: ResolvedDesiredProperties;
-  readonly registries: StratumRegistries;
+  readonly registries: StambhaRegistries;
 
   bridge: Bridge | null = null;
   prefix: string;
   botUserId: string | null = null;
-  /** Set via {@link createPluginManager} from `@stratum/plugins`. */
+  /** Set via {@link createPluginManager} from `@stambha/plugins`. */
   pluginLifecycle: PluginLifecycle | null = null;
   private started = false;
   private hooksBound = false;
 
-  constructor(options: StratumClientOptions = {}) {
+  constructor(options: StambhaClientOptions = {}) {
     super();
     this.tier = options.tier ?? "monolith";
     this.workerRole =
@@ -60,7 +60,7 @@ export class StratumClient extends EventEmitter {
     this.tierBus = options.tierBus ?? null;
     this.prefix = options.prefix ?? "!";
     this.bridge = options.bridge ?? null;
-    this.container = options.container ?? new DefaultStratumContainer();
+    this.container = options.container ?? new DefaultStambhaContainer();
     this.binder = this.container.binder;
     this.pipeline = new ExecutionPipeline(this);
     this.router = new InboundRouter(this);
@@ -179,16 +179,16 @@ export class StratumClient extends EventEmitter {
     }
   }
 
-  override emit<K extends keyof StratumClientEvents>(
+  override emit<K extends keyof StambhaClientEvents>(
     event: K,
-    ...args: StratumClientEvents[K]
+    ...args: StambhaClientEvents[K]
   ): boolean {
     return super.emit(event, ...args);
   }
 
-  override on<K extends keyof StratumClientEvents>(
+  override on<K extends keyof StambhaClientEvents>(
     event: K,
-    listener: (...args: StratumClientEvents[K]) => void,
+    listener: (...args: StambhaClientEvents[K]) => void,
   ): this {
     return super.on(event, listener);
   }

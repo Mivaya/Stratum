@@ -32,9 +32,9 @@ pnpm docs:build
 
 1. Add `.github/workflows/docs.yml` (see below).
 2. In GitHub repo **Settings → Pages**, set source to **GitHub Actions**.
-3. Push to `main` — the site publishes to `https://mivaya.github.io/Stratum/`.
+3. Push to `main` — the site publishes to `https://mivaya.github.io/Stambha/`.
 
-For a custom domain (e.g. `stratum.dev`), add a `CNAME` file in `docs/public/` and configure DNS.
+For a custom domain (e.g. `stambha.dev`), add a `CNAME` file in `docs/public/` and configure DNS.
 
 ### Example workflow
 
@@ -60,7 +60,7 @@ jobs:
           cache: pnpm
           cache-dependency-path: pnpm-lock.yaml
       - run: pnpm install --frozen-lockfile
-      - run: pnpm --filter @stratum/docs build
+      - run: pnpm --filter @stambha/docs build
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v4
         with:
@@ -68,11 +68,11 @@ jobs:
       - uses: actions/deploy-pages@v4
 ```
 
-Set `base: '/Stratum/'` in `.vitepress/config.ts` if using project Pages URL (not custom domain).
+Set `base: '/Stambha/'` in `.vitepress/config.ts` if using project Pages URL (not custom domain).
 
 ## Matching Sapphire / Discordeno
 
-| | Sapphire | Discordeno | Stratum (this repo) |
+| | Sapphire | Discordeno | Stambha (this repo) |
 |---|----------|------------|---------------------|
 | Generator | Docusaurus | Docusaurus | VitePress |
 | Content repo | [sapphiredev/docs](https://github.com/sapphiredev/docs) | `discordeno/discordeno/docs` | `/docs` in monorepo |
@@ -90,9 +90,9 @@ Move markdown from `/docs/guide`, `/docs/features`, etc. into `website/docs/`. S
 
 ### Recommended next steps for a public site
 
-1. **Custom domain** — `stratum.dev` or `docs.stratum.dev`
+1. **Custom domain** — `stambha.dev` or `docs.stambha.dev`
 2. **Search** — VitePress local search (enabled by default) or Algolia DocSearch
-3. **API reference** — TypeDoc on `@stratum/core` packages, linked from sidebar
+3. **API reference** — TypeDoc on `@stambha/core` packages, linked from sidebar
 4. **Version dropdown** — when you ship `1.0.0`, add VitePress version plugin or migrate to Docusaurus
 
 ## Internal & contributor docs

@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import type { CommandContext } from "@stratum/core";
+import type { CommandContext } from "@stambha/core";
 import { Permission, combinePermissions, hasPermissions } from "./permissions.js";
 import { permissionsGate, userPermissionsGate } from "./permissionsGate.js";
 import { cooldownGate } from "./cooldownGate.js";

@@ -1,6 +1,6 @@
 # Getting started
 
-This guide walks you through a minimal Stratum bot using the **native stack** (`@stratum/rest`, `@stratum/gateway`, `@stratum/transform`).
+This guide walks you through a minimal Stambha bot using the **native stack** (`@stambha/rest`, `@stambha/gateway`, `@stambha/transform`).
 
 ## Prerequisites
 
@@ -10,16 +10,16 @@ This guide walks you through a minimal Stratum bot using the **native stack** (`
 ## Install
 
 ```bash
-pnpm add @stratum/core @stratum/rest @stratum/gateway @stratum/transform @stratum/loader
+pnpm add @stambha/core @stambha/rest @stambha/gateway @stambha/transform @stambha/loader
 ```
 
-Optional packages: `@stratum/gates`, `@stratum/vault`, `@stratum/metrics`.
+Optional packages: `@stambha/gates`, `@stambha/vault`, `@stambha/metrics`.
 
 ## 1. Create a command
 
 ```ts
 // src/commands/General/PingCommand.ts
-import { Command, ok, type CommandContext, type Registry } from "@stratum/core";
+import { Command, ok, type CommandContext, type Registry } from "@stambha/core";
 
 export class PingCommand extends Command {
   constructor(registry: Registry<Command>) {
@@ -41,13 +41,13 @@ export class PingCommand extends Command {
 
 ```ts
 // src/main.ts
-import { createStratumBot } from "@stratum/core";
-import { attachStratumClient, createGatewayEventHub } from "@stratum/gateway";
-import { loadPieces } from "@stratum/loader";
-import { createNativeRestPort } from "@stratum/rest";
+import { createStambhaBot } from "@stambha/core";
+import { attachStambhaClient, createGatewayEventHub } from "@stambha/gateway";
+import { loadPieces } from "@stambha/loader";
+import { createNativeRestPort } from "@stambha/rest";
 
 const token = process.env.DISCORD_TOKEN!;
-const client = createStratumBot({
+const client = createStambhaBot({
   prefix: "!",
   restPort: createNativeRestPort(token),
 });
@@ -55,7 +55,7 @@ const client = createStratumBot({
 await loadPieces(client);
 
 const hub = createGatewayEventHub();
-attachStratumClient(hub, client);
+attachStambhaClient(hub, client);
 client.setBridge(hub);
 
 hub.markReady({ user: { id: process.env.BOT_USER_ID! } });
@@ -64,7 +64,7 @@ await client.start();
 
 ## 3. Connect the gateway
 
-Stratum routes events through a `GatewayEventHub`. Your WebSocket shard worker normalizes Discord payloads and emits them:
+Stambha routes events through a `GatewayEventHub`. Your WebSocket shard worker normalizes Discord payloads and emits them:
 
 ```ts
 hub.emit("messageCreate", {

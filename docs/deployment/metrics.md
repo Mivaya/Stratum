@@ -1,24 +1,24 @@
 # Metrics (Prometheus)
 
-`@stratum/metrics` exposes Stratum runtime stats for Prometheus scraping.
+`@stambha/metrics` exposes Stambha runtime stats for Prometheus scraping.
 
 ## Install
 
 ```bash
-pnpm add @stratum/metrics prom-client
+pnpm add @stambha/metrics prom-client
 ```
 
 ## Wire to a bot
 
 ```ts
-import { createStratumBot } from "@stratum/core";
+import { createStambhaBot } from "@stambha/core";
 import {
   attachClientMetrics,
   createPrometheusMetrics,
   createMetricsServer,
-} from "@stratum/metrics";
+} from "@stambha/metrics";
 
-const client = createStratumBot({ /* … */ });
+const client = createStambhaBot({ /* … */ });
 
 const { register, collector } = createPrometheusMetrics();
 const detach = attachClientMetrics(client, collector);
@@ -35,17 +35,17 @@ Scrape `GET /metrics` (default path). `GET /health` returns `{ ok: true }`.
 
 | Name | Type | Labels | Source |
 |------|------|--------|--------|
-| `stratum_commands_total` | Counter | `command`, `kind`, `outcome` | `commandSuccess`, `commandError`, `commandBlocked`, `commandDenied` |
-| `stratum_command_duration_seconds` | Histogram | `command`, `kind` | Successful commands only |
-| `stratum_piece_errors_total` | Counter | `piece`, `name` | Scout/hook/signal/chron/epilogue errors |
-| `stratum_bot_ready` | Gauge | — | Client `ready` event |
+| `stambha_commands_total` | Counter | `command`, `kind`, `outcome` | `commandSuccess`, `commandError`, `commandBlocked`, `commandDenied` |
+| `stambha_command_duration_seconds` | Histogram | `command`, `kind` | Successful commands only |
+| `stambha_piece_errors_total` | Counter | `piece`, `name` | Scout/hook/signal/chron/epilogue errors |
+| `stambha_bot_ready` | Gauge | — | Client `ready` event |
 
 Outcomes: `success`, `error`, `blocked`, `denied`.
 
 ## Testing without Prometheus
 
 ```ts
-import { InMemoryMetrics, attachClientMetrics } from "@stratum/metrics";
+import { InMemoryMetrics, attachClientMetrics } from "@stambha/metrics";
 
 const metrics = new InMemoryMetrics();
 attachClientMetrics(client, metrics);
@@ -65,8 +65,8 @@ Attach metrics in your bot entrypoint with `attachClientMetrics(client, metrics)
 When running `createNativeRestWorker`, pass a REST telemetry adapter:
 
 ```ts
-import { createNativeRestWorker } from "@stratum/rest";
-import { createPrometheusRestMetrics, createMetricsServer, restMetricsToTelemetry } from "@stratum/metrics";
+import { createNativeRestWorker } from "@stambha/rest";
+import { createPrometheusRestMetrics, createMetricsServer, restMetricsToTelemetry } from "@stambha/metrics";
 
 const { register, collector } = createPrometheusRestMetrics();
 const worker = await createNativeRestWorker({
@@ -79,9 +79,9 @@ await createMetricsServer({ port: 9091, register });
 
 | Name | Type | Labels |
 |------|------|--------|
-| `stratum_rest_requests_total` | Counter | `method`, `route`, `status` |
-| `stratum_rest_request_duration_seconds` | Histogram | `method`, `route` |
-| `stratum_rest_rate_limits_total` | Counter | `bucket` |
-| `stratum_rest_wait_duration_seconds` | Histogram | `bucket` |
+| `stambha_rest_requests_total` | Counter | `method`, `route`, `status` |
+| `stambha_rest_request_duration_seconds` | Histogram | `method`, `route` |
+| `stambha_rest_rate_limits_total` | Counter | `bucket` |
+| `stambha_rest_wait_duration_seconds` | Histogram | `bucket` |
 
 See [NATIVE_REST.md](./NATIVE_REST.md).

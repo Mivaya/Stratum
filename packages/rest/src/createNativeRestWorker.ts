@@ -1,4 +1,4 @@
-import { createRestWorkerServer, type RestWorkerServerHandle } from "@stratum/core";
+import { createRestWorkerServer, type RestWorkerServerHandle } from "@stambha/core";
 import { createRestClient, NativeRestPort, type RestClient } from "./RestClient.js";
 import { RateLimitQueue } from "./RateLimitQueue.js";
 import { createRestTelemetryListener, type RestTelemetry } from "./telemetry.js";
@@ -9,7 +9,7 @@ export interface NativeRestWorkerOptions {
   host?: string;
   /** Bearer token for `POST /v1/rest` (gateway → worker). */
   secret?: string;
-  /** Rate-limit + request telemetry (e.g. from `@stratum/metrics`). */
+  /** Rate-limit + request telemetry (e.g. from `@stambha/metrics`). */
   telemetry?: RestTelemetry;
   fetchImpl?: typeof fetch;
 }

@@ -1,6 +1,6 @@
 # minimal
 
-Minimal Stratum bot using `MockBridge` — no Discord token required.
+Minimal Stambha bot using `MockBridge` — no Discord token required.
 
 ```bash
 pnpm install

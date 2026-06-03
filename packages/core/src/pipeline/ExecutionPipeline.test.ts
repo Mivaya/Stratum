@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { StratumClient } from "../client/StratumClient.js";
+import { StambhaClient } from "../client/StambhaClient.js";
 import { Command } from "../registries/Command.js";
 import { Barrier } from "../registries/Barrier.js";
 import { Epilogue } from "../registries/Epilogue.js";
@@ -38,7 +38,7 @@ class AuditEpilogue extends Epilogue {
 
 describe("ExecutionPipeline", () => {
   it("runs command when barriers pass", async () => {
-    const client = new StratumClient();
+    const client = new StambhaClient();
     const registry = client.registries.commands;
     const ping = new PingCommand(registry, { name: "ping" });
     client.register(ping);
@@ -49,7 +49,7 @@ describe("ExecutionPipeline", () => {
   });
 
   it("blocks command when barrier returns block", async () => {
-    const client = new StratumClient();
+    const client = new StambhaClient();
     const barrier = new BlockAllBarrier(client.registries.barriers, { name: "maintenance" });
     client.registries.barriers.register(barrier);
 
@@ -62,7 +62,7 @@ describe("ExecutionPipeline", () => {
   });
 
   it("runs epilogue after successful command", async () => {
-    const client = new StratumClient();
+    const client = new StambhaClient();
     const audit = new AuditEpilogue(client.registries.epilogues, { name: "audit", runOn: "always" });
     client.registries.epilogues.register(audit);
 

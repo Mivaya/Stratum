@@ -48,8 +48,8 @@ jobs:
           cache-dependency-path: pnpm-lock.yaml
       - uses: oven-sh/setup-bun@v2
       - run: pnpm install --frozen-lockfile
-      - run: pnpm --filter @stratum/runtime build
-      - run: pnpm --filter @stratum/runtime test
+      - run: pnpm --filter @stambha/runtime build
+      - run: pnpm --filter @stambha/runtime test
       - run: bun packages/runtime/dist/smoke.js
 
   deno:
@@ -67,6 +67,6 @@ jobs:
         with:
           deno-version: v2.x
       - run: pnpm install --frozen-lockfile
-      - run: pnpm --filter @stratum/runtime build
+      - run: pnpm --filter @stambha/runtime build
       - run: deno check packages/runtime/dist/index.js
       - run: deno run --allow-env --allow-read packages/runtime/dist/smoke.js

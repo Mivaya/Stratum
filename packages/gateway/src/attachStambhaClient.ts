@@ -1,40 +1,40 @@
-import type { Bridge, StratumClient } from "@stratum/core";
+import type { Bridge, StambhaClient } from "@stambha/core";
 import {
-  commandContextFromStratumMessageViaRest,
-  commandContextFromStratumSlashViaRest,
-  scoutContextFromStratumMessage,
-  type StratumMessage,
-  type StratumSlashInteraction,
-} from "@stratum/transform";
+  commandContextFromStambhaMessageViaRest,
+  commandContextFromStambhaSlashViaRest,
+  scoutContextFromStambhaMessage,
+  type StambhaMessage,
+  type StambhaSlashInteraction,
+} from "@stambha/transform";
 
-export interface AttachStratumClientOptions {
+export interface AttachStambhaClientOptions {
   prefixCommands?: boolean;
   slashCommands?: boolean;
   scouts?: boolean;
 }
 
-function asStratumMessage(payload: unknown): StratumMessage | null {
+function asStambhaMessage(payload: unknown): StambhaMessage | null {
   if (!payload || typeof payload !== "object") return null;
-  const m = payload as StratumMessage;
+  const m = payload as StambhaMessage;
   if (typeof m.content !== "string" || !m.author?.id) return null;
   return m;
 }
 
-function asStratumSlash(payload: unknown): StratumSlashInteraction | null {
+function asStambhaSlash(payload: unknown): StambhaSlashInteraction | null {
   if (!payload || typeof payload !== "object") return null;
-  const i = payload as StratumSlashInteraction;
+  const i = payload as StambhaSlashInteraction;
   if (!i.user?.id) return null;
   return i;
 }
 
 /**
- * Wire a native {@link GatewayEventHub} (or any {@link Bridge}) to Stratum routing.
- * Expects `messageCreate` / `interactionCreate` payloads as {@link StratumMessage} shapes.
+ * Wire a native {@link GatewayEventHub} (or any {@link Bridge}) to Stambha routing.
+ * Expects `messageCreate` / `interactionCreate` payloads as {@link StambhaMessage} shapes.
  */
-export function attachStratumClient(
+export function attachStambhaClient(
   hub: Bridge,
-  client: StratumClient,
-  options: AttachStratumClientOptions = {},
+  client: StambhaClient,
+  options: AttachStambhaClientOptions = {},
 ): () => void {
   const { prefixCommands = true, slashCommands = true, scouts = true } = options;
   const unsubs: (() => void)[] = [];
@@ -51,21 +51,21 @@ export function attachStratumClient(
 
   if (scouts) {
     on("messageCreate", async (payload) => {
-      const message = asStratumMessage(payload);
+      const message = asStambhaMessage(payload);
       if (!message?.content) return;
-      await client.router.processScout(scoutContextFromStratumMessage(message, "message"));
+      await client.router.processScout(scoutContextFromStambhaMessage(message, "message"));
     });
 
     on("messageUpdate", async (payload) => {
-      const message = asStratumMessage(payload);
+      const message = asStambhaMessage(payload);
       if (!message?.content) return;
-      await client.router.processScout(scoutContextFromStratumMessage(message, "messageUpdate"));
+      await client.router.processScout(scoutContextFromStambhaMessage(message, "messageUpdate"));
     });
   }
 
   if (prefixCommands) {
     on("messageCreate", async (payload) => {
-      const message = asStratumMessage(payload);
+      const message = asStambhaMessage(payload);
       if (!message?.content || message.author.bot) return;
 
       const parsed = client.router.parsePrefixCommand(message.content);
@@ -75,7 +75,7 @@ export function attachStratumClient(
         throw new Error("Native prefix commands require restPort (createNativeRestPort or HttpRestPort)");
       }
 
-      const ctx = commandContextFromStratumMessageViaRest(
+      const ctx = commandContextFromStambhaMessageViaRest(
         message,
         parsed.name,
         client.restPort,
@@ -88,7 +88,7 @@ export function attachStratumClient(
 
   if (slashCommands) {
     on("interactionCreate", async (payload) => {
-      const interaction = asStratumSlash(payload);
+      const interaction = asStambhaSlash(payload);
       if (!interaction) return;
 
       const commandName = (payload as { commandName?: string }).commandName ?? "unknown";
@@ -96,7 +96,7 @@ export function attachStratumClient(
         throw new Error("Native slash commands require restPort");
       }
 
-      const ctx = commandContextFromStratumSlashViaRest(
+      const ctx = commandContextFromStambhaSlashViaRest(
         interaction,
         commandName,
         client.restPort,

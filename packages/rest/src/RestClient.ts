@@ -1,7 +1,7 @@
-import type { RestPort, RestRequest } from "@stratum/core";
-import { createSession, type SessionInfo } from "@stratum/transport";
+import type { RestPort, RestRequest } from "@stambha/core";
+import { createSession, type SessionInfo } from "@stambha/transport";
 import { RateLimitQueue, toHttpMethod } from "./RateLimitQueue.js";
-import { parseRouteKey } from "@stratum/transport";
+import { parseRouteKey } from "@stambha/transport";
 
 import type { RestTelemetry } from "./telemetry.js";
 
@@ -74,7 +74,7 @@ export class RestClient implements RestPort {
 
     const headers: Record<string, string> = {
       Authorization: `Bot ${this.session.token}`,
-      "User-Agent": "StratumBot (https://github.com/mivaya/Stratum, 1.0)",
+      "User-Agent": "StambhaBot (https://github.com/mivaya/Stambha, 1.0)",
     };
 
     let body: string | undefined;

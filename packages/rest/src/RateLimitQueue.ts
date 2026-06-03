@@ -1,4 +1,4 @@
-import type { HttpMethod } from "@stratum/transport";
+import type { HttpMethod } from "@stambha/transport";
 import {
   fallbackBucketId,
   headersFromFetch,
@@ -6,7 +6,7 @@ import {
   type RouteKey,
   RateLimitStore,
   retryAfterMs,
-} from "@stratum/transport";
+} from "@stambha/transport";
 
 import type { RateLimitQueueListener } from "./telemetry.js";
 

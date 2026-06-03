@@ -1,4 +1,4 @@
-import type { StratumClient } from "@stratum/core";
+import type { StambhaClient } from "@stambha/core";
 export type PieceKind =
   | "commands"
   | "listeners"
@@ -11,7 +11,7 @@ export type PieceKind =
   | "tasks";
 
 export interface LoaderContext {
-  client: StratumClient;
+  client: StambhaClient;
   vault?: unknown;
   [key: string]: unknown;
 }

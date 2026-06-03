@@ -11,7 +11,7 @@ import { createReshardPlan } from "./plan.js";
 import { createReshardController } from "./ReshardController.js";
 import { createReshardServer } from "./createReshardServer.js";
 
-describe("@stratum/gateway resharding", () => {
+describe("@stambha/gateway resharding", () => {
   it("evaluates scale-up when over threshold", () => {
     const eval_ = evaluateReshard(2500, 2);
     expect(eval_.needed).toBe(true);

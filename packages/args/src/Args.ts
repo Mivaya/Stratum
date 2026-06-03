@@ -1,4 +1,4 @@
-import type { CommandContext } from "@stratum/core";
+import type { CommandContext } from "@stambha/core";
 import type { ArgResult } from "./errors.js";
 import { argMissing } from "./errors.js";
 import { joinFrom, tokenize } from "./lexer.js";

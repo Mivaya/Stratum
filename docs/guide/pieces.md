@@ -1,6 +1,6 @@
 # Pieces & pipeline
 
-Stratum organizes bot logic into **pieces** — classes registered in registries and executed through a shared pipeline. If you know Sapphire, this maps closely to commands, listeners, and preconditions.
+Stambha organizes bot logic into **pieces** — classes registered in registries and executed through a shared pipeline. If you know Sapphire, this maps closely to commands, listeners, and preconditions.
 
 ## Execution order
 
@@ -23,12 +23,12 @@ Gateway event → InboundRouter → Conduits → Barriers → Gates → Command 
 ## Auto-loading
 
 ```ts
-import { loadPieces } from "@stratum/loader";
+import { loadPieces } from "@stambha/loader";
 
 await loadPieces(client, { context: { client, vault } });
 ```
 
-Defaults match `PiecePaths` in `@stratum/core` (`src/commands`, `src/listeners`, etc.).
+Defaults match `PiecePaths` in `@stambha/core` (`src/commands`, `src/listeners`, etc.).
 
 ## Manual registration
 

@@ -1,19 +1,19 @@
 {
-  "name": "@stratum/cache",
+  "name": "@stambha/cache",
   "version": "0.1.0",
-  "description": "Pluggable cache layer for Stratum gateway and bot workers",
+  "description": "Pluggable cache layer for Stambha gateway and bot workers",
   "author": "Mivaya",
   "license": "MIT",
-  "homepage": "https://github.com/mivaya/Stratum/tree/main/packages/cache#readme",
+  "homepage": "https://github.com/mivaya/Stambha/tree/main/packages/cache#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mivaya/Stratum.git",
+    "url": "git+https://github.com/mivaya/Stambha.git",
     "directory": "packages/cache"
   },
   "bugs": {
-    "url": "https://github.com/mivaya/Stratum/issues"
+    "url": "https://github.com/mivaya/Stambha/issues"
   },
-  "keywords": ["discord", "discord-bot", "stratum", "cache"],
+  "keywords": ["discord", "discord-bot", "stambha", "cache"],
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

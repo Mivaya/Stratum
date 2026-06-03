@@ -41,7 +41,7 @@ export type ScoutTrigger = "message" | "messageUpdate" | "interaction";
 /** Context for scheduled Chron tasks. */
 export interface ChronContext {
   readonly chron: string;
-  readonly client: import("../client/StratumClient.js").StratumClient;
+  readonly client: import("../client/StambhaClient.js").StambhaClient;
   readonly runAt: Date;
 }
 

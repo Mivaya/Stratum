@@ -1,4 +1,4 @@
-export type { StratumUser, StratumMessage, StratumSlashInteraction } from "./shapes.js";
+export type { StambhaUser, StambhaMessage, StambhaSlashInteraction } from "./shapes.js";
 
 export {
   userFromDiscordJs,
@@ -27,11 +27,11 @@ export {
 } from "./rest.js";
 
 export {
-  scoutContextFromStratumMessage,
-  commandContextFromStratumMessageViaRest,
-  commandContextFromStratumSlashViaRest,
+  scoutContextFromStambhaMessage,
+  commandContextFromStambhaMessageViaRest,
+  commandContextFromStambhaSlashViaRest,
   type ContextBuildOptions,
 } from "./splitContext.js";
 
 /** @deprecated Use {@link defaultDiscordenoDesiredProperties} */
-export { defaultDiscordenoDesiredProperties as stratumDesiredProperties } from "./discordeno.js";
+export { defaultDiscordenoDesiredProperties as stambhaDesiredProperties } from "./discordeno.js";

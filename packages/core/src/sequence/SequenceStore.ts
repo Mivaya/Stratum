@@ -1,4 +1,4 @@
-import { randomUUID } from "@stratum/runtime";
+import { randomUUID } from "@stambha/runtime";
 import type { SequenceSession } from "./types.js";
 
 interface PendingStep {

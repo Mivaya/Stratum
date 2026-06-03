@@ -1,8 +1,8 @@
 {
-  "name": "@stratum/docs",
+  "name": "@stambha/docs",
   "version": "0.1.0",
   "private": true,
-  "description": "Stratum documentation site (VitePress)",
+  "description": "Stambha documentation site (VitePress)",
   "type": "module",
   "scripts": {
     "dev": "vitepress dev",

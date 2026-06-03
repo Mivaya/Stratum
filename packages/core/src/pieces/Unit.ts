@@ -1,4 +1,4 @@
-import type { StratumClient } from "../client/StratumClient.js";
+import type { StambhaClient } from "../client/StambhaClient.js";
 import type { Registry } from "./Registry.js";
 
 export interface UnitOptions {
@@ -20,7 +20,7 @@ export abstract class Unit<TOptions extends UnitOptions = UnitOptions> {
     this.enabled = options.enabled ?? true;
   }
 
-  get client(): StratumClient {
+  get client(): StambhaClient {
     return this.registry.client;
   }
 }

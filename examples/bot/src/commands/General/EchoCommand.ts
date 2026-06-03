@@ -1,6 +1,6 @@
-import { Args, replyIfArgError, stringArg, unwrapArg } from "@stratum/args";
-import { Command, ok, type CommandContext, type Registry } from "@stratum/core";
-import { cooldownGate, guildOnlyGate } from "@stratum/gates";
+import { Args, replyIfArgError, stringArg, unwrapArg } from "@stambha/args";
+import { Command, ok, type CommandContext, type Registry } from "@stambha/core";
+import { cooldownGate, guildOnlyGate } from "@stambha/gates";
 
 export class EchoCommand extends Command {
   constructor(registry: Registry<Command>) {

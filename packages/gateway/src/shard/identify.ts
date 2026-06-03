@@ -1,4 +1,4 @@
-import type { SessionInfo } from "@stratum/transport";
+import type { SessionInfo } from "@stambha/transport";
 
 /** Gateway opcode 2 — Identify */
 export interface GatewayIdentifyPayload {
@@ -43,8 +43,8 @@ export function buildIdentifyPayload(options: BuildIdentifyOptions): GatewayIden
       intents,
       properties: {
         $os: options.properties?.os ?? "linux",
-        $browser: options.properties?.browser ?? "stratum",
-        $device: options.properties?.device ?? "stratum",
+        $browser: options.properties?.browser ?? "stambha",
+        $device: options.properties?.device ?? "stambha",
       },
       shard: [options.shardId, options.totalShards],
     },

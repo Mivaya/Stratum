@@ -1,19 +1,19 @@
 {
-  "name": "@stratum/gateway",
+  "name": "@stambha/gateway",
   "version": "0.1.0",
-  "description": "Gateway shard manager, resharding, worker bus, GatewayEventHub, and native Stratum routing",
+  "description": "Gateway shard manager, resharding, worker bus, GatewayEventHub, and native Stambha routing",
   "author": "Mivaya",
   "license": "MIT",
-  "homepage": "https://github.com/mivaya/Stratum/tree/main/packages/gateway#readme",
+  "homepage": "https://github.com/mivaya/Stambha/tree/main/packages/gateway#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mivaya/Stratum.git",
+    "url": "git+https://github.com/mivaya/Stambha.git",
     "directory": "packages/gateway"
   },
   "bugs": {
-    "url": "https://github.com/mivaya/Stratum/issues"
+    "url": "https://github.com/mivaya/Stambha/issues"
   },
-  "keywords": ["discord", "discord-bot", "stratum", "gateway", "sharding"],
+  "keywords": ["discord", "discord-bot", "stambha", "gateway", "sharding"],
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -30,17 +30,17 @@
     "test": "vitest run"
   },
   "peerDependencies": {
-    "@stratum/core": "workspace:*",
-    "@stratum/transport": "workspace:*",
-    "@stratum/transform": "workspace:*"
+    "@stambha/core": "workspace:*",
+    "@stambha/transport": "workspace:*",
+    "@stambha/transform": "workspace:*"
   },
   "dependencies": {
-    "@stratum/transform": "workspace:*"
+    "@stambha/transform": "workspace:*"
   },
   "devDependencies": {
-    "@stratum/core": "workspace:*",
-    "@stratum/transform": "workspace:*",
-    "@stratum/transport": "workspace:*",
+    "@stambha/core": "workspace:*",
+    "@stambha/transform": "workspace:*",
+    "@stambha/transport": "workspace:*",
     "@types/node": "^22.13.4",
     "tsup": "^8.3.6",
     "typescript": "^5.7.3",

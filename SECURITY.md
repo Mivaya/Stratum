@@ -15,19 +15,19 @@
 
 Private reporting is **enabled** for this repository.
 
-**[Report a vulnerability →](https://github.com/mivaya/Stratum/security/advisories/new)**
+**[Report a vulnerability →](https://github.com/mivaya/Stambha/security/advisories/new)**
 
-Or open the [Security tab](https://github.com/mivaya/Stratum/security) and click **Report a vulnerability**.
+Or open the [Security tab](https://github.com/mivaya/Stambha/security) and click **Report a vulnerability**.
 
 ### Alternative: email
 
-Email **arpit.gupta.0121@gmail.com** with subject `Stratum Security` if you cannot use GitHub reporting.
+Email **arpit.gupta.0121@gmail.com** with subject `Stambha Security` if you cannot use GitHub reporting.
 
 ### What to include
 
 - Description of the issue and potential impact
 - Steps to reproduce (proof-of-concept if available)
-- Affected package/version (`@stratum/core`, `@stratum/rest`, etc.)
+- Affected package/version (`@stambha/core`, `@stambha/rest`, etc.)
 
 ## Response timeline
 

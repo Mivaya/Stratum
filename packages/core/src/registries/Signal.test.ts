@@ -2,8 +2,8 @@ import { describe, expect, it } from "vitest";
 import { Signal } from "./Signal.js";
 
 describe("Signal.parseCustomId", () => {
-  it("parses stratum-prefixed ids", () => {
-    expect(Signal.parseCustomId("stratum:confirm:abc")).toEqual({
+  it("parses stambha-prefixed ids", () => {
+    expect(Signal.parseCustomId("stambha:confirm:abc")).toEqual({
       name: "confirm",
       suffix: "abc",
     });

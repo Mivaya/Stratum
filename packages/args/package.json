@@ -1,6 +1,6 @@
 {
   "name": "@stambha/args",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Typed argument parsing for Stambha — prefix lexer and slash options (Sapphire Args parity)",
   "author": "Mivaya",
   "license": "MIT",

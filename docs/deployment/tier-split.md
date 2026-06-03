@@ -109,4 +109,4 @@ Copy `.env.example` → `.env` before running with a real token.
 
 - [Gateway](/deployment/gateway) — shard manager, worker messages, cache
 - [Native REST](/deployment/native-rest) — metrics and worker options
-- [Examples on GitHub](https://github.com/Interittus13/Stratum/tree/main/examples) — runnable samples
+- [Examples on GitHub](https://github.com/mivaya/Stratum/tree/main/examples) — runnable samples

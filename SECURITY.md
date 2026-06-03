@@ -11,12 +11,19 @@
 
 **Do not open a public GitHub issue** for security vulnerabilities.
 
-Use one of these channels:
+### Preferred: GitHub private vulnerability reporting
 
-1. **[GitHub private vulnerability reporting](https://github.com/Interittus13/Stratum/security/advisories/new)** (preferred)
-2. Email **arpit.gupta.0121@gmail.com** with subject `Stratum Security`
+Private reporting is **enabled** for this repository.
 
-Include:
+**[Report a vulnerability →](https://github.com/mivaya/Stratum/security/advisories/new)**
+
+Or open the [Security tab](https://github.com/mivaya/Stratum/security) and click **Report a vulnerability**.
+
+### Alternative: email
+
+Email **arpit.gupta.0121@gmail.com** with subject `Stratum Security` if you cannot use GitHub reporting.
+
+### What to include
 
 - Description of the issue and potential impact
 - Steps to reproduce (proof-of-concept if available)

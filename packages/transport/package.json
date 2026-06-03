@@ -2,16 +2,16 @@
   "name": "@stratum/transport",
   "version": "0.1.0",
   "description": "Stratum Discord transport primitives — session info, route keys, rate-limit buckets",
-  "author": "Interittus13 <arpit.gupta.0121@gmail.com>",
+  "author": "Mivaya",
   "license": "MIT",
-  "homepage": "https://github.com/Interittus13/Stratum/tree/main/packages/transport#readme",
+  "homepage": "https://github.com/mivaya/Stratum/tree/main/packages/transport#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Interittus13/Stratum.git",
+    "url": "git+https://github.com/mivaya/Stratum.git",
     "directory": "packages/transport"
   },
   "bugs": {
-    "url": "https://github.com/Interittus13/Stratum/issues"
+    "url": "https://github.com/mivaya/Stratum/issues"
   },
   "keywords": [
     "discord",

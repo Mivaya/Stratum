@@ -12,7 +12,7 @@ Thank you for helping make Stratum a stronger framework for advanced Discord bot
 ## Before you start
 
 1. Read the [README](../README.md) and relevant docs under [`docs/`](../docs/).
-2. Search [existing issues](https://github.com/Interittus13/Stratum/issues) to avoid duplicate work.
+2. Search [existing issues](https://github.com/mivaya/Stratum/issues) to avoid duplicate work.
 3. For **large features** (new package, breaking API, new transport), open an issue and wait for alignment before coding.
 
 ### Good first contributions
@@ -34,7 +34,7 @@ Thank you for helping make Stratum a stronger framework for advanced Discord bot
 ## Development setup
 
 ```bash
-git clone https://github.com/Interittus13/Stratum.git
+git clone https://github.com/mivaya/Stratum.git
 cd Stratum
 pnpm install
 pnpm build
@@ -59,7 +59,7 @@ pnpm --filter @stratum/core test
 1. **Fork** the repository on GitHub.
 2. **Clone** your fork and add upstream:
    ```bash
-   git remote add upstream https://github.com/Interittus13/Stratum.git
+   git remote add upstream https://github.com/mivaya/Stratum.git
    ```
 3. **Branch** from the latest `main`:
    ```bash
@@ -70,7 +70,7 @@ pnpm --filter @stratum/core test
 4. Use the naming convention: **`feature/{short-name}`**  
    Examples: `feature/vault-redis`, `feature/bridge-fix-interactions`, `feature/docs-sequences`
 5. **Commit** in focused steps with clear messages (see below).
-6. **Push** to your fork and open a **Pull Request** against `Interittus13/Stratum` → `main`.
+6. **Push** to your fork and open a **Pull Request** against `mivaya/Stratum` → `main`.
 
 Keep your branch up to date:
 
@@ -170,7 +170,7 @@ We aim to be constructive and timely. If a PR is large, we may ask you to split 
 
 ## Questions
 
-- **Bugs & features:** [GitHub Issues](https://github.com/Interittus13/Stratum/issues)
+- **Bugs & features:** [GitHub Issues](https://github.com/mivaya/Stratum/issues)
 - **Security issues:** please do not open a public issue; contact the maintainer privately via the email in `package.json` author field.
 
 Thank you for contributing to Stratum.

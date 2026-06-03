@@ -74,7 +74,7 @@ export class RestClient implements RestPort {
 
     const headers: Record<string, string> = {
       Authorization: `Bot ${this.session.token}`,
-      "User-Agent": "StratumBot (https://github.com/Interittus13/Stratum, 1.0)",
+      "User-Agent": "StratumBot (https://github.com/mivaya/Stratum, 1.0)",
     };
 
     let body: string | undefined;

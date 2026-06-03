@@ -45,6 +45,13 @@
 - [ ] Docs and/or examples updated (if user-facing)
 - [ ] No secrets or environment files committed
 - [ ] Core does not import discord.js or Discordeno (if touching `@stratum/core`)
+- [ ] Workflow or `dependabot.yml` changes reviewed by `@mivaya/stratum-maintainers`
+
+## Security (if touching `.github/`, deps, or auth)
+
+- [ ] No hard-coded tokens, bot tokens, or private keys
+- [ ] Third-party Actions are allowlisted for the Mivaya org
+- [ ] Dependency changes pass **dependency-review** CI on the PR
 
 ## Test plan
 

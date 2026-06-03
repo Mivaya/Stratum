@@ -1,6 +1,6 @@
-import { isOk, type Outcome, StratumError } from "../outcome/Outcome.js";
+import { isOk, type Outcome, StambhaError } from "../outcome/Outcome.js";
 import type { CommandContext, EpilogueContext, ScoutContext } from "../context/types.js";
-import type { StratumClient } from "../client/StratumClient.js";
+import type { StambhaClient } from "../client/StambhaClient.js";
 import type { Command } from "../registries/Command.js";
 import type { GateLike } from "../registries/Gate.js";
 
@@ -10,7 +10,7 @@ export interface PipelineRunOptions {
 }
 
 export class ExecutionPipeline {
-  constructor(readonly client: StratumClient) {}
+  constructor(readonly client: StambhaClient) {}
 
   async runScouts(ctx: ScoutContext): Promise<void> {
     const botUserId = this.client.botUserId;
@@ -64,7 +64,7 @@ export class ExecutionPipeline {
       this.client.emit("commandBlocked", payload);
       return {
         ok: false,
-        error: new StratumError(blocked.reason ?? "Blocked.", "BARRIER"),
+        error: new StambhaError(blocked.reason ?? "Blocked.", "BARRIER"),
       };
     }
 

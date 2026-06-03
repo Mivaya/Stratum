@@ -1,4 +1,4 @@
-import { Command, ok, type CommandContext, type Registry } from "@stratum/core";
+import { Command, ok, type CommandContext, type Registry } from "@stambha/core";
 
 export class PingCommand extends Command {
   constructor(registry: Registry<Command>) {

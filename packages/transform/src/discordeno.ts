@@ -1,6 +1,6 @@
-import type { CommandContextMeta } from "@stratum/core";
-import type { ResolvedDesiredProperties } from "@stratum/core";
-import type { StratumMessage, StratumSlashInteraction, StratumUser } from "./shapes.js";
+import type { CommandContextMeta } from "@stambha/core";
+import type { ResolvedDesiredProperties } from "@stambha/core";
+import type { StambhaMessage, StambhaSlashInteraction, StambhaUser } from "./shapes.js";
 
 export interface DiscordenoMessageLike {
   id?: bigint;
@@ -23,11 +23,11 @@ function idString(value: bigint | undefined | null): string | null {
   return value === undefined || value === null ? null : String(value);
 }
 
-export function userFromDiscordeno(user: { id?: bigint; bot?: boolean; username?: string }): StratumUser {
+export function userFromDiscordeno(user: { id?: bigint; bot?: boolean; username?: string }): StambhaUser {
   return { id: String(user.id!), ...(user.bot !== undefined ? { bot: user.bot } : {}) };
 }
 
-export function messageFromDiscordeno(message: DiscordenoMessageLike): StratumMessage {
+export function messageFromDiscordeno(message: DiscordenoMessageLike): StambhaMessage {
   return {
     id: message.id ? String(message.id) : null,
     content: message.content ?? "",
@@ -39,7 +39,7 @@ export function messageFromDiscordeno(message: DiscordenoMessageLike): StratumMe
 
 export function slashInteractionFromDiscordeno(
   interaction: DiscordenoInteractionLike,
-): StratumSlashInteraction {
+): StambhaSlashInteraction {
   return {
     id: interaction.id ? String(interaction.id) : null,
     token: interaction.token ?? null,
@@ -71,7 +71,7 @@ export function metaFromDiscordenoSlash(
   return meta;
 }
 
-/** Base Discordeno desired-properties preset for Stratum routing. */
+/** Base Discordeno desired-properties preset for Stambha routing. */
 export const defaultDiscordenoDesiredProperties = {
   user: { id: true, bot: true, username: true },
   message: { id: true, content: true, channelId: true, guildId: true, author: true },
@@ -87,7 +87,7 @@ export const defaultDiscordenoDesiredProperties = {
   },
 } as const;
 
-/** Extend Discordeno gateway trimming based on Stratum {@link ResolvedDesiredProperties}. */
+/** Extend Discordeno gateway trimming based on Stambha {@link ResolvedDesiredProperties}. */
 export function buildDiscordenoDesiredProperties(
   resolved: ResolvedDesiredProperties,
 ): Record<string, unknown> {

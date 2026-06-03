@@ -1,5 +1,5 @@
-import type { Command } from "@stratum/core";
-import { buildApplicationCommands, diffApplicationCommands } from "@stratum/core";
+import type { Command } from "@stambha/core";
+import { buildApplicationCommands, diffApplicationCommands } from "@stambha/core";
 import { createRestClient, type RestClient } from "./RestClient.js";
 
 export interface DeployCommandsOptions {

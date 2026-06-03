@@ -1,11 +1,11 @@
-# Arguments (`@stratum/args`)
+# Arguments (`@stambha/args`)
 
 Phase 12 — Sapphire-style **Args** for prefix commands and typed **slash option** accessors.
 
 ## Installation
 
 ```bash
-pnpm add @stratum/args
+pnpm add @stambha/args
 ```
 
 Bridges populate `CommandContext.argsText` (prefix) and `CommandContext.slashOptions` (slash).
@@ -13,7 +13,7 @@ Bridges populate `CommandContext.argsText` (prefix) and `CommandContext.slashOpt
 ## Prefix commands
 
 ```ts
-import { Args, integerArg, replyIfArgError, stringArg } from "@stratum/args";
+import { Args, integerArg, replyIfArgError, stringArg } from "@stambha/args";
 
 async execute(ctx: CommandContext) {
   const args = Args.fromContext(ctx);
@@ -38,7 +38,7 @@ async execute(ctx: CommandContext) {
 - Basic `\` escapes inside quotes
 
 ```ts
-import { tokenize } from "@stratum/args";
+import { tokenize } from "@stambha/args";
 tokenize('say "hello world"'); // ["say", "hello world"]
 ```
 
@@ -56,7 +56,7 @@ tokenize('say "hello world"'); // ["say", "hello world"]
 ### Custom resolvers
 
 ```ts
-import { defineArgResolver, type ArgResolver } from "@stratum/args";
+import { defineArgResolver, type ArgResolver } from "@stambha/args";
 
 const hexColor: ArgResolver<string> = (param) => {
   if (!/^#[0-9a-f]{6}$/i.test(param)) {
@@ -72,7 +72,7 @@ args.pickType("hexColor");
 ## Slash commands
 
 ```ts
-import { slashArgsFromContext } from "@stratum/args";
+import { slashArgsFromContext } from "@stambha/args";
 
 async execute(ctx: CommandContext) {
   const opts = slashArgsFromContext(ctx);
@@ -89,7 +89,7 @@ Bridges normalize discord.js / Discordeno interaction options into `SlashOption[
 ## Unified helper
 
 ```ts
-import { argsForContext } from "@stratum/args";
+import { argsForContext } from "@stambha/args";
 
 const args = argsForContext(ctx); // Args or SlashArgs based on ctx.kind
 ```

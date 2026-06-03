@@ -1,4 +1,4 @@
-import type { Bridge, BridgeEventHandler } from "@stratum/core";
+import type { Bridge, BridgeEventHandler } from "@stambha/core";
 
 export interface GatewayEventHubReadyPayload {
   user?: { id: string; username?: string };
@@ -6,7 +6,7 @@ export interface GatewayEventHubReadyPayload {
 
 /**
  * Native gateway event hub — implements {@link Bridge} without discord.js or Discordeno.
- * Your WebSocket shard worker calls {@link emit} with Discord payloads normalized to Stratum shapes.
+ * Your WebSocket shard worker calls {@link emit} with Discord payloads normalized to Stambha shapes.
  */
 export class GatewayEventHub implements Bridge {
   readonly id = "native";

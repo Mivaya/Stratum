@@ -1,4 +1,4 @@
-import type { StratumClient } from "../client/StratumClient.js";
+import type { StambhaClient } from "../client/StambhaClient.js";
 import type { Unit, UnitOptions } from "./Unit.js";
 
 export type UnitConstructor<T extends Unit = Unit> = new (
@@ -10,7 +10,7 @@ export class Registry<T extends Unit = Unit> {
   private readonly units = new Map<string, T>();
 
   constructor(
-    readonly client: StratumClient,
+    readonly client: StambhaClient,
     readonly name: string,
   ) {}
 

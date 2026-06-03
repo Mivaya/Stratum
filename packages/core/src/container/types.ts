@@ -1,5 +1,5 @@
 /** Minimal logger interface (Sapphire `@sapphire/plugin-logger` aligned). */
-export interface StratumLogger {
+export interface StambhaLogger {
   debug(message: string, meta?: unknown): void;
   info(message: string, meta?: unknown): void;
   warn(message: string, meta?: unknown): void;
@@ -7,7 +7,7 @@ export interface StratumLogger {
 }
 
 /** DI + logger surface for plugins and pieces. */
-export interface StratumContainerLike {
+export interface StambhaContainerLike {
   readonly binder: import("../binder/Binder.js").Binder;
-  readonly logger: StratumLogger;
+  readonly logger: StambhaLogger;
 }

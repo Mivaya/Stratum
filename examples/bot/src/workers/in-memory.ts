@@ -1,6 +1,6 @@
-import { attachStratumClient, createGatewayEventHub } from "@stratum/gateway";
-import { createNativeRestWorker } from "@stratum/rest";
-import type { StratumMessage } from "@stratum/transform";
+import { attachStambhaClient, createGatewayEventHub } from "@stambha/gateway";
+import { createNativeRestWorker } from "@stambha/rest";
+import type { StambhaMessage } from "@stambha/transform";
 import { setupBot } from "../lib/setup.js";
 
 const token = process.env.DISCORD_TOKEN;
@@ -12,7 +12,7 @@ if (!token) {
 const { client } = await setupBot();
 
 const hub = createGatewayEventHub();
-attachStratumClient(hub, client);
+attachStambhaClient(hub, client);
 client.setBridge(hub);
 
 const rest = await createNativeRestWorker({ token, port: 4000 });
@@ -29,7 +29,7 @@ hub.emit("messageCreate", {
   channelId: "c1",
   guildId: "g1",
   author: { id: "u1", bot: false },
-} satisfies StratumMessage);
+} satisfies StambhaMessage);
 
 process.on("SIGINT", async () => {
   await client.stop();

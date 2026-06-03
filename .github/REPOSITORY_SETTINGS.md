@@ -1,6 +1,6 @@
 # Repository settings (GitHub UI)
 
-Quick checklist for **mivaya/Stratum**. Full org guide: [ORG_SECURITY.md](./ORG_SECURITY.md).
+Quick checklist for **mivaya/Stambha**. Full org guide: [ORG_SECURITY.md](./ORG_SECURITY.md).
 
 ## Actions permissions
 
@@ -28,4 +28,4 @@ Quick checklist for **mivaya/Stratum**. Full org guide: [ORG_SECURITY.md](./ORG_
 
 ## GitHub Pages
 
-**Source:** GitHub Actions → https://mivaya.github.io/Stratum/
+**Source:** GitHub Actions → https://mivaya.github.io/Stambha/

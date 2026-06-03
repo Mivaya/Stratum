@@ -25,13 +25,13 @@ export abstract class Signal extends Unit<SignalOptions> {
 
   /** Build a routable customId for Discord components */
   customId(suffix = ""): string {
-    const base = `stratum:${this.name}`;
+    const base = `stambha:${this.name}`;
     return suffix ? `${base}:${suffix}` : base;
   }
 
-  /** Parse stratum customId → signal name */
+  /** Parse stambha customId → signal name */
   static parseCustomId(customId: string): { name: string; suffix: string } | null {
-    if (!customId.startsWith("stratum:")) return null;
+    if (!customId.startsWith("stambha:")) return null;
     const parts = customId.split(":");
     const name = parts[1];
     if (!name) return null;

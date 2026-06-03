@@ -26,31 +26,31 @@ importers:
 
   examples/bot:
     dependencies:
-      '@stratum/args':
+      '@stambha/args':
         specifier: workspace:*
         version: link:../../packages/args
-      '@stratum/core':
+      '@stambha/core':
         specifier: workspace:*
         version: link:../../packages/core
-      '@stratum/gates':
+      '@stambha/gates':
         specifier: workspace:*
         version: link:../../packages/gates
-      '@stratum/gateway':
+      '@stambha/gateway':
         specifier: workspace:*
         version: link:../../packages/gateway
-      '@stratum/loader':
+      '@stambha/loader':
         specifier: workspace:*
         version: link:../../packages/loader
-      '@stratum/plugins':
+      '@stambha/plugins':
         specifier: workspace:*
         version: link:../../packages/plugins
-      '@stratum/rest':
+      '@stambha/rest':
         specifier: workspace:*
         version: link:../../packages/rest
-      '@stratum/transform':
+      '@stambha/transform':
         specifier: workspace:*
         version: link:../../packages/transform
-      '@stratum/vault':
+      '@stambha/vault':
         specifier: workspace:*
         version: link:../../packages/vault
     devDependencies:
@@ -63,7 +63,7 @@ importers:
 
   examples/minimal:
     dependencies:
-      '@stratum/core':
+      '@stambha/core':
         specifier: workspace:*
         version: link:../../packages/core
     devDependencies:
@@ -76,7 +76,7 @@ importers:
 
   packages/args:
     devDependencies:
-      '@stratum/core':
+      '@stambha/core':
         specifier: workspace:*
         version: link:../core
       '@types/node':
@@ -109,7 +109,7 @@ importers:
 
   packages/core:
     dependencies:
-      '@stratum/runtime':
+      '@stambha/runtime':
         specifier: workspace:*
         version: link:../runtime
       cron-parser:
@@ -131,7 +131,7 @@ importers:
 
   packages/gates:
     devDependencies:
-      '@stratum/core':
+      '@stambha/core':
         specifier: workspace:*
         version: link:../core
       '@types/node':
@@ -149,14 +149,14 @@ importers:
 
   packages/gateway:
     dependencies:
-      '@stratum/transform':
+      '@stambha/transform':
         specifier: workspace:*
         version: link:../transform
     devDependencies:
-      '@stratum/core':
+      '@stambha/core':
         specifier: workspace:*
         version: link:../core
-      '@stratum/transport':
+      '@stambha/transport':
         specifier: workspace:*
         version: link:../transport
       '@types/node':
@@ -174,11 +174,11 @@ importers:
 
   packages/loader:
     dependencies:
-      '@stratum/runtime':
+      '@stambha/runtime':
         specifier: workspace:*
         version: link:../runtime
     devDependencies:
-      '@stratum/core':
+      '@stambha/core':
         specifier: workspace:*
         version: link:../core
       '@types/node':
@@ -200,7 +200,7 @@ importers:
         specifier: ^15.1.3
         version: 15.1.3
     devDependencies:
-      '@stratum/core':
+      '@stambha/core':
         specifier: workspace:*
         version: link:../core
       '@types/node':
@@ -218,7 +218,7 @@ importers:
 
   packages/plugins:
     devDependencies:
-      '@stratum/core':
+      '@stambha/core':
         specifier: workspace:*
         version: link:../core
       '@types/node':
@@ -236,10 +236,10 @@ importers:
 
   packages/rest:
     devDependencies:
-      '@stratum/core':
+      '@stambha/core':
         specifier: workspace:*
         version: link:../core
-      '@stratum/transport':
+      '@stambha/transport':
         specifier: workspace:*
         version: link:../transport
       '@types/node':
@@ -272,7 +272,7 @@ importers:
 
   packages/transform:
     devDependencies:
-      '@stratum/core':
+      '@stambha/core':
         specifier: workspace:*
         version: link:../core
       '@types/node':
@@ -308,7 +308,7 @@ importers:
 
   packages/vault:
     devDependencies:
-      '@stratum/core':
+      '@stambha/core':
         specifier: workspace:*
         version: link:../core
       '@types/node':
@@ -330,7 +330,7 @@ importers:
         specifier: ^8.13.3
         version: 8.21.0
     devDependencies:
-      '@stratum/vault':
+      '@stambha/vault':
         specifier: workspace:*
         version: link:../vault
       '@types/node':

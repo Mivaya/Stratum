@@ -1,13 +1,13 @@
-import { createStratumBot, MockBridge, type CommandContext } from "@stratum/core";
+import { createStambhaBot, MockBridge, type CommandContext } from "@stambha/core";
 import { PingCommand } from "./commands/PingCommand.js";
 
 const bridge = new MockBridge();
-const client = createStratumBot({ bridge, prefix: "!" });
+const client = createStambhaBot({ bridge, prefix: "!" });
 
 client.register(new PingCommand(client.registries.commands));
 
 client.on("ready", () => {
-  console.log("Stratum bot ready (mock bridge).");
+  console.log("Stambha bot ready (mock bridge).");
 });
 
 client.on("commandSuccess", ({ command, durationMs }) => {

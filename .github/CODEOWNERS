@@ -1,13 +1,13 @@
-# Default: org team (create at https://github.com/orgs/mivaya/teams — slug: stratum-maintainers)
-* @mivaya/stratum-maintainers
+# Default: org team (create at https://github.com/orgs/mivaya/teams — slug: stambha-maintainers)
+* @mivaya/stambha-maintainers
 
 # Native transport & core (high-impact changes)
-/packages/core/ @mivaya/stratum-maintainers
-/packages/rest/ @mivaya/stratum-maintainers
-/packages/gateway/ @mivaya/stratum-maintainers
-/packages/transport/ @mivaya/stratum-maintainers
-/packages/transform/ @mivaya/stratum-maintainers
+/packages/core/ @mivaya/stambha-maintainers
+/packages/rest/ @mivaya/stambha-maintainers
+/packages/gateway/ @mivaya/stambha-maintainers
+/packages/transport/ @mivaya/stambha-maintainers
+/packages/transform/ @mivaya/stambha-maintainers
 
 # Security-sensitive config
-/.github/ @mivaya/stratum-maintainers
-/SECURITY.md @mivaya/stratum-maintainers
+/.github/ @mivaya/stambha-maintainers
+/SECURITY.md @mivaya/stambha-maintainers

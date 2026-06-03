@@ -1,4 +1,4 @@
-import type { CommandKind } from "@stratum/core";
+import type { CommandKind } from "@stambha/core";
 
 export type CommandOutcome = "success" | "error" | "blocked" | "denied";
 

@@ -1,13 +1,13 @@
 {
-  "name": "@stratum/example-bot",
+  "name": "@stambha/example-bot",
   "version": "0.1.0",
   "private": true,
-  "description": "Full Stratum bot — Sapphire-style folders, native gateway + REST",
+  "description": "Full Stambha bot — Sapphire-style folders, native gateway + REST",
   "author": "Mivaya",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mivaya/Stratum.git",
+    "url": "git+https://github.com/mivaya/Stambha.git",
     "directory": "examples/bot"
   },
   "type": "module",
@@ -21,15 +21,15 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@stratum/args": "workspace:*",
-    "@stratum/core": "workspace:*",
-    "@stratum/gateway": "workspace:*",
-    "@stratum/gates": "workspace:*",
-    "@stratum/loader": "workspace:*",
-    "@stratum/plugins": "workspace:*",
-    "@stratum/rest": "workspace:*",
-    "@stratum/transform": "workspace:*",
-    "@stratum/vault": "workspace:*"
+    "@stambha/args": "workspace:*",
+    "@stambha/core": "workspace:*",
+    "@stambha/gateway": "workspace:*",
+    "@stambha/gates": "workspace:*",
+    "@stambha/loader": "workspace:*",
+    "@stambha/plugins": "workspace:*",
+    "@stambha/rest": "workspace:*",
+    "@stambha/transform": "workspace:*",
+    "@stambha/vault": "workspace:*"
   },
   "devDependencies": {
     "tsx": "^4.19.2",

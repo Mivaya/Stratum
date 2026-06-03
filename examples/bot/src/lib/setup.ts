@@ -1,12 +1,12 @@
 import { dirname, resolve as nodeResolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import type { RestPort, RestRequest, StratumClient } from "@stratum/core";
-import { createStratumBot, HttpRestPort } from "@stratum/core";
-import { attachGateDeniedReply } from "@stratum/gates";
-import { loadPieces } from "@stratum/loader";
-import { attachPlugins } from "@stratum/plugins";
-import { createNativeRestPort } from "@stratum/rest";
-import { MemoryDriver, Vault } from "@stratum/vault";
+import type { RestPort, RestRequest, StambhaClient } from "@stambha/core";
+import { createStambhaBot, HttpRestPort } from "@stambha/core";
+import { attachGateDeniedReply } from "@stambha/gates";
+import { loadPieces } from "@stambha/loader";
+import { attachPlugins } from "@stambha/plugins";
+import { createNativeRestPort } from "@stambha/rest";
+import { MemoryDriver, Vault } from "@stambha/vault";
 import { LoggingPlugin } from "../plugins/LoggingPlugin.js";
 import { GuildBlueprint } from "../schemas/GuildBlueprint.js";
 
@@ -30,7 +30,7 @@ function createDemoRestPort(): RestPort {
 }
 
 export interface BotSetupResult {
-  client: StratumClient;
+  client: StambhaClient;
   vault: Vault;
 }
 
@@ -54,7 +54,7 @@ export async function setupBot(options: BotSetupOptions = {}): Promise<BotSetupR
     }
   }
 
-  const client = createStratumBot({
+  const client = createStambhaBot({
     tier: options.tier ?? "monolith",
     workerRole: options.workerRole ?? "monolith",
     ...(restPort ? { restPort } : {}),

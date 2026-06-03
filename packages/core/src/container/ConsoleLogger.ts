@@ -1,23 +1,23 @@
-import type { StratumLogger } from "./types.js";
+import type { StambhaLogger } from "./types.js";
 
-export class ConsoleLogger implements StratumLogger {
+export class ConsoleLogger implements StambhaLogger {
   debug(message: string, meta?: unknown): void {
-    if (meta !== undefined) console.debug(`[stratum:debug] ${message}`, meta);
-    else console.debug(`[stratum:debug] ${message}`);
+    if (meta !== undefined) console.debug(`[stambha:debug] ${message}`, meta);
+    else console.debug(`[stambha:debug] ${message}`);
   }
 
   info(message: string, meta?: unknown): void {
-    if (meta !== undefined) console.info(`[stratum] ${message}`, meta);
-    else console.info(`[stratum] ${message}`);
+    if (meta !== undefined) console.info(`[stambha] ${message}`, meta);
+    else console.info(`[stambha] ${message}`);
   }
 
   warn(message: string, meta?: unknown): void {
-    if (meta !== undefined) console.warn(`[stratum:warn] ${message}`, meta);
-    else console.warn(`[stratum:warn] ${message}`);
+    if (meta !== undefined) console.warn(`[stambha:warn] ${message}`, meta);
+    else console.warn(`[stambha:warn] ${message}`);
   }
 
   error(message: string, meta?: unknown): void {
-    if (meta !== undefined) console.error(`[stratum:error] ${message}`, meta);
-    else console.error(`[stratum:error] ${message}`);
+    if (meta !== undefined) console.error(`[stambha:error] ${message}`, meta);
+    else console.error(`[stambha:error] ${message}`);
   }
 }

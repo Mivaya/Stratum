@@ -9,23 +9,23 @@ export const PiecePaths = {
   listeners: "src/listeners",
   /** Klasa: `events/` (alias for listeners) */
   events: "src/listeners",
-  /** Stratum: Scouts (Klasa: `monitors/`) */
+  /** Stambha: Scouts (Klasa: `monitors/`) */
   scouts: "src/scouts",
-  /** Stratum: Barriers (Klasa: `inhibitors/`) */
+  /** Stambha: Barriers (Klasa: `inhibitors/`) */
   barriers: "src/barriers",
-  /** Stratum: Gates (Sapphire: `preconditions/`) */
+  /** Stambha: Gates (Sapphire: `preconditions/`) */
   gates: "src/gates",
   /** Sapphire: `preconditions/` (alias for gates) */
   preconditions: "src/gates",
-  /** Stratum: Epilogues (Klasa: `finalizers/`) */
+  /** Stambha: Epilogues (Klasa: `finalizers/`) */
   epilogues: "src/epilogues",
   /** Klasa: `finalizers/` (alias for epilogues) */
   finalizers: "src/epilogues",
-  /** Stratum: Conduits (middleware) */
+  /** Stambha: Conduits (middleware) */
   conduits: "src/conduits",
-  /** Stratum: Signals (buttons, modals, selects) */
+  /** Stambha: Signals (buttons, modals, selects) */
   signals: "src/signals",
-  /** Klasa: `tasks/` — Stratum: Chron */
+  /** Klasa: `tasks/` — Stambha: Chron */
   tasks: "src/tasks",
   /** Vault blueprints / ledger schemas */
   schemas: "src/schemas",

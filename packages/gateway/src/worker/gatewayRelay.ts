@@ -1,4 +1,4 @@
-import type { Bridge } from "@stratum/core";
+import type { Bridge } from "@stambha/core";
 import type { WorkerMessage } from "./types.js";
 import { WorkerMessageTypes, createWorkerMessage } from "./types.js";
 
@@ -25,7 +25,7 @@ export interface GatewayRelayOptions {
 
 /**
  * Forward bridge gateway events to a bot worker via {@link WorkerBus}.
- * Used in tier split v2 — gateway process holds the bridge; bot process runs StratumClient.
+ * Used in tier split v2 — gateway process holds the bridge; bot process runs StambhaClient.
  */
 export function attachGatewayRelay(bridge: Bridge, options: GatewayRelayOptions): () => void {
   const events = options.events ?? DEFAULT_EVENTS;

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { defineBlueprint, field, Vault } from "@stratum/vault";
+import { defineBlueprint, field, Vault } from "@stambha/vault";
 
 const GuildBlueprint = defineBlueprint({
   prefix: field.string().default("!"),
@@ -32,7 +32,7 @@ describe.skipIf(!supportsNodeSqlite())("SQLiteDriver", () => {
 
   it("survives reopen with file database", async () => {
     const { SQLiteDriver } = await import("./SQLiteDriver.js");
-    const path = `/tmp/stratum-vault-test-${Date.now()}.db`;
+    const path = `/tmp/stambha-vault-test-${Date.now()}.db`;
     const driver1 = new SQLiteDriver({ path });
     const vault1 = new Vault({ driver: driver1, debounceMs: 0 });
     vault1.registerLedger("guild", { blueprint: GuildBlueprint });

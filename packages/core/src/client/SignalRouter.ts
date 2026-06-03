@@ -1,9 +1,9 @@
 import type { SignalContext } from "../context/SignalContext.js";
 import { Signal, type SignalType } from "../registries/Signal.js";
-import type { StratumClient } from "./StratumClient.js";
+import type { StambhaClient } from "./StambhaClient.js";
 
 export class SignalRouter {
-  constructor(readonly client: StratumClient) {}
+  constructor(readonly client: StambhaClient) {}
 
   async dispatch(ctx: SignalContext, type: SignalType): Promise<boolean> {
     const signal = this.client.registries.signals.get(ctx.signalName);

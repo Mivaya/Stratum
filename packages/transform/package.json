@@ -1,19 +1,19 @@
 {
-  "name": "@stratum/transform",
+  "name": "@stambha/transform",
   "version": "0.1.0",
-  "description": "Stratum transform layer — gateway payloads to slim context shapes and REST bodies",
+  "description": "Stambha transform layer — gateway payloads to slim context shapes and REST bodies",
   "author": "Mivaya",
   "license": "MIT",
-  "homepage": "https://github.com/mivaya/Stratum/tree/main/packages/transform#readme",
+  "homepage": "https://github.com/mivaya/Stambha/tree/main/packages/transform#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mivaya/Stratum.git",
+    "url": "git+https://github.com/mivaya/Stambha.git",
     "directory": "packages/transform"
   },
   "bugs": {
-    "url": "https://github.com/mivaya/Stratum/issues"
+    "url": "https://github.com/mivaya/Stambha/issues"
   },
-  "keywords": ["discord", "discord-bot", "stratum", "transform", "desired-properties"],
+  "keywords": ["discord", "discord-bot", "stambha", "transform", "desired-properties"],
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -30,10 +30,10 @@
     "test": "vitest run"
   },
   "peerDependencies": {
-    "@stratum/core": "workspace:*"
+    "@stambha/core": "workspace:*"
   },
   "devDependencies": {
-    "@stratum/core": "workspace:*",
+    "@stambha/core": "workspace:*",
     "@types/node": "^22.13.4",
     "discord.js": "^14.19.0",
     "tsup": "^8.3.6",

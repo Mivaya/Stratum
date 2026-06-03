@@ -1,8 +1,8 @@
-# Mivaya org — Stratum security setup
+# Mivaya org — Stambha security setup
 
-Checklist for **mivaya/Stratum** after moving from a personal account. Repository files cover automation; org admins configure the rest in GitHub.
+Checklist for **mivaya/Stambha** after moving from a personal account. Repository files cover automation; org admins configure the rest in GitHub.
 
-**Docs site:** https://mivaya.github.io/Stratum/
+**Docs site:** https://mivaya.github.io/Stambha/
 
 ---
 
@@ -35,14 +35,14 @@ Checklist for **mivaya/Stratum** after moving from a personal account. Repositor
 Create a maintainers team:
 
 1. **https://github.com/orgs/mivaya/teams/new**
-2. Name: **`stratum-maintainers`** (must match [CODEOWNERS](./CODEOWNERS))
-3. Add core maintainers; grant **Maintain** or **Admin** on `mivaya/Stratum`
+2. Name: **`stambha-maintainers`** (must match [CODEOWNERS](./CODEOWNERS))
+3. Add core maintainers; grant **Maintain** or **Admin** on `mivaya/Stambha`
 
 Avoid giving **Write** on `main` to many members — use PRs + branch protection.
 
 ---
 
-## 3. Repository settings (`mivaya/Stratum`)
+## 3. Repository settings (`mivaya/Stambha`)
 
 ### Actions permissions
 
@@ -97,7 +97,9 @@ Same as org defaults; confirm **Private vulnerability reporting** is **Enabled**
 | [workflows/dependency-review.yml](./workflows/dependency-review.yml) | Block PRs introducing high-severity deps |
 | [workflows/ci.yml](./workflows/ci.yml) | Build + test matrix |
 | [workflows/docs.yml](./workflows/docs.yml) | VitePress → GitHub Pages |
-| [CODEOWNERS](./CODEOWNERS) | `@mivaya/stratum-maintainers` on sensitive paths |
+| [workflows/publish-npm.yml](./workflows/publish-npm.yml) | Publish `@stambha/*` on GitHub Release |
+| [PUBLISHING.md](./PUBLISHING.md) | npm token + release process |
+| [CODEOWNERS](./CODEOWNERS) | `@mivaya/stambha-maintainers` on sensitive paths |
 | [SECURITY.md](../SECURITY.md) | Vulnerability reporting |
 | [pull_request_template.md](./pull_request_template.md) | PR checklist |
 
@@ -105,14 +107,14 @@ Same as org defaults; confirm **Private vulnerability reporting** is **Enabled**
 
 ## 5. After transfer — verify
 
-- [ ] Clone URL works: `git@github.com:mivaya/Stratum.git`
+- [ ] Clone URL works: `git@github.com:mivaya/Stambha.git`
 - [ ] CI green on `main`
 - [ ] Docs deploy: **Actions → Docs**
-- [ ] Pages live: https://mivaya.github.io/Stratum/
+- [ ] Pages live: https://mivaya.github.io/Stambha/
 - [ ] CODEOWNERS team exists and gets review requests
 - [ ] Dependabot opened at least one PR or shows enabled
 - [ ] Secret scanning + push protection on
-- [ ] npm scope `@stratum` publish credentials updated if publishing from org
+- [ ] npm scope `@stambha` publish credentials updated if publishing from org
 
 ---
 

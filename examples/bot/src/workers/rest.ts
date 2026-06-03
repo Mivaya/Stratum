@@ -1,4 +1,4 @@
-import { createNativeRestWorker } from "@stratum/rest";
+import { createNativeRestWorker } from "@stambha/rest";
 
 const token = process.env.DISCORD_TOKEN;
 if (!token) {

@@ -1,4 +1,4 @@
-import type { CommandContext } from "@stratum/core";
+import type { CommandContext } from "@stambha/core";
 import type { ArgError, ArgResult } from "./errors.js";
 
 /** Send a user-facing message for a failed argument parse. */

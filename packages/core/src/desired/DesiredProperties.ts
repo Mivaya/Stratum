@@ -58,7 +58,7 @@ export const minimalDesiredProperties: DesiredProperties = Object.freeze({
   meta: { channelType: false, channelNsfw: false, memberPermissions: false, clientPermissions: false },
 });
 
-/** Only fields required by `@stratum/gates`. */
+/** Only fields required by `@stambha/gates`. */
 export const gatesDesiredProperties: DesiredProperties = Object.freeze({
   context: { meta: true, argsText: true, slashOptions: true, slashPath: true, raw: false },
   meta: { channelType: true, channelNsfw: true, memberPermissions: true, clientPermissions: true },

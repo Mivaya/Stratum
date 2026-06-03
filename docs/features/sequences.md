@@ -2,10 +2,10 @@
 
 Sequences chain **buttons → selects → modals** without manual collectors.
 
-## Core (`@stratum/core`)
+## Core (`@stambha/core`)
 
 ```ts
-import { sequence } from "@stratum/core";
+import { sequence } from "@stambha/core";
 
 const flow = sequence()
   .button("role", "Pick a role:", [
@@ -23,7 +23,7 @@ const flow = sequence()
 
 `client.sequences` is the session store (timeouts, wrong-user checks).
 
-Wire sequence steps to Discord components in your gateway worker — reply with buttons/selects/modals whose custom IDs use `stratum:seq:{sessionId}|{stepId}|{part}` (step IDs must not contain `|`).
+Wire sequence steps to Discord components in your gateway worker — reply with buttons/selects/modals whose custom IDs use `stambha:seq:{sessionId}|{stepId}|{part}` (step IDs must not contain `|`).
 
 ## Example
 

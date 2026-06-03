@@ -1,4 +1,4 @@
-import { defineGate, type GateLike } from "@stratum/core";
+import { defineGate, type GateLike } from "@stambha/core";
 
 export interface NsfwGateOptions {
   message?: string;

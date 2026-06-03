@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { resolveDesiredProperties, slimCommandContext, slimMeta } from "@stratum/core";
-import { gatesDesiredProperties } from "@stratum/core";
+import { resolveDesiredProperties, slimCommandContext, slimMeta } from "@stambha/core";
+import { gatesDesiredProperties } from "@stambha/core";
 import { buildDiscordenoDesiredProperties, metaFromDiscordenoSlash } from "./discordeno.js";
 import { interactionReplyBody } from "./rest.js";
 
-describe("@stratum/transform", () => {
+describe("@stambha/transform", () => {
   it("builds discordeno desired properties with member when permissions wanted", () => {
     const resolved = resolveDesiredProperties(gatesDesiredProperties);
     const props = buildDiscordenoDesiredProperties(resolved);

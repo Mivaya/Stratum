@@ -9,7 +9,7 @@ function jsonResponse(status: number, body: unknown, headers: Record<string, str
   });
 }
 
-describe("@stratum/rest", () => {
+describe("@stambha/rest", () => {
   it("sends authorized GET and returns JSON", async () => {
     const fetchImpl = vi.fn(async () => jsonResponse(200, { ok: true }));
 

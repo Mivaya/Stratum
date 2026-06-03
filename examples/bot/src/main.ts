@@ -1,6 +1,6 @@
-import { attachStratumClient, createGatewayEventHub } from "@stratum/gateway";
-import { createNativeRestWorker } from "@stratum/rest";
-import type { StratumMessage } from "@stratum/transform";
+import { attachStambhaClient, createGatewayEventHub } from "@stambha/gateway";
+import { createNativeRestWorker } from "@stambha/rest";
+import type { StambhaMessage } from "@stambha/transform";
 import { setupBot } from "./lib/setup.js";
 
 const demo = process.env.DEMO === "1";
@@ -14,7 +14,7 @@ if (!demo && !token) {
 const { client } = await setupBot({ demo });
 
 const hub = createGatewayEventHub();
-attachStratumClient(hub, client);
+attachStambhaClient(hub, client);
 client.setBridge(hub);
 
 let restCloser: (() => Promise<void>) | null = null;
@@ -28,10 +28,10 @@ if (!demo && token && !process.env.REST_WORKER_URL) {
 }
 
 const botUserId = process.env.BOT_USER_ID ?? "demo-bot";
-hub.markReady({ user: { id: botUserId, username: "StratumBot" } });
+hub.markReady({ user: { id: botUserId, username: "StambhaBot" } });
 await client.start();
 
-console.log("Stratum bot online (native gateway hub + REST).");
+console.log("Stambha bot online (native gateway hub + REST).");
 console.log("Folder layout: commands, listeners, scouts, barriers, gates, conduits, epilogues, signals, tasks, schemas.");
 
 if (demo) {
@@ -43,7 +43,7 @@ if (demo) {
     channelId: "c1",
     guildId: "g1",
     author: { id: "u1", bot: false },
-  } satisfies StratumMessage);
+  } satisfies StambhaMessage);
 
   hub.emit("messageCreate", {
     id: "2",
@@ -51,7 +51,7 @@ if (demo) {
     channelId: "c1",
     guildId: "g1",
     author: { id: "u1", bot: false },
-  } satisfies StratumMessage);
+  } satisfies StambhaMessage);
 
   hub.emit("messageCreate", {
     id: "3",
@@ -59,7 +59,7 @@ if (demo) {
     channelId: "c1",
     guildId: "g1",
     author: { id: "u2", bot: false },
-  } satisfies StratumMessage);
+  } satisfies StambhaMessage);
 
   console.log("\n--- end demo ---\n");
 } else {

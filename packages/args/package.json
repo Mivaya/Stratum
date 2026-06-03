@@ -1,22 +1,22 @@
 {
-  "name": "@stratum/args",
+  "name": "@stambha/args",
   "version": "0.1.0",
-  "description": "Typed argument parsing for Stratum — prefix lexer and slash options (Sapphire Args parity)",
+  "description": "Typed argument parsing for Stambha — prefix lexer and slash options (Sapphire Args parity)",
   "author": "Mivaya",
   "license": "MIT",
-  "homepage": "https://github.com/mivaya/Stratum/tree/main/packages/args#readme",
+  "homepage": "https://github.com/mivaya/Stambha/tree/main/packages/args#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mivaya/Stratum.git",
+    "url": "git+https://github.com/mivaya/Stambha.git",
     "directory": "packages/args"
   },
   "bugs": {
-    "url": "https://github.com/mivaya/Stratum/issues"
+    "url": "https://github.com/mivaya/Stambha/issues"
   },
   "keywords": [
     "discord",
     "discord-bot",
-    "stratum",
+    "stambha",
     "arguments",
     "parser",
     "sapphire"
@@ -37,10 +37,10 @@
     "test": "vitest run"
   },
   "peerDependencies": {
-    "@stratum/core": "workspace:*"
+    "@stambha/core": "workspace:*"
   },
   "devDependencies": {
-    "@stratum/core": "workspace:*",
+    "@stambha/core": "workspace:*",
     "@types/node": "^22.13.4",
     "tsup": "^8.3.6",
     "typescript": "^5.7.3",

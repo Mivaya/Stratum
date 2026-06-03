@@ -1,4 +1,4 @@
-/** Optional hooks for REST queue telemetry (wired by `@stratum/metrics`). */
+/** Optional hooks for REST queue telemetry (wired by `@stambha/metrics`). */
 export interface RestTelemetry {
   recordRequest(event: {
     method: string;

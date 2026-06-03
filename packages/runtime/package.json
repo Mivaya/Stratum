@@ -1,19 +1,19 @@
 {
-  "name": "@stratum/runtime",
+  "name": "@stambha/runtime",
   "version": "0.1.0",
-  "description": "Cross-runtime abstractions for Stratum — Node.js, Bun, and Deno",
+  "description": "Cross-runtime abstractions for Stambha — Node.js, Bun, and Deno",
   "author": "Mivaya",
   "license": "MIT",
-  "homepage": "https://github.com/mivaya/Stratum/tree/main/packages/runtime#readme",
+  "homepage": "https://github.com/mivaya/Stambha/tree/main/packages/runtime#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mivaya/Stratum.git",
+    "url": "git+https://github.com/mivaya/Stambha.git",
     "directory": "packages/runtime"
   },
   "bugs": {
-    "url": "https://github.com/mivaya/Stratum/issues"
+    "url": "https://github.com/mivaya/Stambha/issues"
   },
-  "keywords": ["discord", "discord-bot", "stratum", "deno", "bun", "runtime"],
+  "keywords": ["discord", "discord-bot", "stambha", "deno", "bun", "runtime"],
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -42,5 +42,9 @@
   },
   "engines": {
     "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
   }
 }

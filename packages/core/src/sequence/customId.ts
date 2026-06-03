@@ -1,4 +1,4 @@
-const PREFIX = "stratum:seq:";
+const PREFIX = "stambha:seq:";
 const SEP = "|";
 
 export function sequenceCustomId(sessionId: string, stepId: string, part?: string): string {

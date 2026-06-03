@@ -1,9 +1,9 @@
 import type { Bridge, Tier, WorkerRole } from "../bridge/types.js";
 import type { RestPort } from "../tier/types.js";
 import type { TierBus } from "../tier/types.js";
-import type { StratumContainerLike } from "../container/types.js";
+import type { StambhaContainerLike } from "../container/types.js";
 
-export interface StratumClientOptions {
+export interface StambhaClientOptions {
   tier?: Tier;
   workerRole?: WorkerRole;
   /** Remote REST worker (gateway role in split tier). */
@@ -12,17 +12,17 @@ export interface StratumClientOptions {
   tierBus?: TierBus;
   bridge?: Bridge;
   prefix?: string;
-  /** Shared services + logger (defaults to {@link DefaultStratumContainer}). */
-  container?: StratumContainerLike;
+  /** Shared services + logger (defaults to {@link DefaultStambhaContainer}). */
+  container?: StambhaContainerLike;
   /** Context field mask for bridges (defaults to full context). */
   desiredProperties?: import("../desired/DesiredProperties.js").DesiredProperties;
 }
 
-export interface CreateStratumBotOptions extends StratumClientOptions {
+export interface CreateStambhaBotOptions extends StambhaClientOptions {
   autostart?: boolean;
 }
 
-export interface StratumRegistries {
+export interface StambhaRegistries {
   commands: import("../pieces/Registry.js").Registry<import("../registries/Command.js").Command>;
   hooks: import("../pieces/Registry.js").Registry<import("../registries/Hook.js").Hook>;
   scouts: import("../pieces/Registry.js").Registry<import("../registries/Scout.js").Scout>;
@@ -34,7 +34,7 @@ export interface StratumRegistries {
   chrons: import("../pieces/Registry.js").Registry<import("../registries/Chron.js").Chron>;
 }
 
-export type StratumClientEvents = {
+export type StambhaClientEvents = {
   ready: [];
   unitRegistered: [{ registry: string; unit: import("../pieces/Unit.js").Unit }];
   unitUnregistered: [{ registry: string; name: string }];
@@ -73,7 +73,7 @@ export type StratumClientEvents = {
 };
 
 export type { Binder } from "../binder/Binder.js";
-export type { StratumLogger, StratumContainerLike } from "../container/types.js";
+export type { StambhaLogger, StambhaContainerLike } from "../container/types.js";
 export { ConsoleLogger } from "../container/ConsoleLogger.js";
-export { DefaultStratumContainer } from "../container/DefaultStratumContainer.js";
+export { DefaultStambhaContainer } from "../container/DefaultStambhaContainer.js";
 export type { PluginHookName, PluginLifecycle } from "../plugins/types.js";

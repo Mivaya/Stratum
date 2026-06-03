@@ -16,8 +16,8 @@ describe("createMetricsServer", () => {
     const body = await res.text();
 
     expect(res.ok).toBe(true);
-    expect(body).toContain("stratum_bot_ready");
-    expect(body).toContain("stratum_commands_total");
+    expect(body).toContain("stambha_bot_ready");
+    expect(body).toContain("stambha_commands_total");
 
     const health = await fetch(`${server.url}/health`);
     expect(health.ok).toBe(true);

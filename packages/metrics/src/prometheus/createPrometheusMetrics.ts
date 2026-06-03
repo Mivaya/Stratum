@@ -3,7 +3,7 @@ import type { MetricsCollector } from "../types.js";
 
 export interface PrometheusMetricsOptions {
   register?: Registry;
-  /** Metric name prefix (default `stratum_`). */
+  /** Metric name prefix (default `stambha_`). */
   prefix?: string;
 }
 
@@ -14,7 +14,7 @@ export interface PrometheusMetricsHandle {
 
 export function createPrometheusMetrics(options: PrometheusMetricsOptions = {}): PrometheusMetricsHandle {
   const register = options.register ?? new Registry();
-  const prefix = options.prefix ?? "stratum_";
+  const prefix = options.prefix ?? "stambha_";
 
   const commandsTotal = new Counter({
     name: `${prefix}commands_total`,
@@ -40,7 +40,7 @@ export function createPrometheusMetrics(options: PrometheusMetricsOptions = {}):
 
   const botReady = new Gauge({
     name: `${prefix}bot_ready`,
-    help: "1 when the Stratum client has emitted ready",
+    help: "1 when the Stambha client has emitted ready",
     registers: [register],
   });
 

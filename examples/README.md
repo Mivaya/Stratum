@@ -1,4 +1,4 @@
-# Stratum examples
+# Stambha examples
 
 | Directory | Purpose |
 |-----------|---------|

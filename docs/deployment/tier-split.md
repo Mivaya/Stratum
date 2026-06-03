@@ -1,6 +1,6 @@
 # Tier split (REST / gateway / bot workers)
 
-Inspired by [Discordeno’s architecture](https://discordeno.js.org/docs/architecture), Stratum can run **gateway**, **REST**, and **bot logic** in separate processes. The gateway receives Discord events; outbound API calls go through a dedicated REST worker with isolated rate limits; command routing runs in a bot worker.
+Inspired by [Discordeno’s architecture](https://discordeno.js.org/docs/architecture), Stambha can run **gateway**, **REST**, and **bot logic** in separate processes. The gateway receives Discord events; outbound API calls go through a dedicated REST worker with isolated rate limits; command routing runs in a bot worker.
 
 ## Roles
 
@@ -8,15 +8,15 @@ Inspired by [Discordeno’s architecture](https://discordeno.js.org/docs/archite
 |------|---------|----------------|
 | `monolith` | One | Gateway + REST (default) |
 | `gateway` | Gateway relay | WebSocket shards → normalized events → worker bus |
-| `bot` | Bot worker | StratumClient, commands, replies via `RestPort` |
+| `bot` | Bot worker | StambhaClient, commands, replies via `RestPort` |
 | `rest` | REST worker | Discord REST API only |
 
-Set `tier: "split"` and `workerRole: "gateway"` on the Stratum client when the bot process handles routing, plus a `restPort` pointing at the REST worker.
+Set `tier: "split"` and `workerRole: "gateway"` on the Stambha client when the bot process handles routing, plus a `restPort` pointing at the REST worker.
 
 ## REST worker
 
 ```ts
-import { createNativeRestWorker } from "@stratum/rest";
+import { createNativeRestWorker } from "@stambha/rest";
 
 const server = await createNativeRestWorker({
   token: process.env.DISCORD_TOKEN!,
@@ -35,10 +35,10 @@ Endpoints:
 ## Bot worker
 
 ```ts
-import { createStratumBot, HttpRestPort } from "@stratum/core";
-import { attachStratumClient, createGatewayEventHub } from "@stratum/gateway";
+import { createStambhaBot, HttpRestPort } from "@stambha/core";
+import { attachStambhaClient, createGatewayEventHub } from "@stambha/gateway";
 
-const client = createStratumBot({
+const client = createStambhaBot({
   tier: "split",
   workerRole: "gateway",
   restPort: new HttpRestPort({
@@ -48,7 +48,7 @@ const client = createStratumBot({
 });
 
 const hub = createGatewayEventHub();
-attachStratumClient(hub, client);
+attachStambhaClient(hub, client);
 client.setBridge(hub);
 await client.start();
 ```
@@ -60,7 +60,7 @@ Slash and prefix replies are sent through the REST worker instead of an in-proce
 Your WebSocket shard code normalizes Discord payloads and feeds the hub:
 
 ```ts
-import { attachGatewayRelay, createGatewayEventHub, createHttpWorkerClient } from "@stratum/gateway";
+import { attachGatewayRelay, createGatewayEventHub, createHttpWorkerClient } from "@stambha/gateway";
 
 const hub = createGatewayEventHub();
 attachGatewayRelay(hub, {
@@ -95,18 +95,18 @@ Copy `.env.example` → `.env` before running with a real token.
 
 | Export | Package | Purpose |
 |--------|---------|---------|
-| `RestPort`, `RestRequest` | `@stratum/core` | Transport-agnostic REST |
-| `HttpRestPort` | `@stratum/core` | Bot → REST worker client |
-| `createRestWorkerServer` | `@stratum/core` | Generic HTTP REST worker |
-| `InMemoryTierBus` | `@stratum/core` | In-process event bus (tests / demo) |
-| `createNativeRestWorker` | `@stratum/rest` | Stratum-native REST worker |
-| `createGatewayEventHub`, `attachStratumClient` | `@stratum/gateway` | Native event routing |
-| `attachGatewayRelay` | `@stratum/gateway` | Gateway relay → bot worker bus |
+| `RestPort`, `RestRequest` | `@stambha/core` | Transport-agnostic REST |
+| `HttpRestPort` | `@stambha/core` | Bot → REST worker client |
+| `createRestWorkerServer` | `@stambha/core` | Generic HTTP REST worker |
+| `InMemoryTierBus` | `@stambha/core` | In-process event bus (tests / demo) |
+| `createNativeRestWorker` | `@stambha/rest` | Stambha-native REST worker |
+| `createGatewayEventHub`, `attachStambhaClient` | `@stambha/gateway` | Native event routing |
+| `attachGatewayRelay` | `@stambha/gateway` | Gateway relay → bot worker bus |
 
-`distributed` tier (multiple gateway shards) uses `@stratum/gateway` resharding — see [Resharding](/deployment/resharding).
+`distributed` tier (multiple gateway shards) uses `@stambha/gateway` resharding — see [Resharding](/deployment/resharding).
 
 ## See also
 
 - [Gateway](/deployment/gateway) — shard manager, worker messages, cache
 - [Native REST](/deployment/native-rest) — metrics and worker options
-- [Examples on GitHub](https://github.com/mivaya/Stratum/tree/main/examples) — runnable samples
+- [Examples on GitHub](https://github.com/mivaya/Stambha/tree/main/examples) — runnable samples

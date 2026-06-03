@@ -1,22 +1,22 @@
 {
-  "name": "@stratum/rest",
+  "name": "@stambha/rest",
   "version": "0.1.0",
   "description": "Native Discord REST client, rate-limit queue, REST worker, and slash command deploy",
   "author": "Mivaya",
   "license": "MIT",
-  "homepage": "https://github.com/mivaya/Stratum/tree/main/packages/rest#readme",
+  "homepage": "https://github.com/mivaya/Stambha/tree/main/packages/rest#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mivaya/Stratum.git",
+    "url": "git+https://github.com/mivaya/Stambha.git",
     "directory": "packages/rest"
   },
   "bugs": {
-    "url": "https://github.com/mivaya/Stratum/issues"
+    "url": "https://github.com/mivaya/Stambha/issues"
   },
   "keywords": [
     "discord",
     "discord-bot",
-    "stratum",
+    "stambha",
     "rest",
     "rate-limit"
   ],
@@ -36,12 +36,12 @@
     "test": "vitest run"
   },
   "peerDependencies": {
-    "@stratum/core": "workspace:*",
-    "@stratum/transport": "workspace:*"
+    "@stambha/core": "workspace:*",
+    "@stambha/transport": "workspace:*"
   },
   "devDependencies": {
-    "@stratum/core": "workspace:*",
-    "@stratum/transport": "workspace:*",
+    "@stambha/core": "workspace:*",
+    "@stambha/transport": "workspace:*",
     "@types/node": "^22.13.4",
     "tsup": "^8.3.6",
     "typescript": "^5.7.3",

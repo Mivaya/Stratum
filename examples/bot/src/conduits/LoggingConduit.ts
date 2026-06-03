@@ -1,4 +1,4 @@
-import { Conduit, type CommandContext, type Registry } from "@stratum/core";
+import { Conduit, type CommandContext, type Registry } from "@stambha/core";
 
 export class LoggingConduit extends Conduit {
   constructor(registry: Registry<Conduit>) {

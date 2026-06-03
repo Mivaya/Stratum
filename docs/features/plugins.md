@@ -1,20 +1,20 @@
 # Plugins & container
 
-Phase 14 adds **`@stratum/plugins`** — Sapphire-style lifecycle hooks plus a shared **container** (logger, config, DI).
+Phase 14 adds **`@stambha/plugins`** — Sapphire-style lifecycle hooks plus a shared **container** (logger, config, DI).
 
-Core stays transport-free: `@stratum/core` exposes `PluginLifecycle`, `DefaultStratumContainer`, and `ConsoleLogger`. The plugins package wires hooks and optional interaction helpers.
+Core stays transport-free: `@stambha/core` exposes `PluginLifecycle`, `DefaultStambhaContainer`, and `ConsoleLogger`. The plugins package wires hooks and optional interaction helpers.
 
 ---
 
 ## Quick start
 
 ```ts
-import { createStratumBot } from "@stratum/core";
-import { loadPieces } from "@stratum/loader";
-import { attachPlugins, definePlugin, StratumContainer } from "@stratum/plugins";
+import { createStambhaBot } from "@stambha/core";
+import { loadPieces } from "@stambha/loader";
+import { attachPlugins, definePlugin, StambhaContainer } from "@stambha/plugins";
 
-const container = new StratumContainer({ config: { env: "dev" } });
-const client = createStratumBot({ container });
+const container = new StambhaContainer({ config: { env: "dev" } });
+const client = createStambhaBot({ container });
 
 await attachPlugins(client, {
   plugins: [
@@ -56,10 +56,10 @@ client.start  → preStart → connect → postStart
 
 ---
 
-## StratumContainer
+## StambhaContainer
 
 ```ts
-const container = new StratumContainer({
+const container = new StambhaContainer({
   logger: myLogger, // optional; defaults to ConsoleLogger
   config: { apiUrl: process.env.API_URL },
 });
@@ -72,7 +72,7 @@ const container = new StratumContainer({
 ### DI tokens
 
 ```ts
-import { ContainerToken, LoggerToken } from "@stratum/plugins";
+import { ContainerToken, LoggerToken } from "@stambha/plugins";
 
 const logger = client.binder.resolve(LoggerToken);
 const container = client.binder.resolve(ContainerToken);
@@ -96,7 +96,7 @@ definePlugin("audit", {
 });
 ```
 
-For larger plugins, export a `StratumPlugin` object with the same shape.
+For larger plugins, export a `StambhaPlugin` object with the same shape.
 
 ---
 
@@ -105,7 +105,7 @@ For larger plugins, export a `StratumPlugin` object with the same shape.
 Bridges already route slash autocomplete and component signals. For custom tooling, use:
 
 ```ts
-import { resolveInteractionTarget } from "@stratum/plugins";
+import { resolveInteractionTarget } from "@stambha/plugins";
 
 const target = resolveInteractionTarget(client, {
   kind: "autocomplete",
@@ -113,7 +113,7 @@ const target = resolveInteractionTarget(client, {
 });
 
 // or
-resolveInteractionTarget(client, { kind: "signal", customId: "stratum:confirm:abc" });
+resolveInteractionTarget(client, { kind: "signal", customId: "stambha:confirm:abc" });
 ```
 
 - Autocomplete → `CommandIndex.resolveSlash`
@@ -123,16 +123,16 @@ resolveInteractionTarget(client, { kind: "signal", customId: "stratum:confirm:ab
 
 ## Official extensions (separate repo)
 
-**`@stratum/plugins` is the host** — hooks and DI only. Optional add-ons (dashboard HTTP, i18n, cron, etc.) live in a **separate monorepo**, same idea as [sapphiredev/plugins](https://github.com/sapphiredev/plugins):
+**`@stambha/plugins` is the host** — hooks and DI only. Optional add-ons (dashboard HTTP, i18n, cron, etc.) live in a **separate monorepo**, same idea as [sapphiredev/plugins](https://github.com/sapphiredev/plugins):
 
-- Planned org/repo: **`stratumdev/plugins`**
+- Planned org/repo: **`stambhadev/plugins`**
 - Package names describe **capability**, not Sapphire’s `plugin-*` pattern
 
 | Extension | Package |
 |-----------|---------|
-| Dashboard / OAuth / Vault HTTP | `@stratum/dashboard` |
-| Translations | `@stratum/i18n` |
-| Scheduled tasks | `@stratum/cron` |
+| Dashboard / OAuth / Vault HTTP | `@stambha/dashboard` |
+| Translations | `@stambha/i18n` |
+| Scheduled tasks | `@stambha/cron` |
 
 Install from npm, register with `attachPlugins()` like any local plugin. See [ADR 003](/internal/adr/003-plugins-monorepo) (internal).
 

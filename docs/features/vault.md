@@ -1,10 +1,10 @@
-# Vault (`@stratum/vault`)
+# Vault (`@stambha/vault`)
 
 Klasa-style **Gateway → Schema → Settings** reimagined as **Ledger → Blueprint → Record**.
 
 ## Concepts
 
-| Klasa | Stratum Vault |
+| Klasa | Stambha Vault |
 |-------|----------------|
 | Gateway | **Ledger** |
 | Schema | **Blueprint** |
@@ -22,7 +22,7 @@ Register ledgers in `main.ts` (piece loader will automate this later).
 ## Quick start
 
 ```ts
-import { Vault, MemoryDriver, defineBlueprint, field } from "@stratum/vault";
+import { Vault, MemoryDriver, defineBlueprint, field } from "@stambha/vault";
 
 export const GuildBlueprint = defineBlueprint({
   prefix: field.string().default("!"),

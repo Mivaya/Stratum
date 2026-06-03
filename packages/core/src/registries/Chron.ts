@@ -15,7 +15,7 @@ export interface ChronOptions extends UnitOptions {
 
 /**
  * Scheduled background work (Klasa `Task` / cron jobs).
- * Lives in `src/tasks/` and is loaded by `@stratum/loader`.
+ * Lives in `src/tasks/` and is loaded by `@stambha/loader`.
  */
 export abstract class Chron extends Unit<ChronOptions> {
   readonly schedule: ChronSchedule;

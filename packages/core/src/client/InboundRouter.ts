@@ -1,14 +1,14 @@
 import type { CommandContext, ScoutContext } from "../context/types.js";
 import type { CommandSlashPath } from "../command/slashTypes.js";
 import type { Outcome } from "../outcome/Outcome.js";
-import type { StratumClient } from "./StratumClient.js";
+import type { StambhaClient } from "./StambhaClient.js";
 
 /**
  * Transport-agnostic inbound routing: scouts, then prefix command detection.
  * Bridge packages call these methods with normalized contexts.
  */
 export class InboundRouter {
-  constructor(readonly client: StratumClient) {}
+  constructor(readonly client: StambhaClient) {}
 
   async processScout(ctx: ScoutContext): Promise<void> {
     await this.client.pipeline.runScouts(ctx);

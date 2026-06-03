@@ -1,4 +1,4 @@
-/** REST worker telemetry (native `@stratum/rest` rate-limit queue). */
+/** REST worker telemetry (native `@stambha/rest` rate-limit queue). */
 export interface RestMetricsCollector {
   recordRestRequest(event: {
     method: string;
@@ -10,7 +10,7 @@ export interface RestMetricsCollector {
   recordRestWait(bucketId: string, waitMs: number): void;
 }
 
-/** Map {@link RestMetricsCollector} to `@stratum/rest` {@link RestTelemetry}. */
+/** Map {@link RestMetricsCollector} to `@stambha/rest` {@link RestTelemetry}. */
 export function restMetricsToTelemetry(collector: RestMetricsCollector): {
   recordRequest(event: {
     method: string;

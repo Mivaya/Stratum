@@ -1,8 +1,8 @@
-# Stratum roadmap — future goals
+# Stambha roadmap — future goals
 
-Stratum’s long-term goal is to be a **first-class bot framework** that combines the best of **Sapphire** (developer ergonomics, piece model, command pipeline) and **Discordeno** (scale, split processes, memory control) — plus **original capabilities neither provides** (Vault, Sequences, transport-agnostic core).
+Stambha’s long-term goal is to be a **first-class bot framework** that combines the best of **Sapphire** (developer ergonomics, piece model, command pipeline) and **Discordeno** (scale, split processes, memory control) — plus **original capabilities neither provides** (Vault, Sequences, transport-agnostic core).
 
-This document lists **core unique features** from each source, what Stratum already has, and the planned phases to close gaps.
+This document lists **core unique features** from each source, what Stambha already has, and the planned phases to close gaps.
 
 **Branch rule (unchanged):** `feature/{short-name}`
 
@@ -12,15 +12,15 @@ This document lists **core unique features** from each source, what Stratum alre
 
 ```text
 ┌─────────────────────────────────────────────────────────────────┐
-│  Stratum = Sapphire ergonomics + Discordeno scale + originals   │
+│  Stambha = Sapphire ergonomics + Discordeno scale + originals   │
 ├─────────────────────────────────────────────────────────────────┤
-│  @stratum/core        Framework (never imports discord.js/Deno) │
-│  @stratum/transport*  Native gateway + REST (future, optional)  │
-│  @stratum/transform   Payload normalization (optional lib shape helpers) │
+│  @stambha/core        Framework (never imports discord.js/Deno) │
+│  @stambha/transport*  Native gateway + REST (future, optional)  │
+│  @stambha/transform   Payload normalization (optional lib shape helpers) │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-**End state:** Authors write against Stratum APIs only. Discord connectivity comes from Stratum-owned transport **or** optional bridges — not from wrapping Sapphire or requiring discord.js in core.
+**End state:** Authors write against Stambha APIs only. Discord connectivity comes from Stambha-owned transport **or** optional bridges — not from wrapping Sapphire or requiring discord.js in core.
 
 ---
 
@@ -32,25 +32,25 @@ Legend: **Done** · **Partial** · **Planned** · **Won't** (explicit non-goal)
 
 Sapphire’s value is **structure and DX** on top of discord.js — command stores, preconditions, arguments, plugins, interaction handlers.
 
-| Feature | Sapphire | Stratum today | Target |
+| Feature | Sapphire | Stambha today | Target |
 |---------|----------|---------------|--------|
-| Piece stores (commands, listeners) | CommandStore, ListenerStore | **Done** — `Command`, `Hook`, registries + `@stratum/loader` | Keep |
-| Preconditions | PreconditionStore | **Done** — `@stratum/gates` (cooldown, permissions, NSFW, RunIn) | Maintain |
+| Piece stores (commands, listeners) | CommandStore, ListenerStore | **Done** — `Command`, `Hook`, registries + `@stambha/loader` | Keep |
+| Preconditions | PreconditionStore | **Done** — `@stambha/gates` (cooldown, permissions, NSFW, RunIn) | Maintain |
 | Global inhibitors | — (use plugins) | **Done** — `Barrier` (Klasa-aligned) | Keep |
 | Post-command hooks | — | **Done** — `Epilogue` (Klasa finalizers) | Keep |
 | Middleware | — | **Done** — `Conduit` | Keep |
-| Arguments / `Args` parsing | ArgumentStore, typed resolvers | **Done** — `@stratum/args` | Maintain |
+| Arguments / `Args` parsing | ArgumentStore, typed resolvers | **Done** — `@stambha/args` | Maintain |
 | Slash subcommands & groups | Command options tree | **Done** — Phase 13 | Core + deploy |
 | Prefix aliases | Command aliases | **Done** — `CommandIndex` | Router |
 | Command categories | category / subCategory | **Done** — metadata + help | Help command |
-| Built-in cooldown gate | Precondition + scope | **Done** — `@stratum/gates` | Maintain |
-| Built-in permission gate | Client + user permissions | **Done** — `@stratum/gates` | Maintain |
-| Built-in NSFW / RunIn gates | Channel type checks | **Done** — `@stratum/gates` | Maintain |
+| Built-in cooldown gate | Precondition + scope | **Done** — `@stambha/gates` | Maintain |
+| Built-in permission gate | Client + user permissions | **Done** — `@stambha/gates` | Maintain |
+| Built-in NSFW / RunIn gates | Channel type checks | **Done** — `@stambha/gates` | Maintain |
 | Interaction handlers | InteractionHandlerStore | **Partial** — `Signal` + `resolveInteractionTarget` | Full handler store later |
 | Autocomplete handlers | Interaction handlers | **Done** — `Command.autocomplete()` | Bridge routing |
 | Slash deploy / registry | Application command registries | **Done** — `buildApplicationCommands`, deploy diff | Bridges |
-| Plugin system | Plugin hooks (pre/post init, login) | **Done** — `@stratum/plugins` | Maintain |
-| Logger / container DI | `@sapphire/pieces` Container | **Done** — `StratumContainer` + `Binder` | Maintain |
+| Plugin system | Plugin hooks (pre/post init, login) | **Done** — `@stambha/plugins` | Maintain |
+| Logger / container DI | `@sapphire/pieces` Container | **Done** — `StambhaContainer` + `Binder` | Maintain |
 | Error listeners | Default error listeners | **Partial** — client events (`commandError`, etc.) | Default handlers Phase 11 |
 | Message commands | Optional loadMessageCommandListeners | **Done** — prefix via bridge + router | Keep |
 | Depends on discord.js | Always | **No** — bridge only | Keep core free |
@@ -59,44 +59,44 @@ Sapphire’s value is **structure and DX** on top of discord.js — command stor
 
 Discordeno’s value is **operational scale** — split gateway/REST, rate-limit centralization, memory trimming, sharding/resharding.
 
-| Feature | Discordeno | Stratum today | Target |
+| Feature | Discordeno | Stambha today | Target |
 |---------|------------|---------------|--------|
 | Split gateway / REST / bot processes | First-class | **Partial** — `RestPort`, tier split, REST worker | Native transport Phase 15–16 |
-| Centralized REST rate limits | `@discordeno/rest` proxy | **Done** — `@stratum/rest` + metrics | Native gateway **Done** (Phase 18) |
+| Centralized REST rate limits | `@discordeno/rest` proxy | **Done** — `@stambha/rest` + metrics | Native gateway **Done** (Phase 18) |
 | desiredProperties (RAM trim) | Per-bot property mask | **Done** — client mask + Discordeno sync | Maintain |
-| Transformers (Discord ↔ internal) | Bidirectional transformers | **Done** — `@stratum/transform` | Bridge adapters |
-| Gateway manager + shard workers | `@discordeno/gateway` | **Done** — Phase 18 | `@stratum/gateway` |
-| Zero-downtime resharding | Automated / manual | **Done** — Phase 19 | `@stratum/gateway` reshard API |
+| Transformers (Discord ↔ internal) | Bidirectional transformers | **Done** — `@stambha/transform` | Bridge adapters |
+| Gateway manager + shard workers | `@discordeno/gateway` | **Done** — Phase 18 | `@stambha/gateway` |
+| Zero-downtime resharding | Automated / manual | **Done** — Phase 19 | `@stambha/gateway` reshard API |
 | Gateway proxy / fast resume | DD proxy patterns | **Planned** — Phase 19 | Optional proxy package |
-| Custom caches | Pluggable cache layer | **Done** — Phase 18 (memory) | `@stratum/cache` |
-| Cross-runtime (Node, Deno, Bun) | Yes | **Done** — Phase 20 | `@stratum/runtime` |
+| Custom caches | Pluggable cache layer | **Done** — Phase 18 (memory) | `@stambha/cache` |
+| Cross-runtime (Node, Deno, Bun) | Yes | **Done** — Phase 20 | `@stambha/runtime` |
 | Functional handlers (no classes) | Preferred style | **Won't** — class pieces match Sapphire/Klasa | Gates/args support functions |
 | Horizontal worker scaling | Cluster / workers | **Partial** — tier split v1 + v2 | Worker orchestration Phase 19 |
 | REST proxy from gateway | `rest.proxy` | **Partial** — `HttpRestPort` | Unified with native REST |
 
-### Stratum originals (neither Sapphire nor Discordeno)
+### Stambha originals (neither Sapphire nor Discordeno)
 
-| Feature | Stratum today | Notes |
+| Feature | Stambha today | Notes |
 |---------|---------------|-------|
 | Transport-agnostic `Bridge` | **Done** | Core never imports Discord libs |
 | `Outcome` / typed errors | **Done** | `ok()` / `err()` pipeline |
 | **Vault** (Blueprint / Ledger / Record) | **Done** | Schema-first guild/user settings |
-| **Sequences** (multi-step UI) | **Done** | `stratum:seq:…` custom IDs |
+| **Sequences** (multi-step UI) | **Done** | `stambha:seq:…` custom IDs |
 | **Chron** (cron tasks) | **Done** | `src/tasks/` loader path |
 | **Scouts** (passive watchers) | **Done** | Klasa monitors |
 | **Signals** (components) | **Done** | Buttons, selects, modals |
-| **Metrics** (Prometheus) | **Done** | `@stratum/metrics` |
+| **Metrics** (Prometheus) | **Done** | `@stambha/metrics` |
 | **MockBridge** (test without Discord) | **Done** | Core testing |
 | **Tier** + **worker roles** | **Done** | monolith / split |
-| Native `@stratum/transport` | **Planned** | Phase 15+ — Stratum-owned gateway/REST |
+| Native `@stambha/transport` | **Planned** | Phase 15+ — Stambha-owned gateway/REST |
 | Migration guides from Sapphire/Klasa | **Done** — Phase 21 | [MIGRATION.md](./MIGRATION.md) |
 
 ---
 
 ## What we are **not** building
 
-- A fork of Sapphire or a discord.js wrapper marketed as Stratum
-- A 1:1 Discordeno API clone inside `@stratum/core`
+- A fork of Sapphire or a discord.js wrapper marketed as Stambha
+- A 1:1 Discordeno API clone inside `@stambha/core`
 - Requiring discord.js **or** Discordeno to use the framework core (bridges stay optional)
 
 ---
@@ -105,13 +105,13 @@ Discordeno’s value is **operational scale** — split gateway/REST, rate-limit
 
 Phases 1–10 are complete — see [PHASES.md](./PHASES.md#completed).
 
-### Phase 11 — Built-in gates (`@stratum/gates`) ✅
+### Phase 11 — Built-in gates (`@stambha/gates`) ✅
 
 **From Sapphire:** Cooldown, Permissions, NSFW, RunIn, UserPermissions.
 
 | Deliverable | Status |
 |-------------|--------|
-| `@stratum/gates` package | Done |
+| `@stambha/gates` package | Done |
 | Cooldown | Done — limit + delay + scope |
 | Permissions | Done — member + client bitfields |
 | NSFW / RunIn | Done |
@@ -122,13 +122,13 @@ Phases 1–10 are complete — see [PHASES.md](./PHASES.md#completed).
 
 ---
 
-### Phase 12 — Arguments (`@stratum/args`) ✅
+### Phase 12 — Arguments (`@stambha/args`) ✅
 
 **From Sapphire:** ArgumentStore, `Args`, resolvers (string, integer, member, channel, …).
 
 | Deliverable | Status |
 |-------------|--------|
-| `@stratum/args` | Done |
+| `@stambha/args` | Done |
 | Prefix lexer + `Args` | Done |
 | `CommandContext.argsText` | Done — bridges pass prefix args |
 | Slash options | Done — `SlashArgs`, `slashOptions` on context |
@@ -162,23 +162,23 @@ Phases 1–10 are complete — see [PHASES.md](./PHASES.md#completed).
 
 | Deliverable | Description |
 |-------------|-------------|
-| `@stratum/plugins` | `preInit`, `postInit`, `preStart`, `postStart`, `postLoad` hooks |
-| `StratumContainer` | Logger, config, shared services (extends `DefaultStratumContainer`) |
+| `@stambha/plugins` | `preInit`, `postInit`, `preStart`, `postStart`, `postLoad` hooks |
+| `StambhaContainer` | Logger, config, shared services (extends `DefaultStambhaContainer`) |
 | Interaction handler unification | `resolveInteractionTarget` facade (Signal + autocomplete) |
-| Official extensions | Separate repo **`stratumdev/plugins`** — e.g. `@stratum/dashboard`, `@stratum/i18n` ([ADR 003](./adr/003-plugins-monorepo.md); no `@stratum/plugin-*` names) |
+| Official extensions | Separate repo **`stambhadev/plugins`** — e.g. `@stambha/dashboard`, `@stambha/i18n` ([ADR 003](./adr/003-plugins-monorepo.md); no `@stambha/plugin-*` names) |
 
 **Branch:** `feature/plugins` · **Docs:** [PLUGINS.md](./PLUGINS.md)
 
 ---
 
-### Phase 15 — Transport foundation (`@stratum/transport`) ✅
+### Phase 15 — Transport foundation (`@stambha/transport`) ✅
 
-**From Discordeno:** Own the Discord wire protocol inside Stratum (not a bridge).
+**From Discordeno:** Own the Discord wire protocol inside Stambha (not a bridge).
 
 | Deliverable | Description |
 |-------------|-------------|
-| `@stratum/transport` | Shared types, rate-limit bucket model, session info |
-| `@stratum/rest` | REST client with centralized queue (Discordeno-inspired) |
+| `@stambha/transport` | Shared types, rate-limit bucket model, session info |
+| `@stambha/rest` | REST client with centralized queue (Discordeno-inspired) |
 | Bridge deprecation path | Document: new bots → transport; existing → bridges |
 
 **Branch:** `feature/transport` · **Docs:** [TRANSPORT.md](./TRANSPORT.md)
@@ -194,7 +194,7 @@ Phases 1–10 are complete — see [PHASES.md](./PHASES.md#completed).
 | REST worker server | `createNativeRestWorker` replaces discord.js REST worker |
 | `RestPort` implementation | `NativeRestPort` + `HttpRestPort` gateway client |
 | Bearer auth + health | Parity with `createRestWorkerServer` |
-| Rate-limit metrics | `createPrometheusRestMetrics` in `@stratum/metrics` |
+| Rate-limit metrics | `createPrometheusRestMetrics` in `@stambha/metrics` |
 
 **Branch:** `feature/native-rest` · **Docs:** [NATIVE_REST.md](./NATIVE_REST.md)
 
@@ -206,9 +206,9 @@ Phases 1–10 are complete — see [PHASES.md](./PHASES.md#completed).
 
 | Deliverable | Description |
 |-------------|-------------|
-| `desiredProperties` config | On `StratumClient` / transport bot |
+| `desiredProperties` config | On `StambhaClient` / transport bot |
 | Slim `CommandContext` fields | Only requested props populated |
-| `@stratum/transform` | Gateway payload → Stratum shapes → REST payloads |
+| `@stambha/transform` | Gateway payload → Stambha shapes → REST payloads |
 | Bridge adapters | discord.js + Discordeno context via transform layer |
 
 **Branch:** `feature/desired-properties` · **Docs:** [DESIRED_PROPERTIES.md](./DESIRED_PROPERTIES.md)
@@ -221,9 +221,9 @@ Phases 1–10 are complete — see [PHASES.md](./PHASES.md#completed).
 
 | Deliverable | Description |
 |-------------|-------------|
-| `@stratum/gateway` | Shard manager, identify, resume |
+| `@stambha/gateway` | Shard manager, identify, resume |
 | Worker protocol | Gateway worker ↔ bot worker messaging |
-| `@stratum/cache` | Pluggable cache (memory, Redis) |
+| `@stambha/cache` | Pluggable cache (memory, Redis) |
 | Tier split v2 | Native gateway + REST + bot workers |
 
 **Branch:** `feature/gateway` · **Docs:** [GATEWAY.md](./GATEWAY.md)
@@ -261,12 +261,12 @@ Phases 1–10 are complete — see [PHASES.md](./PHASES.md#completed).
 
 ### Phase 21 — Migration & docs
 
-**Stratum original:** Onboard Sapphire/Klasa/Discordeno users.
+**Stambha original:** Onboard Sapphire/Klasa/Discordeno users.
 
 | Deliverable | Description |
 |-------------|-------------|
 | `docs/MIGRATION_SAPPHIRE.md` | Piece name mapping, Gate vs Precondition |
-| `docs/MIGRATION_DISCORDENO.md` | Big bot → Stratum tier layout |
+| `docs/MIGRATION_DISCORDENO.md` | Big bot → Stambha tier layout |
 | `docs/MIGRATION_KLASA.md` | Monitors → Scouts, etc. |
 | Architecture decision records | Transport vs bridge strategy |
 
@@ -300,7 +300,7 @@ Plugins (14) can run parallel to transport work — different contributors, no h
 
 ## Success criteria
 
-Stratum reaches **1.0.0** when:
+Stambha reaches **1.0.0** when:
 
 1. **Core** runs a production bot with **native transport** (no required bridge).
 2. **Sapphire parity** on daily authoring: gates pack, args, subcommands, deploy, loader.

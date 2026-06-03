@@ -1,13 +1,13 @@
 {
-  "name": "@stratum/example-minimal",
+  "name": "@stambha/example-minimal",
   "version": "0.1.0",
   "private": true,
-  "description": "Minimal Stratum example using MockBridge for tests and local development",
+  "description": "Minimal Stambha example using MockBridge for tests and local development",
   "author": "Mivaya",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mivaya/Stratum.git",
+    "url": "git+https://github.com/mivaya/Stambha.git",
     "directory": "examples/minimal"
   },
   "type": "module",
@@ -16,7 +16,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@stratum/core": "workspace:*"
+    "@stambha/core": "workspace:*"
   },
   "devDependencies": {
     "tsx": "^4.19.2",

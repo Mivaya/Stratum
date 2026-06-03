@@ -1,4 +1,4 @@
-import { err, ok, type Outcome } from "@stratum/core";
+import { err, ok, type Outcome } from "@stambha/core";
 
 export type ArgErrorCode = "MISSING" | "INVALID" | "UNKNOWN_TYPE";
 

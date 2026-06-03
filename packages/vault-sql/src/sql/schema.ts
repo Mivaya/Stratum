@@ -1,4 +1,4 @@
-export const VAULT_TABLE = "stratum_vault_records";
+export const VAULT_TABLE = "stambha_vault_records";
 
 export const CREATE_TABLE_SQL = `
 CREATE TABLE IF NOT EXISTS ${VAULT_TABLE} (

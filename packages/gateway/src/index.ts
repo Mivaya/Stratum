@@ -51,9 +51,9 @@ export {
 } from "./GatewayEventHub.js";
 
 export {
-  attachStratumClient,
-  type AttachStratumClientOptions,
-} from "./attachStratumClient.js";
+  attachStambhaClient,
+  type AttachStambhaClientOptions,
+} from "./attachStambhaClient.js";
 
 export {
   evaluateReshard,

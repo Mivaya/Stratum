@@ -1,22 +1,22 @@
 {
-  "name": "@stratum/loader",
+  "name": "@stambha/loader",
   "version": "0.1.0",
-  "description": "Auto-load Stratum pieces from Sapphire/Klasa-style folders (commands, listeners, scouts, etc.)",
+  "description": "Auto-load Stambha pieces from Sapphire/Klasa-style folders (commands, listeners, scouts, etc.)",
   "author": "Mivaya",
   "license": "MIT",
-  "homepage": "https://github.com/mivaya/Stratum/tree/main/packages/loader#readme",
+  "homepage": "https://github.com/mivaya/Stambha/tree/main/packages/loader#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mivaya/Stratum.git",
+    "url": "git+https://github.com/mivaya/Stambha.git",
     "directory": "packages/loader"
   },
   "bugs": {
-    "url": "https://github.com/mivaya/Stratum/issues"
+    "url": "https://github.com/mivaya/Stambha/issues"
   },
   "keywords": [
     "discord",
     "discord-bot",
-    "stratum",
+    "stambha",
     "loader",
     "sapphire",
     "klasa"
@@ -37,13 +37,13 @@
     "test": "vitest run --passWithNoTests"
   },
   "peerDependencies": {
-    "@stratum/core": "workspace:*"
+    "@stambha/core": "workspace:*"
   },
   "dependencies": {
-    "@stratum/runtime": "workspace:*"
+    "@stambha/runtime": "workspace:*"
   },
   "devDependencies": {
-    "@stratum/core": "workspace:*",
+    "@stambha/core": "workspace:*",
     "@types/node": "^22.13.4",
     "tsup": "^8.3.6",
     "typescript": "^5.7.3",

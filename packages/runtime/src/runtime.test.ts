@@ -4,7 +4,7 @@ import { randomUUID } from "./crypto.js";
 import { detectRuntime, isNode } from "./detect.js";
 import { sleep } from "./timers.js";
 
-describe("@stratum/runtime", () => {
+describe("@stambha/runtime", () => {
   it("detects node in vitest", () => {
     expect(isNode()).toBe(true);
     expect(detectRuntime()).toBe("node");

@@ -1,4 +1,4 @@
-import { Gate, type CommandContext, type GateResult, type Registry } from "@stratum/core";
+import { Gate, type CommandContext, type GateResult, type Registry } from "@stambha/core";
 
 /** Enabled when `ENFORCE_OWNER=1` — blocks non-owners globally. */
 export class OwnerGate extends Gate {

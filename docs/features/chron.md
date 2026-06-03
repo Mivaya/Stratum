@@ -9,7 +9,7 @@ Place tasks in `src/tasks/` (see `PiecePaths.tasks`).
 ## Define a task
 
 ```ts
-import { Chron, type ChronContext, type Registry } from "@stratum/core";
+import { Chron, type ChronContext, type Registry } from "@stambha/core";
 
 export class HeartbeatTask extends Chron {
   constructor(registry: Registry<Chron>) {

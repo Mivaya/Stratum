@@ -15,7 +15,7 @@ export function createPrometheusRestMetrics(
   options: PrometheusRestMetricsOptions = {},
 ): PrometheusRestMetricsHandle {
   const register = options.register ?? new Registry();
-  const prefix = options.prefix ?? "stratum_";
+  const prefix = options.prefix ?? "stambha_";
 
   const requestsTotal = new Counter({
     name: `${prefix}rest_requests_total`,

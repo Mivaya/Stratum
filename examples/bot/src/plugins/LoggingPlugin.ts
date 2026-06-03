@@ -1,8 +1,8 @@
-import { definePlugin } from "@stratum/plugins";
+import { definePlugin } from "@stambha/plugins";
 
 export const LoggingPlugin = definePlugin("logging", {
   postStart: async () => {
-    console.log("[plugin:logging] Stratum client started");
+    console.log("[plugin:logging] Stambha client started");
   },
   postLoad: async () => {
     console.log("[plugin:logging] Pieces loaded");

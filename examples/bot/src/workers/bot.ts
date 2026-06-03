@@ -1,7 +1,7 @@
-import { HttpRestPort } from "@stratum/core";
-import { createWorkerServer, WorkerMessageTypes } from "@stratum/gateway";
-import { commandContextFromStratumMessageViaRest } from "@stratum/transform";
-import type { StratumMessage } from "@stratum/transform";
+import { HttpRestPort } from "@stambha/core";
+import { createWorkerServer, WorkerMessageTypes } from "@stambha/gateway";
+import { commandContextFromStambhaMessageViaRest } from "@stambha/transform";
+import type { StambhaMessage } from "@stambha/transform";
 import { setupBot } from "../lib/setup.js";
 
 const token = process.env.DISCORD_TOKEN;
@@ -40,13 +40,13 @@ const server = await createWorkerServer({
     const { event, payload } = message.payload as { event: string; payload: unknown };
     if (event !== "messageCreate") return;
 
-    const msg = payload as StratumMessage;
+    const msg = payload as StambhaMessage;
     if (!msg.content || msg.author?.bot) return;
 
     const parsed = client.router.parsePrefixCommand(msg.content);
     if (!parsed) return;
 
-    const ctx = commandContextFromStratumMessageViaRest(msg, parsed.name, restPort, parsed.args, {
+    const ctx = commandContextFromStambhaMessageViaRest(msg, parsed.name, restPort, parsed.args, {
       desired: client.desiredProperties,
     });
     await client.router.processPrefixCommand(ctx);

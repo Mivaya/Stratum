@@ -1,24 +1,24 @@
 # Desired properties & transforms
 
-Phase 17 adds **context slimming** on `StratumClient` and **`@stratum/transform`** — a bidirectional layer between Discord transports and Stratum's transport-agnostic shapes.
+Phase 17 adds **context slimming** on `StambhaClient` and **`@stambha/transform`** — a bidirectional layer between Discord transports and Stambha's transport-agnostic shapes.
 
-Inspired by [Discordeno desired properties](https://discordeno.deno.dev/) (gateway RAM trimming) and Stratum's own `CommandContext` field mask.
+Inspired by [Discordeno desired properties](https://discordeno.deno.dev/) (gateway RAM trimming) and Stambha's own `CommandContext` field mask.
 
 ---
 
 ## Client configuration
 
 ```ts
-import { createStratumBot, gatesDesiredProperties, minimalDesiredProperties } from "@stratum/core";
+import { createStambhaBot, gatesDesiredProperties, minimalDesiredProperties } from "@stambha/core";
 
 // Default: full context + meta (discord.js bots)
-const full = createStratumBot({ prefix: "!" });
+const full = createStambhaBot({ prefix: "!" });
 
 // Drop raw Discord objects; keep gate metadata
-const gated = createStratumBot({ desiredProperties: gatesDesiredProperties });
+const gated = createStambhaBot({ desiredProperties: gatesDesiredProperties });
 
 // Minimal RAM — routing fields only
-const slim = createStratumBot({ desiredProperties: minimalDesiredProperties });
+const slim = createStambhaBot({ desiredProperties: minimalDesiredProperties });
 ```
 
 `client.desiredProperties` is a frozen {@link ResolvedDesiredProperties} mask. Bridges read it when building {@link CommandContext}.
@@ -28,13 +28,13 @@ const slim = createStratumBot({ desiredProperties: minimalDesiredProperties });
 | Preset | `raw` | `meta` | Use case |
 |--------|-------|--------|----------|
 | `defaultDesiredProperties` | yes | full | Development, discord.js |
-| `gatesDesiredProperties` | no | full | Production with `@stratum/gates` |
+| `gatesDesiredProperties` | no | full | Production with `@stambha/gates` |
 | `minimalDesiredProperties` | no | none | High-scale bots, custom gates |
 
 ### Custom mask
 
 ```ts
-createStratumBot({
+createStambhaBot({
   desiredProperties: {
     context: { meta: true, raw: false, argsText: true, slashOptions: true, slashPath: true },
     meta: { channelType: true, memberPermissions: true, channelNsfw: false, clientPermissions: false },
@@ -44,7 +44,7 @@ createStratumBot({
 
 ---
 
-## `@stratum/transform`
+## `@stambha/transform`
 
 Transport adapters live in one package:
 
@@ -54,31 +54,31 @@ import {
   metaFromDiscordJsSlash,
   buildDiscordenoDesiredProperties,
   interactionReplyBody,
-} from "@stratum/transform";
+} from "@stambha/transform";
 ```
 
 | Export | Role |
 |--------|------|
-| `StratumMessage`, `StratumUser`, … | Slim internal DTOs |
+| `StambhaMessage`, `StambhaUser`, … | Slim internal DTOs |
 | `metaFromDiscordJs*` / `metaFromDiscordeno*` | Gate metadata |
 | `buildDiscordenoDesiredProperties` | Gateway trim from client mask |
 | `interactionReplyBody`, `channelMessageBody` | Native REST payloads |
 
-`@stratum/transform` applies slimming when building contexts. Bot authors usually set `desiredProperties` on the client.
+`@stambha/transform` applies slimming when building contexts. Bot authors usually set `desiredProperties` on the client.
 
 ### Discordeno shape helpers
 
-`buildDiscordenoDesiredProperties()` in `@stratum/transform` maps Stratum gate needs to Discordeno-style desired property flags when your gateway worker still uses Discordeno types.
+`buildDiscordenoDesiredProperties()` in `@stambha/transform` maps Stambha gate needs to Discordeno-style desired property flags when your gateway worker still uses Discordeno types.
 
 ---
 
 ## API helpers (core)
 
 ```ts
-import { slimCommandContext, slimMeta, resolveDesiredProperties } from "@stratum/core";
+import { slimCommandContext, slimMeta, resolveDesiredProperties } from "@stambha/core";
 ```
 
-Used by `@stratum/transform` after building a full context. Custom gateway workers should follow the same pattern.
+Used by `@stambha/transform` after building a full context. Custom gateway workers should follow the same pattern.
 
 ---
 

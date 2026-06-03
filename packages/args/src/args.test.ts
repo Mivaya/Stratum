@@ -4,7 +4,7 @@ import { SlashArgs } from "./SlashArgs.js";
 import { tokenize } from "./lexer.js";
 import { integerArg, stringArg } from "./resolvers.js";
 import { unwrapArg } from "./errors.js";
-import type { CommandContext } from "@stratum/core";
+import type { CommandContext } from "@stambha/core";
 
 describe("tokenize", () => {
   it("splits on whitespace", () => {

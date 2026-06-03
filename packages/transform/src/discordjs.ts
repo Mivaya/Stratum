@@ -1,4 +1,4 @@
-import type { ChannelType, CommandContextMeta } from "@stratum/core";
+import type { ChannelType, CommandContextMeta } from "@stambha/core";
 import {
   ChannelType as DjsChannelType,
   type ChatInputCommandInteraction,
@@ -6,7 +6,7 @@ import {
   type GuildMember,
   type Message,
 } from "discord.js";
-import type { StratumMessage, StratumSlashInteraction, StratumUser } from "./shapes.js";
+import type { StambhaMessage, StambhaSlashInteraction, StambhaUser } from "./shapes.js";
 
 function mapChannelType(type: DjsChannelType): ChannelType {
   switch (type) {
@@ -35,14 +35,14 @@ function mapChannelType(type: DjsChannelType): ChannelType {
   }
 }
 
-export function userFromDiscordJs(user: { id: string; bot?: boolean; username?: string }): StratumUser {
-  const out: StratumUser = { id: user.id };
+export function userFromDiscordJs(user: { id: string; bot?: boolean; username?: string }): StambhaUser {
+  const out: StambhaUser = { id: user.id };
   if (user.bot !== undefined) (out as { bot?: boolean }).bot = user.bot;
   if (user.username !== undefined) (out as { username?: string }).username = user.username;
   return out;
 }
 
-export function messageFromDiscordJs(message: Message): StratumMessage {
+export function messageFromDiscordJs(message: Message): StambhaMessage {
   return {
     id: message.id,
     content: message.content,
@@ -54,7 +54,7 @@ export function messageFromDiscordJs(message: Message): StratumMessage {
 
 export function slashInteractionFromDiscordJs(
   interaction: ChatInputCommandInteraction,
-): StratumSlashInteraction {
+): StambhaSlashInteraction {
   return {
     id: interaction.id,
     token: interaction.token,

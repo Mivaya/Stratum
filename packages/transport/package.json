@@ -1,22 +1,22 @@
 {
-  "name": "@stratum/transport",
+  "name": "@stambha/transport",
   "version": "0.1.0",
-  "description": "Stratum Discord transport primitives — session info, route keys, rate-limit buckets",
+  "description": "Stambha Discord transport primitives — session info, route keys, rate-limit buckets",
   "author": "Mivaya",
   "license": "MIT",
-  "homepage": "https://github.com/mivaya/Stratum/tree/main/packages/transport#readme",
+  "homepage": "https://github.com/mivaya/Stambha/tree/main/packages/transport#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mivaya/Stratum.git",
+    "url": "git+https://github.com/mivaya/Stambha.git",
     "directory": "packages/transport"
   },
   "bugs": {
-    "url": "https://github.com/mivaya/Stratum/issues"
+    "url": "https://github.com/mivaya/Stambha/issues"
   },
   "keywords": [
     "discord",
     "discord-bot",
-    "stratum",
+    "stambha",
     "transport",
     "rate-limit"
   ],

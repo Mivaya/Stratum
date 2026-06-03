@@ -19,7 +19,7 @@ super(registry, {
 ### Inline tree (single Command class)
 
 ```ts
-import { SlashOptionType } from "@stratum/core";
+import { SlashOptionType } from "@stambha/core";
 
 super(registry, {
   name: "config",
@@ -86,7 +86,7 @@ Bridges route autocomplete interactions to the resolved command.
 ## Deploy v2
 
 ```ts
-import { deployCommands } from "@stratum/rest";
+import { deployCommands } from "@stambha/rest";
 
 const result = await deployCommands({
   token,
@@ -97,12 +97,12 @@ const result = await deployCommands({
 });
 ```
 
-`buildApplicationCommands()` from `@stratum/core` builds the JSON; `@stratum/rest` sends it to Discord.
+`buildApplicationCommands()` from `@stambha/core` builds the JSON; `@stambha/rest` sends it to Discord.
 
 ### Permissions
 
 ```ts
-import { Permission } from "@stratum/gates";
+import { Permission } from "@stambha/gates";
 
 defaultMemberPermissions: Permission.BanMembers,
 dmPermission: false,

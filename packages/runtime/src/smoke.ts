@@ -12,4 +12,4 @@ basename("/tmp/foo.ts", ".ts");
 cwd();
 env("PATH");
 
-console.log(`@stratum/runtime smoke ok (${runtime})`);
+console.log(`@stambha/runtime smoke ok (${runtime})`);

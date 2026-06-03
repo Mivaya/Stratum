@@ -1,4 +1,4 @@
-import type { StratumClient } from "@stratum/core";
+import type { StambhaClient } from "@stambha/core";
 
 export interface AttachGateDeniedReplyOptions {
   /** Use ephemeral replies for slash commands (default `true`). */
@@ -9,16 +9,16 @@ export interface AttachGateDeniedReplyOptions {
 
 /**
  * Listen for `commandDenied` and send the gate message to the user.
- * Register once after creating the Stratum client.
+ * Register once after creating the Stambha client.
  */
 export function attachGateDeniedReply(
-  client: StratumClient,
+  client: StambhaClient,
   options: AttachGateDeniedReplyOptions = {},
 ): () => void {
   const ephemeral = options.ephemeral ?? true;
 
   const handler = async (payload: {
-    ctx: import("@stratum/core").CommandContext;
+    ctx: import("@stambha/core").CommandContext;
     error: { message: string; silent: boolean; gate: string };
   }) => {
     if (options.respectSilent !== false && payload.error.silent) return;
@@ -31,7 +31,7 @@ export function attachGateDeniedReply(
         await ctx.reply(error.message);
       }
     } catch (replyError) {
-      console.error("[stratum/gates] Failed to send gate denial reply:", replyError);
+      console.error("[stambha/gates] Failed to send gate denial reply:", replyError);
     }
   };
 

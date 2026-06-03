@@ -1,11 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { StratumClient } from "@stratum/core";
+import { StambhaClient } from "@stambha/core";
 import { attachClientMetrics } from "./attachClientMetrics.js";
 import { InMemoryMetrics } from "./InMemoryMetrics.js";
 
 describe("attachClientMetrics", () => {
   it("records command success and errors", () => {
-    const client = new StratumClient();
+    const client = new StambhaClient();
     const metrics = new InMemoryMetrics();
     const detach = attachClientMetrics(client, metrics);
 

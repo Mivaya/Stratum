@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { Command, type Registry } from "@stratum/core";
+import { Command, type Registry } from "@stambha/core";
 import { deployCommands } from "./deployCommands.js";
 
 class PingCommand extends Command {

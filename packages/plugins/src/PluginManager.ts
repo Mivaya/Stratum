@@ -1,19 +1,19 @@
-import type { PluginHookName, PluginLifecycle, StratumClient } from "@stratum/core";
+import type { PluginHookName, PluginLifecycle, StambhaClient } from "@stambha/core";
 import { ContainerToken, LoggerToken } from "./tokens.js";
-import type { StratumContainer } from "./StratumContainer.js";
-import type { StratumPlugin } from "./types.js";
+import type { StambhaContainer } from "./StambhaContainer.js";
+import type { StambhaPlugin } from "./types.js";
 
 export interface PluginManagerOptions {
-  client: StratumClient;
-  container: StratumContainer;
-  plugins: StratumPlugin[];
+  client: StambhaClient;
+  container: StambhaContainer;
+  plugins: StambhaPlugin[];
 }
 
 /** Runs plugin hooks in registration order. */
 export class PluginManager implements PluginLifecycle {
-  readonly client: StratumClient;
-  readonly container: StratumContainer;
-  readonly plugins: readonly StratumPlugin[];
+  readonly client: StambhaClient;
+  readonly container: StambhaContainer;
+  readonly plugins: readonly StambhaPlugin[];
 
   constructor(options: PluginManagerOptions) {
     this.client = options.client;
@@ -32,7 +32,7 @@ export class PluginManager implements PluginLifecycle {
 
 export interface CreatePluginManagerOptions extends PluginManagerOptions {}
 
-/** Attach a manager to the client for {@link StratumClient.start} lifecycle hooks. */
+/** Attach a manager to the client for {@link StambhaClient.start} lifecycle hooks. */
 export function createPluginManager(options: CreatePluginManagerOptions): PluginManager {
   const manager = new PluginManager(options);
   options.client.pluginLifecycle = manager;
@@ -40,7 +40,7 @@ export function createPluginManager(options: CreatePluginManagerOptions): Plugin
   return manager;
 }
 
-function registerContainerServices(client: StratumClient, container: StratumContainer): void {
+function registerContainerServices(client: StambhaClient, container: StambhaContainer): void {
   if (client.binder.tryResolve(ContainerToken) === undefined) {
     client.binder.registerSingleton(ContainerToken, container);
   }

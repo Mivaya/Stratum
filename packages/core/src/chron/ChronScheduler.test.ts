@@ -2,7 +2,7 @@ import { describe, expect, it, vi } from "vitest";
 import { ChronScheduler } from "./ChronScheduler.js";
 import { Chron, type ChronOptions } from "../registries/Chron.js";
 import { Registry } from "../pieces/Registry.js";
-import { StratumClient } from "../client/StratumClient.js";
+import { StambhaClient } from "../client/StambhaClient.js";
 import type { ChronContext } from "../context/types.js";
 
 class TestChron extends Chron {
@@ -19,7 +19,7 @@ class TestChron extends Chron {
 
 describe("ChronScheduler", () => {
   it("fires interval chrons", async () => {
-    const client = new StratumClient();
+    const client = new StambhaClient();
     const registry = client.registries.chrons;
     const chron = new TestChron(registry, { name: "tick", schedule: { every: 30 } });
     const scheduler = new ChronScheduler();
@@ -30,7 +30,7 @@ describe("ChronScheduler", () => {
   });
 
   it("skips overlapping runs when concurrent is false", async () => {
-    const client = new StratumClient();
+    const client = new StambhaClient();
     const registry = client.registries.chrons;
     let active = 0;
     let maxActive = 0;

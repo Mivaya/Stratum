@@ -1,6 +1,6 @@
-# Contributing to Stratum
+# Contributing to Stambha
 
-Thank you for helping make Stratum a stronger framework for advanced Discord bots. This guide covers how to propose changes, open pull requests, and what we look for before merging.
+Thank you for helping make Stambha a stronger framework for advanced Discord bots. This guide covers how to propose changes, open pull requests, and what we look for before merging.
 
 ## Ways to contribute
 
@@ -12,16 +12,16 @@ Thank you for helping make Stratum a stronger framework for advanced Discord bot
 ## Before you start
 
 1. Read the [README](../README.md) and relevant docs under [`docs/`](../docs/).
-2. Search [existing issues](https://github.com/mivaya/Stratum/issues) to avoid duplicate work.
+2. Search [existing issues](https://github.com/mivaya/Stambha/issues) to avoid duplicate work.
 3. For **large features** (new package, breaking API, new transport), open an issue and wait for alignment before coding.
 
 ### Good first contributions
 
-- Test coverage for edge cases in `@stratum/core`
+- Test coverage for edge cases in `@stambha/core`
 - Documentation fixes and typos
 - Example bots or command patterns
-- Driver improvements for `@stratum/vault-sql`
-- Metrics labels or dashboards for `@stratum/metrics`
+- Driver improvements for `@stambha/vault-sql`
+- Metrics labels or dashboards for `@stambha/metrics`
 
 ### Advanced contributions we welcome
 
@@ -34,8 +34,8 @@ Thank you for helping make Stratum a stronger framework for advanced Discord bot
 ## Development setup
 
 ```bash
-git clone https://github.com/mivaya/Stratum.git
-cd Stratum
+git clone https://github.com/mivaya/Stambha.git
+cd Stambha
 pnpm install
 pnpm build
 pnpm test
@@ -45,13 +45,13 @@ pnpm typecheck
 
 Requirements:
 
-- **Node.js 20+** (22.5+ if you touch `@stratum/vault-sql` SQLite)
+- **Node.js 20+** (22.5+ if you touch `@stambha/vault-sql` SQLite)
 - **pnpm 9+** (see root `packageManager` field)
 
 Run tests for a single package:
 
 ```bash
-pnpm --filter @stratum/core test
+pnpm --filter @stambha/core test
 ```
 
 ## Branch workflow
@@ -59,7 +59,7 @@ pnpm --filter @stratum/core test
 1. **Fork** the repository on GitHub.
 2. **Clone** your fork and add upstream:
    ```bash
-   git remote add upstream https://github.com/mivaya/Stratum.git
+   git remote add upstream https://github.com/mivaya/Stambha.git
    ```
 3. **Branch** from the latest `main`:
    ```bash
@@ -70,7 +70,7 @@ pnpm --filter @stratum/core test
 4. Use the naming convention: **`feature/{short-name}`**  
    Examples: `feature/vault-redis`, `feature/bridge-fix-interactions`, `feature/docs-sequences`
 5. **Commit** in focused steps with clear messages (see below).
-6. **Push** to your fork and open a **Pull Request** against `mivaya/Stratum` → `main`.
+6. **Push** to your fork and open a **Pull Request** against `mivaya/Stambha` → `main`.
 
 Keep your branch up to date:
 
@@ -108,15 +108,15 @@ Optional scope: `core`, `rest`, `gateway`, `transform`, `vault`, `vault-sql`, `l
 
 ## Code guidelines
 
-Stratum is a **transport-agnostic** framework. Keep these principles in mind:
+Stambha is a **transport-agnostic** framework. Keep these principles in mind:
 
 ### Core vs bridges
 
 | Layer | Responsibility |
 |-------|----------------|
-| `@stratum/core` | Routing, pipeline, registries, sequences, chron — **no** discord.js or Discordeno imports |
-| `@stratum/transform` | Normalize Discord payloads ↔ Stratum contexts |
-| `@stratum/vault`, `@stratum/loader`, etc. | Optional packages that integrate via `@stratum/core` types |
+| `@stambha/core` | Routing, pipeline, registries, sequences, chron — **no** discord.js or Discordeno imports |
+| `@stambha/transform` | Normalize Discord payloads ↔ Stambha contexts |
+| `@stambha/vault`, `@stambha/loader`, etc. | Optional packages that integrate via `@stambha/core` types |
 
 Do not import bridge-specific types into core. If core needs a capability, add a small interface in core and implement it in the bridge.
 
@@ -170,7 +170,7 @@ We aim to be constructive and timely. If a PR is large, we may ask you to split 
 
 ## Questions
 
-- **Bugs & features:** [GitHub Issues](https://github.com/mivaya/Stratum/issues)
+- **Bugs & features:** [GitHub Issues](https://github.com/mivaya/Stambha/issues)
 - **Security issues:** please do not open a public issue; contact the maintainer privately via the email in `package.json` author field.
 
-Thank you for contributing to Stratum.
+Thank you for contributing to Stambha.

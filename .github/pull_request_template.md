@@ -13,14 +13,14 @@
 
 ## Packages touched
 
-- [ ] `@stratum/core`
-- [ ] `@stratum/rest`
-- [ ] `@stratum/gateway`
-- [ ] `@stratum/transform`
-- [ ] `@stratum/loader`
-- [ ] `@stratum/vault`
-- [ ] `@stratum/vault-sql`
-- [ ] `@stratum/metrics`
+- [ ] `@stambha/core`
+- [ ] `@stambha/rest`
+- [ ] `@stambha/gateway`
+- [ ] `@stambha/transform`
+- [ ] `@stambha/loader`
+- [ ] `@stambha/vault`
+- [ ] `@stambha/vault-sql`
+- [ ] `@stambha/metrics`
 - [ ] Examples
 - [ ] Docs / repo config
 
@@ -44,8 +44,8 @@
 - [ ] `pnpm typecheck` passes locally
 - [ ] Docs and/or examples updated (if user-facing)
 - [ ] No secrets or environment files committed
-- [ ] Core does not import discord.js or Discordeno (if touching `@stratum/core`)
-- [ ] Workflow or `dependabot.yml` changes reviewed by `@mivaya/stratum-maintainers`
+- [ ] Core does not import discord.js or Discordeno (if touching `@stambha/core`)
+- [ ] Workflow or `dependabot.yml` changes reviewed by `@mivaya/stambha-maintainers`
 
 ## Security (if touching `.github/`, deps, or auth)
 
@@ -62,7 +62,7 @@
 pnpm install
 pnpm build
 pnpm test
-pnpm --filter @stratum/core test
+pnpm --filter @stambha/core test
 ```
 
 ## Screenshots / logs

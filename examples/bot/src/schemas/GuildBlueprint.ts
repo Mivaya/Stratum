@@ -1,4 +1,4 @@
-import { defineBlueprint, field } from "@stratum/vault";
+import { defineBlueprint, field } from "@stambha/vault";
 
 export const GuildBlueprint = defineBlueprint({
   prefix: field.string().default("!").build(),

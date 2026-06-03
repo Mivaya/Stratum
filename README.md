@@ -278,4 +278,4 @@ Org security & GitHub setup: [`.github/ORG_SECURITY.md`](.github/ORG_SECURITY.md
 
 ## Status
 
-**v0.1.0** — first public release of the native stack. See [CHANGELOG.md](CHANGELOG.md). API may still evolve before `1.0.0`.
+**v0.2.0** — Stambha rebrand (`@stambha/*`) and first npm publish. See [CHANGELOG.md](CHANGELOG.md). API may still evolve before `1.0.0`.

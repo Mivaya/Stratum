@@ -1,6 +1,6 @@
 {
   "name": "@stambha/core",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Transport-agnostic Discord bot core — client, pipeline, registries, sequences, chron, and tier split (no discord.js or Discordeno)",
   "author": "Mivaya",
   "license": "MIT",

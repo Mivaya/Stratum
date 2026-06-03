@@ -5,6 +5,53 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.0] - 2026-05-29
+
+**Stambha** — framework rebrand and first **`@stambha/*`** npm release.
+
+### Changed (breaking)
+
+- **Package scope:** `@stratum/*` → **`@stambha/*`** (npm org [`stambha`](https://www.npmjs.com/org/stambha))
+- **Core API:** `StratumClient` → `StambhaClient`, `createStratumBot` → `createStambhaBot`, `DefaultStratumContainer` → `DefaultStambhaContainer`, `StratumContainer` → `StambhaContainer`, `attachStratumClient` → `attachStambhaClient`
+- **Signal custom ids:** prefix `stratum:` → **`stambha:`** (including `stambha:seq:` for sequences)
+- **GitHub:** repository and docs URLs point to **`mivaya/Stambha`**; GitHub Pages base path **`/Stambha/`**
+- **CODEOWNERS:** `@mivaya/stambha-maintainers`
+
+### Added
+
+- **`.github/workflows/publish-npm.yml`** — publish all `packages/*` on GitHub Release (pre-release → npm `beta` tag)
+- **`.github/PUBLISHING.md`** — npm org setup and local dry-run instructions
+
+### Migration from 0.1.x (Stratum)
+
+Replace imports and identifiers:
+
+```diff
+- import { StratumClient, createStratumBot } from "@stratum/core";
++ import { StambhaClient, createStambhaBot } from "@stambha/core";
+```
+
+Update `package.json` dependencies from `@stratum/*` to `@stambha/*`. Re-deploy slash commands if you embed `stambha:` / `stratum:` custom ids in persisted UI.
+
+### Packages in this release
+
+| Package | Version |
+|---------|---------|
+| `@stambha/core` | 0.2.0 |
+| `@stambha/transport` | 0.2.0 |
+| `@stambha/rest` | 0.2.0 |
+| `@stambha/gateway` | 0.2.0 |
+| `@stambha/transform` | 0.2.0 |
+| `@stambha/cache` | 0.2.0 |
+| `@stambha/loader` | 0.2.0 |
+| `@stambha/gates` | 0.2.0 |
+| `@stambha/args` | 0.2.0 |
+| `@stambha/plugins` | 0.2.0 |
+| `@stambha/vault` | 0.2.0 |
+| `@stambha/vault-sql` | 0.2.0 |
+| `@stambha/metrics` | 0.2.0 |
+| `@stambha/runtime` | 0.2.0 |
+
 ## [0.1.0] - 2026-05-29
 
 First public release of the **native Stambha stack** — a transport-agnostic Discord bot framework with Sapphire-style ergonomics and Discordeno-inspired scale.
@@ -91,4 +138,5 @@ First public release of the **native Stambha stack** — a transport-agnostic Di
 | `@stambha/metrics` | 0.1.0 |
 | `@stambha/runtime` | 0.1.0 |
 
+[0.2.0]: https://github.com/mivaya/Stambha/releases/tag/v0.2.0
 [0.1.0]: https://github.com/mivaya/Stambha/releases/tag/v0.1.0

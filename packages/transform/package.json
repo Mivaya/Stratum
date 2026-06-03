@@ -2,16 +2,16 @@
   "name": "@stratum/transform",
   "version": "0.1.0",
   "description": "Stratum transform layer — gateway payloads to slim context shapes and REST bodies",
-  "author": "Interittus13 <arpit.gupta.0121@gmail.com>",
+  "author": "Mivaya",
   "license": "MIT",
-  "homepage": "https://github.com/Interittus13/Stratum/tree/main/packages/transform#readme",
+  "homepage": "https://github.com/mivaya/Stratum/tree/main/packages/transform#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Interittus13/Stratum.git",
+    "url": "git+https://github.com/mivaya/Stratum.git",
     "directory": "packages/transform"
   },
   "bugs": {
-    "url": "https://github.com/Interittus13/Stratum/issues"
+    "url": "https://github.com/mivaya/Stratum/issues"
   },
   "keywords": ["discord", "discord-bot", "stratum", "transform", "desired-properties"],
   "type": "module",

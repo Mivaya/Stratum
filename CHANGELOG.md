@@ -91,4 +91,4 @@ First public release of the **native Stratum stack** — a transport-agnostic Di
 | `@stratum/metrics` | 0.1.0 |
 | `@stratum/runtime` | 0.1.0 |
 
-[0.1.0]: https://github.com/Interittus13/Stratum/releases/tag/v0.1.0
+[0.1.0]: https://github.com/mivaya/Stratum/releases/tag/v0.1.0

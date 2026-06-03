@@ -1,13 +1,13 @@
-# Default owner for the repository.
-* @Interittus13
+# Default: org team (create at https://github.com/orgs/mivaya/teams — slug: stratum-maintainers)
+* @mivaya/stratum-maintainers
 
 # Native transport & core (high-impact changes)
-/packages/core/ @Interittus13
-/packages/rest/ @Interittus13
-/packages/gateway/ @Interittus13
-/packages/transport/ @Interittus13
-/packages/transform/ @Interittus13
+/packages/core/ @mivaya/stratum-maintainers
+/packages/rest/ @mivaya/stratum-maintainers
+/packages/gateway/ @mivaya/stratum-maintainers
+/packages/transport/ @mivaya/stratum-maintainers
+/packages/transform/ @mivaya/stratum-maintainers
 
 # Security-sensitive config
-/.github/workflows/ @Interittus13
-/SECURITY.md @Interittus13
+/.github/ @mivaya/stratum-maintainers
+/SECURITY.md @mivaya/stratum-maintainers

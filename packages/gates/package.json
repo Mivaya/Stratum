@@ -2,16 +2,16 @@
   "name": "@stratum/gates",
   "version": "0.1.0",
   "description": "Built-in Stratum gates — cooldown, permissions, NSFW, and RunIn (Sapphire preconditions parity)",
-  "author": "Interittus13 <arpit.gupta.0121@gmail.com>",
+  "author": "Mivaya",
   "license": "MIT",
-  "homepage": "https://github.com/Interittus13/Stratum/tree/main/packages/gates#readme",
+  "homepage": "https://github.com/mivaya/Stratum/tree/main/packages/gates#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Interittus13/Stratum.git",
+    "url": "git+https://github.com/mivaya/Stratum.git",
     "directory": "packages/gates"
   },
   "bugs": {
-    "url": "https://github.com/Interittus13/Stratum/issues"
+    "url": "https://github.com/mivaya/Stratum/issues"
   },
   "keywords": [
     "discord",

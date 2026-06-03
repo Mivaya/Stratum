@@ -2,7 +2,7 @@
 
 **Native Discord bot framework for Node.js and TypeScript**
 
-[![GitHub](https://img.shields.io/github/license/Interittus13/Stratum)](https://github.com/Interittus13/Stratum/blob/main/LICENSE)
+[![GitHub](https://img.shields.io/github/license/mivaya/Stratum)](https://github.com/mivaya/Stratum/blob/main/LICENSE)
 [![Node](https://img.shields.io/node/v/@stratum/core?color=339933&logo=node.js)](https://nodejs.org)
 
 Stratum is a **transport-agnostic** bot framework with a first-class **native stack** — your command pipeline, vault, and workers do not depend on discord.js or Discordeno. Folder layout follows [Sapphire](https://sapphirejs.dev/) conventions so teams migrating off Sapphire keep familiar `commands/`, `listeners/`, and `preconditions/` → `gates/` paths.
@@ -263,7 +263,7 @@ Contributor planning docs: [`docs/internal/`](docs/internal/).
 ## Development
 
 ```bash
-git clone git@github.com:Interittus13/Stratum.git
+git clone git@github.com:mivaya/Stratum.git
 cd Stratum
 pnpm install
 pnpm build
@@ -272,8 +272,10 @@ pnpm test
 
 Branch naming: `feature/{short-description}`.
 
+Org security & GitHub setup: [`.github/ORG_SECURITY.md`](.github/ORG_SECURITY.md).
+
 ---
 
 ## Status
 
-**v0.1.0** — first public release of the native stack. Bridge packages are removed; see [CHANGELOG.md](CHANGELOG.md). API may still evolve before `1.0.0`.
+**v0.1.0** — first public release of the native stack. See [CHANGELOG.md](CHANGELOG.md). API may still evolve before `1.0.0`.

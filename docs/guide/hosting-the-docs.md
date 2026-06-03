@@ -1,5 +1,7 @@
 # Hosting the documentation site
 
+> **Contributor-only.** This page is excluded from the public VitePress build (`srcExclude` in `.vitepress/config.ts`). Read it on GitHub or in the repo; it is not published to GitHub Pages.
+
 This repo ships a [VitePress](https://vitepress.dev/) site in `/docs`. Sapphire and Discordeno use [Docusaurus](https://docusaurus.io/) — both are solid choices; VitePress is lighter to bootstrap and fits markdown-first docs in the same folder as the site.
 
 ## Run locally
@@ -30,7 +32,7 @@ pnpm docs:build
 
 1. Add `.github/workflows/docs.yml` (see below).
 2. In GitHub repo **Settings → Pages**, set source to **GitHub Actions**.
-3. Push to `main` — the site publishes to `https://<user>.github.io/Stratum/`.
+3. Push to `main` — the site publishes to `https://mivaya.github.io/Stratum/`.
 
 For a custom domain (e.g. `stratum.dev`), add a `CNAME` file in `docs/public/` and configure DNS.
 
@@ -60,7 +62,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm --filter @stratum/docs build
       - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v4
         with:
           path: docs/.vitepress/dist
       - uses: actions/deploy-pages@v4
@@ -93,6 +95,11 @@ Move markdown from `/docs/guide`, `/docs/features`, etc. into `website/docs/`. S
 3. **API reference** — TypeDoc on `@stratum/core` packages, linked from sidebar
 4. **Version dropdown** — when you ship `1.0.0`, add VitePress version plugin or migrate to Docusaurus
 
-## Internal docs
+## Internal & contributor docs
 
-Contributor-only material (roadmap, phases, ADRs) lives in `/docs/internal`. It is **excluded from the public site build** (`srcExclude` in `.vitepress/config.ts`) and from the sidebar. Keep secrets and private URLs out of all docs folders.
+Contributor-only material is **excluded from the public site build** (`srcExclude` in `.vitepress/config.ts`) and from the sidebar:
+
+- `/docs/internal/` — roadmap, phases, ADRs
+- `/docs/guide/hosting-the-docs.md` — this file (Pages deploy notes)
+
+Keep secrets and private URLs out of all docs folders.

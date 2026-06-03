@@ -7,8 +7,8 @@ export default defineConfig({
   cleanUrls: true,
   lastUpdated: true,
 
-  /** Contributor-only planning docs — not published to GitHub Pages. */
-  srcExclude: ["internal/**"],
+  /** Contributor-only — not published to GitHub Pages. */
+  srcExclude: ["internal/**", "guide/hosting-the-docs.md"],
 
   themeConfig: {
     logo: "/logo.svg",
@@ -17,7 +17,7 @@ export default defineConfig({
       { text: "Features", link: "/features/gates" },
       { text: "Deployment", link: "/deployment/overview" },
       { text: "Migration", link: "/migration/" },
-      { text: "GitHub", link: "https://github.com/Interittus13/Stratum" },
+      { text: "GitHub", link: "https://github.com/mivaya/Stratum" },
     ],
 
     sidebar: [
@@ -27,7 +27,6 @@ export default defineConfig({
           { text: "Getting started", link: "/guide/getting-started" },
           { text: "Project structure", link: "/guide/project-structure" },
           { text: "Pieces & pipeline", link: "/guide/pieces" },
-          { text: "Hosting these docs", link: "/guide/hosting-the-docs" },
         ],
       },
       {
@@ -69,10 +68,10 @@ export default defineConfig({
       },
     ],
 
-    socialLinks: [{ icon: "github", link: "https://github.com/Interittus13/Stratum" }],
+    socialLinks: [{ icon: "github", link: "https://github.com/mivaya/Stratum" }],
 
     editLink: {
-      pattern: "https://github.com/Interittus13/Stratum/edit/main/docs/:path",
+      pattern: "https://github.com/mivaya/Stratum/edit/main/docs/:path",
       text: "Edit this page on GitHub",
     },
 

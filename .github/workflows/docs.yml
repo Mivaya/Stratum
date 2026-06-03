@@ -36,7 +36,7 @@ jobs:
       - name: Build VitePress site
         run: pnpm --filter @stambha/docs build
       - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v4
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: docs/.vitepress/dist
 

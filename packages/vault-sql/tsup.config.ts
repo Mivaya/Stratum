@@ -1,11 +1,3 @@
-import { defineConfig } from "tsup";
+import { stambhaPackageConfig } from "../../tsup.package.ts";
 
-export default defineConfig({
-  entry: ["src/index.ts"],
-  format: ["esm"],
-  dts: true,
-  sourcemap: true,
-  clean: true,
-  target: "node22",
-  external: ["@stambha/vault", "pg"],
-});
+export default stambhaPackageConfig();

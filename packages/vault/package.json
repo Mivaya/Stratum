@@ -1,6 +1,6 @@
 {
   "name": "@stambha/vault",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Schema-driven persistence for Stambha — Ledger, Blueprint, and Record with typed guild/user settings",
   "author": "Mivaya",
   "license": "MIT",
@@ -22,15 +22,17 @@
     "settings"
   ],
   "type": "module",
-  "main": "./dist/index.js",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
     }
   },
-  "files": ["dist"],
+  "files": ["dist", "README.md"],
   "scripts": {
     "build": "tsup",
     "typecheck": "tsc --noEmit",

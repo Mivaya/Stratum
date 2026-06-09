@@ -1,12 +1,8 @@
-import { defineConfig } from "tsup";
+import { stambhaPackageConfig } from "../../tsup.package.ts";
 
-export default defineConfig({
+export default stambhaPackageConfig({
   entry: ["src/**/*.ts", "!src/**/*.test.ts"],
-  format: ["esm"],
-  dts: { entry: ["src/index.ts", "src/smoke.ts"] },
-  sourcemap: true,
-  clean: true,
-  target: "es2022",
-  /** Emit per-file ESM so `node:` imports survive for Deno `deno check`. */
   bundle: false,
+  target: "es2022",
+  dts: { entry: ["src/index.ts", "src/smoke.ts"] },
 });

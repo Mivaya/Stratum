@@ -1,6 +1,6 @@
 {
   "name": "@stambha/vault-sql",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "SQL drivers for Stambha Vault — SQLite and PostgreSQL backends",
   "author": "Mivaya",
   "license": "MIT",
@@ -21,15 +21,17 @@
     "postgresql"
   ],
   "type": "module",
-  "main": "./dist/index.js",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
     }
   },
-  "files": ["dist"],
+  "files": ["dist", "README.md"],
   "scripts": {
     "build": "tsup",
     "typecheck": "tsc --noEmit",

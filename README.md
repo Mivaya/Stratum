@@ -216,16 +216,21 @@ Full mapping: [docs/guide/project-structure.md](docs/guide/project-structure.md)
 
 ## Packages
 
+Published under the [**@stambha** npm org](https://www.npmjs.com/org/stambha). Each package has its own README with install steps and examples.
+
 | Package | Description |
 |---------|-------------|
 | [`@stambha/core`](packages/core) | Client, pipeline, registries, sequences, chron |
 | [`@stambha/rest`](packages/rest) | **Native REST** client + worker |
 | [`@stambha/gateway`](packages/gateway) | **Native gateway** hub, sharding, worker bus |
 | [`@stambha/transform`](packages/transform) | Payload normalization + REST contexts |
+| [`@stambha/transport`](packages/transport) | API constants, session, rate-limit routes |
 | [`@stambha/loader`](packages/loader) | Auto-load Sapphire-style folders |
 | [`@stambha/gates`](packages/gates) | Built-in gates (Sapphire preconditions) |
 | [`@stambha/args`](packages/args) | Argument parsing |
+| [`@stambha/plugins`](packages/plugins) | Plugin lifecycle and DI container |
 | [`@stambha/vault`](packages/vault) | Settings persistence |
+| [`@stambha/vault-sql`](packages/vault-sql) | SQLite and PostgreSQL vault drivers |
 | [`@stambha/metrics`](packages/metrics) | Prometheus metrics |
 | [`@stambha/cache`](packages/cache) | Pluggable cache |
 | [`@stambha/runtime`](packages/runtime) | Node / Bun / Deno helpers |
@@ -278,4 +283,4 @@ Org security & GitHub setup: [`.github/ORG_SECURITY.md`](.github/ORG_SECURITY.md
 
 ## Status
 
-**v0.2.0** — Stambha rebrand (`@stambha/*`) and first npm publish. See [CHANGELOG.md](CHANGELOG.md). API may still evolve before `1.0.0`.
+**v0.2.1** — Package READMEs and dual ESM/CJS builds for CommonJS bot migrations. See [CHANGELOG.md](CHANGELOG.md). API may still evolve before `1.0.0`.

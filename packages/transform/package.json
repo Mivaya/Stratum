@@ -1,6 +1,6 @@
 {
   "name": "@stambha/transform",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Stambha transform layer — gateway payloads to slim context shapes and REST bodies",
   "author": "Mivaya",
   "license": "MIT",
@@ -15,15 +15,17 @@
   },
   "keywords": ["discord", "discord-bot", "stambha", "transform", "desired-properties"],
   "type": "module",
-  "main": "./dist/index.js",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
     }
   },
-  "files": ["dist"],
+  "files": ["dist", "README.md"],
   "scripts": {
     "build": "tsup",
     "typecheck": "tsc --noEmit",

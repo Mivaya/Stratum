@@ -5,6 +5,18 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.1] - 2026-06-08
+
+### Added
+
+- **Per-package READMEs** on npm — install steps, quick starts, and export tables for all `@stambha/*` packages
+- **Dual module format** — every package ships ESM (`dist/index.js`) and CommonJS (`dist/index.cjs`) so existing CJS bots can `require('@stambha/core')` without TypeScript `require`/ESM errors
+
+### Changed
+
+- **`package.json` exports** — `import` and `require` conditions for all publishable packages
+- **Shared `tsup.package.ts`** — consistent dual-format builds across the monorepo
+
 ## [0.2.0] - 2026-05-29
 
 **Stambha** — framework rebrand and first **`@stambha/*`** npm release.
@@ -138,5 +150,6 @@ First public release of the **native Stambha stack** — a transport-agnostic Di
 | `@stambha/metrics` | 0.1.0 |
 | `@stambha/runtime` | 0.1.0 |
 
+[0.2.1]: https://github.com/mivaya/Stambha/releases/tag/v0.2.1
 [0.2.0]: https://github.com/mivaya/Stambha/releases/tag/v0.2.0
 [0.1.0]: https://github.com/mivaya/Stambha/releases/tag/v0.1.0

@@ -1,6 +1,6 @@
 {
   "name": "@stambha/metrics",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Prometheus metrics and observability for Stambha — counters, histograms, and /metrics HTTP server",
   "author": "Mivaya",
   "license": "MIT",
@@ -21,15 +21,17 @@
     "observability"
   ],
   "type": "module",
-  "main": "./dist/index.js",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
     }
   },
-  "files": ["dist"],
+  "files": ["dist", "README.md"],
   "scripts": {
     "build": "tsup",
     "typecheck": "tsc --noEmit",

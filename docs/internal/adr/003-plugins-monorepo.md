@@ -12,9 +12,9 @@ The main Stambha repo already ships **`@stambha/plugins`** — the **plugin host
 ## Decision
 
 1. **Separate Git repository** for official Stambha extensions, modeled on [sapphiredev/plugins](https://github.com/sapphiredev/plugins):
-   - Proposed org/repo: **`stambhadev/plugins`** (name TBD at repo creation).
-   - Turborepo/pnpm workspace; each package versioned and published independently.
-   - CI: build, test, publish to npm under the `@stambha` scope (or a dedicated scope if npm policy requires it).
+   - Repo: **[`Mivaya/Stambha-plugins`](https://github.com/Mivaya/Stambha-plugins)** (local path: `Stambha-plugins`).
+   - pnpm workspace; **[Changesets](https://github.com/changesets/changesets) independent versioning** per package.
+   - CI: build, test, `changesets/action` publish to npm under `@stambha/*`.
 
 2. **Naming rule — no Sapphire `plugin-*` mirror names.** Packages describe **capability**, not “plugin type”:
 
@@ -31,6 +31,8 @@ The main Stambha repo already ships **`@stambha/plugins`** — the **plugin host
 3. **Integration contract:** Every extension is a normal Stambha plugin — `definePlugin()` from `@stambha/plugins`, peer dependency on `@stambha/core` (and other core packages as needed). No second plugin API.
 
 4. **Main repo non-goals:** Do not add dashboard HTTP, i18n backends, or cron runners to `new-proj` long-term; link to the plugins monorepo from docs when packages exist.
+
+5. **Moved to plugins repo (done):** `@stambha/cache`, `@stambha/metrics`, `@stambha/vault-sql` — source lives only in [**Stambha-plugins**](https://github.com/Mivaya/Stambha-plugins).
 
 ## Consequences
 

@@ -159,4 +159,4 @@ vault.on("recordDelete", ({ ledger, id }) => {});
 
 - [Getting started](/guide/getting-started) — Vault is optional at install time
 - [Migration from Sapphire](/migration/from-sapphire#settings-config) — when to add Vault
-- [@stambha/vault-sql](https://github.com/mivaya/Stambha/tree/main/packages/vault-sql) — SQL persistence driver
+- [@stambha/vault-sql](https://github.com/Mivaya/Stambha-plugins/tree/main/packages/vault-sql) — SQL persistence driver (plugins repo)

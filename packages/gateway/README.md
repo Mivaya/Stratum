@@ -28,7 +28,9 @@ const client = createStambhaBot({
 });
 
 const hub = createGatewayEventHub();
-attachStambhaClient(hub, client);
+attachStambhaClient(hub, client, {
+  // resolvePrefix: async ({ guildId }) => fetchPrefix(guildId) ?? "!",
+});
 client.setBridge(hub);
 
 hub.markReady({ user: { id: "YOUR_BOT_USER_ID" } });

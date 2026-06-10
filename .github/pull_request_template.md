@@ -21,9 +21,8 @@
 - [ ] `@stambha/transform`
 - [ ] `@stambha/loader`
 - [ ] `@stambha/vault`
-- [ ] `@stambha/vault-sql`
-- [ ] `@stambha/metrics`
 - [ ] Examples
+- [ ] Stambha-plugins (`cache`, `metrics`, `vault-sql`, …)
 - [ ] Docs / repo config
 
 ## Motivation

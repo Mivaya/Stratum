@@ -24,6 +24,7 @@ import { loadPieces } from "@stambha/loader";
 
 const client = createStambhaBot({ prefix: "!" });
 
+// Loads gates before commands (for Command.gateNames) and validates gate names after scan.
 const { loaded, errors } = await loadPieces(client, {
   basePath: process.cwd(),
   context: { client, vault },

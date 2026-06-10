@@ -26,7 +26,7 @@ Today: in-memory cache (`@stambha/cache`), in-memory cooldown store, HTTP worker
 | **Redis Vault driver** | Optional shared settings (or cache layer) | `@stambha/vault-redis` | Debounced writes; SQLite/Postgres remain |
 | **Message bus (RabbitMQ)** | Gateway → bot events at scale; fan-out | `@stambha/bus` | Interface: `WorkerBus` + `RabbitWorkerBus` |
 | **InfluxDB telemetry** | Gateway identify rate, REST 429s, command latency | `@stambha/metrics-influx` | Optional sink beside Prometheus |
-| **Native WebSocket gateway** | Stop requiring custom `hub.emit` wiring | `@stambha/gateway` (extend) | Shard connect, resume, identify budget integration |
+| **Native WebSocket gateway** | Stop requiring custom `hub.emit` wiring | `@stambha/gateway` (extend) | Shard connect, resume, identify budget integration — **0.3.0** ([release-plan](./release-plan.md) N1 / ADR 005) |
 
 ### Suggested phases
 
@@ -36,7 +36,7 @@ Today: in-memory cache (`@stambha/cache`), in-memory cooldown store, HTTP worker
 | A2 | `feature/cooldown-redis` | `RedisCooldownStore` for split tier |
 | A3 | `feature/bus-rabbitmq` | `RabbitWorkerBus` + tier-split example |
 | A4 | `feature/metrics-influx` | Influx line protocol adapter |
-| A5 | `feature/gateway-ws` | Bundled shard client → `GatewayEventHub` |
+| ~~A5~~ | `feature/gateway-ws` | **Moved to 0.3.0** — bundled shard client → `GatewayEventHub` |
 
 **Design rule:** every backend implements a **core interface** (like `Cache`, `CooldownStore`, `WorkerBus`) so monolith/single-node still works with memory defaults.
 
@@ -233,12 +233,14 @@ These are the **reason to pick Stambha** after parity work is done.
 ## Suggested release sequencing
 
 ```text
+0.3.0  — Bundled native WS gateway (ex-A5), native migration examples
+       │
 1.0.0  — Native stack stable API, docs, examples/bot, known gaps documented
        │
 1.x    — Bugfixes, redis cache, declarative gates (B1), permission levels (C1)
        │
 2.0.0  — Breaking only if needed: CommandOptions expansion, bus abstraction,
-         bundled gateway (A5), native runSequence, distributed chron/cooldown
+         native runSequence, distributed chron/cooldown
 ```
 
 ### Dependency graph
@@ -249,7 +251,7 @@ flowchart TD
   A2[Redis cooldown] --> A3
   B1[Declarative gates] --> B3[Help system]
   C1[Permission levels] --> C2[Vault levels]
-  A5[Native WS gateway] --> A3
+  A5[Native WS gateway 0.3] --> A3
   B1 --> D1[Native runSequence]
   A2 --> D2[Distributed Chron]
   C2 --> D3[Vault Sequences]
@@ -282,7 +284,7 @@ flowchart TD
 
 ## Official extensions monorepo (plugins repo)
 
-Separate Git repo ([ADR 003](./adr/003-plugins-monorepo.md)), same role as [sapphiredev/plugins](https://github.com/sapphiredev/plugins).
+Separate Git repo [**Mivaya/Stambha-plugins**](https://github.com/Mivaya/Stambha-plugins) ([ADR 003](./adr/003-plugins-monorepo.md)), same role as [sapphiredev/plugins](https://github.com/sapphiredev/plugins).
 
 | Package | Purpose |
 |---------|---------|
@@ -305,3 +307,4 @@ Separate Git repo ([ADR 003](./adr/003-plugins-monorepo.md)), same role as [sapp
 - [adr/004-vault-scope-orm-coexistence.md](./adr/004-vault-scope-orm-coexistence.md) — Vault Path B scope
 - [phases.md](./phases.md) — completed work
 - [adr/002-bridge-deprecation.md](./adr/002-bridge-deprecation.md) — native stack direction
+- [adr/005-native-only-migration.md](./adr/005-native-only-migration.md) — no hybrid discord.js path

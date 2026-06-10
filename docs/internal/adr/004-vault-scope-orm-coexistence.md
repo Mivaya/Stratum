@@ -32,7 +32,7 @@ We considered positioning Vault as a full ORM replacement (mod logs, leaderboard
    - Arbitrary SQL joins or a general query planner inside `@stambha/vault`
    - “No database” — drivers still use SQLite, PostgreSQL, MongoDB, or Redis under the hood
 
-5. **Drivers:** `@stambha/vault-sql` and future `vault-redis` / `vault-mongo` ship from the **plugins repo** when split ([ADR 003](./003-plugins-monorepo.md)); Vault API may remain in core with `MemoryDriver` for tests.
+5. **Drivers:** `@stambha/vault-sql` and future `vault-redis` / `vault-mongo` ship from [**Stambha-plugins**](https://github.com/Mivaya/Stambha-plugins) ([ADR 003](./003-plugins-monorepo.md)); Vault API remains in core with `MemoryDriver` for tests.
 
 ## Consequences
 

@@ -90,8 +90,19 @@ Auto-load folders with [`@stambha/loader`](../loader).
 | `MockBridge` | Testing without Discord |
 | `ok`, `err`, `Outcome` | Typed command results |
 | `Binder` | Lightweight DI |
+| `resolveCommandGates` | Validate `gateNames` after `loadPieces` |
 
 `Directive` is a deprecated alias for `Command`.
+
+### Registry iteration
+
+`Registry` is **not** iterable. List pieces with:
+
+```ts
+const commands = client.registries.commands.toArray();
+// or: [...client.registries.commands.values()]
+const ping = client.registries.commands.get("ping");
+```
 
 ---
 

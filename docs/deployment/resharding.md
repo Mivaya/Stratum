@@ -1,6 +1,6 @@
 # Sharding & resharding
 
-Phase 19 adds capacity planning, identify rate limiting, and operator APIs on top of `@stambha/gateway`.
+`@stambha/gateway` includes capacity planning, identify rate limiting, and operator APIs for production sharding.
 
 ## Shard calculator
 
@@ -104,15 +104,15 @@ Bearer auth when `secret` is set (same pattern as REST/worker servers).
 
 ## Zero-downtime notes
 
-This phase provides **planning and pacing** primitives. A full zero-downtime migration also requires:
+The APIs below provide **planning and pacing** primitives. A full zero-downtime migration also requires:
 
 1. Re-identify every shard with the new `[shardId, newTotal]` pair
 2. Drain guilds that changed shard assignment (see `guildsToMigrate` on `ReshardPlan`)
 3. Respect `IdentifyBudget` across all gateway workers sharing one bot token
 
-Native WebSocket gateway integration is planned as bridges gain shard-aware connection management.
+A bundled native WebSocket gateway client will integrate these primitives with live shard connections.
 
 ## Related
 
-- [GATEWAY.md](./GATEWAY.md) — shard manager, worker bus
-- [TIER_SPLIT.md](./TIER_SPLIT.md) — multi-process layout
+- [Gateway](/deployment/gateway) — shard manager, worker bus
+- [Tier split](/deployment/tier-split) — multi-process layout

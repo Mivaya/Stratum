@@ -1,4 +1,4 @@
-import type { Bridge, StambhaClient } from "@stambha/core";
+import type { Bridge, PrefixResolver, StambhaClient } from "@stambha/core";
 import {
   commandContextFromStambhaMessageViaRest,
   commandContextFromStambhaSlashViaRest,
@@ -11,6 +11,11 @@ export interface AttachStambhaClientOptions {
   prefixCommands?: boolean;
   slashCommands?: boolean;
   scouts?: boolean;
+  /**
+   * Per-guild or dynamic prefix. Sets {@link StambhaClient.resolvePrefix} for the lifetime of the attach.
+   * When omitted, uses {@link StambhaClient.prefix}.
+   */
+  resolvePrefix?: PrefixResolver;
 }
 
 function asStambhaMessage(payload: unknown): StambhaMessage | null {
@@ -36,7 +41,11 @@ export function attachStambhaClient(
   client: StambhaClient,
   options: AttachStambhaClientOptions = {},
 ): () => void {
-  const { prefixCommands = true, slashCommands = true, scouts = true } = options;
+  const { prefixCommands = true, slashCommands = true, scouts = true, resolvePrefix } = options;
+  const previousResolvePrefix = client.resolvePrefix;
+  if (resolvePrefix) {
+    client.resolvePrefix = resolvePrefix;
+  }
   const unsubs: (() => void)[] = [];
 
   const on = (event: string, handler: (payload: unknown) => void | Promise<void>) => {
@@ -68,7 +77,10 @@ export function attachStambhaClient(
       const message = asStambhaMessage(payload);
       if (!message?.content || message.author.bot) return;
 
-      const parsed = client.router.parsePrefixCommand(message.content);
+      const prefixCtx = { userId: message.author.id };
+      if (message.guildId) Object.assign(prefixCtx, { guildId: message.guildId });
+      if (message.channelId) Object.assign(prefixCtx, { channelId: message.channelId });
+      const parsed = await client.router.parsePrefixCommand(message.content, prefixCtx);
       if (!parsed) return;
 
       if (!client.restPort) {
@@ -108,5 +120,8 @@ export function attachStambhaClient(
 
   return () => {
     for (const off of unsubs) off();
+    if (resolvePrefix) {
+      client.resolvePrefix = previousResolvePrefix;
+    }
   };
 }

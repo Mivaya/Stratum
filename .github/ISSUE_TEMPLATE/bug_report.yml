@@ -19,8 +19,9 @@ body:
         - "@stambha/transform"
         - "@stambha/loader"
         - "@stambha/vault"
-        - "@stambha/vault-sql"
-        - "@stambha/metrics"
+        - "@stambha/vault-sql (Stambha-plugins)"
+        - "@stambha/metrics (Stambha-plugins)"
+        - "@stambha/cache (Stambha-plugins)"
         - Examples
         - Other / unsure
     validations:

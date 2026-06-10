@@ -43,7 +43,11 @@ const server = await createWorkerServer({
     const msg = payload as StambhaMessage;
     if (!msg.content || msg.author?.bot) return;
 
-    const parsed = client.router.parsePrefixCommand(msg.content);
+    const parsed = await client.router.parsePrefixCommand(msg.content, {
+      guildId: msg.guildId,
+      channelId: msg.channelId,
+      userId: msg.author.id,
+    });
     if (!parsed) return;
 
     const ctx = commandContextFromStambhaMessageViaRest(msg, parsed.name, restPort, parsed.args, {

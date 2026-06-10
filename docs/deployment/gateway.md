@@ -1,6 +1,6 @@
 # Gateway manager & worker protocol
 
-Phase 18 adds `@stambha/gateway` (shard state, identify/resume payloads, gateway↔bot messaging) and `@stambha/cache` (pluggable in-memory cache). Native WebSocket gateway and Redis cache are planned for later phases.
+`@stambha/gateway` covers shard state, identify/resume payloads, and gateway↔bot messaging. `@stambha/cache` provides a pluggable in-memory cache. A bundled native WebSocket shard client and Redis-backed cache adapters are on the roadmap.
 
 ## Shard manager
 
@@ -105,13 +105,13 @@ Redis and gateway-backed cache adapters are planned; the `Cache` interface is st
 | Process | Packages | Role |
 |---------|----------|------|
 | REST worker | `@stambha/rest` | Centralized rate limits |
-| Gateway worker | Bridge + `@stambha/gateway` | WebSocket only, relay events |
-| Bot worker | `@stambha/core` + bridge context helpers | Commands, vault, sequences |
+| Gateway worker | `@stambha/gateway` | WebSocket shards, relay events |
+| Bot worker | `@stambha/core` + `@stambha/transform` | Commands, vault, sequences |
 
 See [Tier split](/deployment/tier-split) and `examples/bot` for the three-process layout.
 
 ## Related
 
-- [TRANSPORT.md](./TRANSPORT.md) — session info and REST routes
-- [ROADMAP.md](./ROADMAP.md) — Phase 20 cross-runtime, native WebSocket gateway
-- [RESHARDING.md](./RESHARDING.md) — threshold resharding, identify budget, operator API
+- [Transport](/reference/transport) — session info and REST routes
+- [Cross-runtime](/deployment/cross-runtime) — Node, Bun, Deno support
+- [Resharding](/deployment/resharding) — threshold resharding, identify budget, operator API

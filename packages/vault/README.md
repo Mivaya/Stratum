@@ -31,7 +31,7 @@ Vault is **not** a full ORM replacement. See [ADR 004](https://github.com/mivaya
 npm install @stambha/vault @stambha/core
 ```
 
-For SQLite/PostgreSQL backends, add [`@stambha/vault-sql`](../vault-sql).
+For SQLite/PostgreSQL backends, add [`@stambha/vault-sql`](https://github.com/Mivaya/Stambha-plugins/tree/main/packages/vault-sql) from **Stambha-plugins**.
 
 Requires **Node.js 20+**.
 
@@ -105,7 +105,7 @@ Pass `vault` to `@stambha/loader` context so schema pieces can access it.
 
 | Package | Role |
 |---------|------|
-| [`@stambha/vault-sql`](../vault-sql) | SQLite and PostgreSQL drivers |
+| [`@stambha/vault-sql`](https://github.com/Mivaya/Stambha-plugins/tree/main/packages/vault-sql) | SQLite and PostgreSQL drivers (plugins repo) |
 | [`@stambha/loader`](../loader) | Load schemas from `src/schemas/` |
 | [`@stambha/core`](../core) | Inject vault into commands |
 

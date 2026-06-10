@@ -120,6 +120,9 @@ describe("InboundRouter aliases", () => {
   it("maps alias to primary name when parsing prefix", () => {
     const client = new StambhaClient({ prefix: "!" });
     client.register(new PingCommand(client.registries.commands));
-    expect(client.router.parsePrefixCommand("!p")).toEqual({ name: "ping", args: "" });
+    expect(client.router.parsePrefixCommandWithPrefix("!p", "!")).toEqual({
+      name: "ping",
+      args: "",
+    });
   });
 });

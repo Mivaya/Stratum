@@ -58,7 +58,7 @@ A running Stambha client attaches **one** `Bridge` instance. Multi-shard gateway
 
 **Positive**
 
-- Sapphire migrations may keep discord.js indefinitely (hybrid path).
+- New Sapphire migrations target the native stack only ([ADR 005](./005-native-only-migration.md)).
 - Discordeno users can migrate REST and sharding without rewriting commands.
 - Native transport can mature without breaking existing bots.
 

@@ -1,93 +1,79 @@
-# Migration shims — app-layer patterns
+# Migration shims — deprecated app-layer patterns
 
-When migrating a **production Sapphire + discord.js** bot to Stambha, adopters often add a small `lib/stambha/` (or similar) layer. This document describes **common shim patterns**, what each compensates for in Stambha today, and **which release removes the need for it**.
+> **Policy (ADR 005):** Official Stambha migrations are **native-only** (`@stambha/rest`, `@stambha/gateway`, `@stambha/transform`). The hybrid discord.js patterns below are **historical** — documented so maintainers recognize them in early adopters and know what to delete. Do not add new shims; do not document hybrid flows in public guides.
 
-Stambha is a general framework; these patterns apply to any large Sapphire migration, not a single application.
+When migrating a **production Sapphire** bot to Stambha, early adopters sometimes added a `lib/stambha/` layer. This internal doc maps those patterns to framework gaps and **native replacements**.
 
 ---
 
 ## Shim → framework mapping
 
-| App-layer pattern | What it compensates for | Stambha target | Remove shim when |
-|-------------------|-------------------------|----------------|------------------|
-| **Bootstrap `setup.ts`** | Orchestrates `createStambhaBot`, `loadPieces`, hub wiring, discord.js login, slash deploy, DB init, client events | **0.3.0** — `examples/hybrid-discordjs` + migration doc | Example copied; app keeps a thin `bootstrap()` wrapper |
-| **Custom `attach*Client`** | Dynamic guild prefix; `ctx.raw` = discord.js `Message` / `Interaction`; bypasses static `client.prefix` | **0.2.2 P2–P3** — `resolvePrefix`, `preserveRaw` on gateway attach | Use `@stambha/gateway` attach options |
-| **`wire*ToHub`** | Forwards discord.js gateway events into `GatewayEventHub` | **0.3.0 M1** — `attachDiscordJsGateway` | Use official gateway helper |
-| **Service locator `container`** | Sapphire `container` (`prisma`, discord client, logger, unwired API server) | **0.3.0 M3** DI docs; **1.x** plugins | `client.container.binder` + plugins |
-| **`LegacyArgs`** | Sapphire `Args.pick` / `rest` for `messageRun(message, args)` | **1.x B2** — Args migration helpers in `@stambha/args` | Commands use `execute(ctx)` + `Args.fromContext` |
-| **`LegacySlashRegistry` + custom deploy** | `registerApplicationCommands(SlashCommandBuilder)` + REST PUT | **1.x** — `deployCommands` + builder collector or declarative slash tree (**B1**) | Slash metadata on Stambha `Command` or official collector |
-| **`fetchGuildPrefix` helper** | Per-guild prefix from database | **0.2.2 P2** resolver hook; **1.x C2** Vault prefix field | Prefix via client resolver or Vault |
-| **Gate `appliesTo(command)` filter** | Global gate registry runs on every command; Sapphire only runs listed preconditions | **0.2.2 P1** — per-command `gateNames` in pipeline | Native gate names on `Command` |
-| **Hook base with `container` getter** | Hooks only receive `registry` in constructor | **0.3.0 M3** — `Hook.create(ctx)` factory | Binder injection or loader context |
-| **`RouteStub` + unwired `routes/`** | `@sapphire/plugin-api` with no Stambha equivalent yet | **Plugins E1–E4** — `@stambha/dashboard` | Dashboard plugin wired |
-| **Prisma for all data + no Vault** | Valid during migration; guild config still in SQL | **1.x C2** — Vault for settings only ([ADR 004](./adr/004-vault-scope-orm-coexistence.md)) | Move prefix/modules/flags to Vault; keep Prisma for domain |
-| **Command base with `messageRun` / `chatInputRun`** | Legacy run methods forwarded from `execute()` | **0.2.2 P3** + migration guide | Incremental rewrite to `execute(ctx)` |
-| **Weak `HotLoader`** | Sapphire store load/unload/reload | **Plugins** — `@stambha/dev-reload` | Dev-reload plugin or registry reload API |
+| App-layer pattern | What it compensated for | Native replacement | Status |
+|-------------------|-------------------------|-------------------|--------|
+| **Bootstrap `setup.ts`** | Orchestrates bot, loader, hub, deploy, DB init | `examples/bot` native bootstrap (**0.3.0 N2**) | Replace with reference example |
+| **Custom `attach*Client`** | Dynamic guild prefix; legacy run methods | `resolvePrefix` on gateway attach (**0.2.2 P2**); rewrite to `execute(ctx)` | **P2** ships; no `preserveRaw` |
+| **`wire*ToHub` / `attachDiscordJsGateway`** | discord.js events → `GatewayEventHub` | Bundled WS gateway (**0.3.0 N1**) or manual `hub.emit` until N1 | **Cancelled** — do not ship helpers |
+| **Service locator `container`** | Sapphire `container` (prisma, logger, …) | `client.container.binder` + plugins (**0.3.0 N3**) | In progress |
+| **`LegacyArgs`** | Sapphire `Args.pick` for `messageRun` | `Args.fromContext` + **1.x B2** | Migrate commands to `execute(ctx)` |
+| **`LegacySlashRegistry`** | `SlashCommandBuilder` + custom deploy | `deployCommands` + declarative slash (**1.x B1**) | Use Stambha `Command` metadata |
+| **`fetchGuildPrefix` helper** | Per-guild prefix from database | **0.2.2 P2** resolver; **1.x C2** Vault prefix field | Resolver or Vault |
+| **Gate `appliesTo(command)` filter** | Global gates on every command | **0.2.2 P1** — `gateNames` on `Command` | Use per-command gate names |
+| **Hook base with `container` getter** | Hooks only receive `registry` | **0.3.0 N3** — `Hook.create(ctx)` factory | Binder injection |
+| **`RouteStub` + unwired `routes/`** | `@sapphire/plugin-api` | **Plugins E** — `@stambha/dashboard` | Dashboard plugin |
+| **Prisma for all data + no Vault** | Guild config in SQL | **1.x C2** — Vault for settings ([ADR 004](./adr/004-vault-scope-orm-coexistence.md)) | Keep Prisma for domain |
+| **Command base with `messageRun` / `chatInputRun`** | Legacy run methods | Rewrite to `execute(ctx)` | No framework `preserveRaw` |
+| **Weak `HotLoader`** | Sapphire store reload | **Plugins** — `@stambha/dev-reload` | Dev-reload plugin |
 
 ---
 
-## Typical hybrid bootstrap flow
+## Historical hybrid bootstrap (do not use)
 
-Production bots often keep **discord.js** for sharding, caches, and guild/member APIs while routing commands through Stambha:
+Early migrations kept **discord.js** for sharding while routing commands through Stambha. **Not supported** per ADR 005:
 
 ```text
 1. createStambhaBot({ restPort, prefix: default })
 2. loadPieces(client, { context: { prisma, … } })
 3. createGatewayEventHub()
-4. attach*Client(hub, client, { resolvePrefix, preserveRaw: true })
-5. wire discord.js Client → hub (messageCreate, interactionCreate, …)
+4. attach*Client(hub, client, { resolvePrefix, preserveRaw: true })  // cancelled
+5. wire discord.js Client → hub
 6. discord.login()
-7. on clientReady:
-     hub.markReady({ user })
-     await client.start()          // binds hooks
-     hub.emit('clientReady', djs)  // after start(), so once-hooks fire
-     deployCommands on shard 0 only
 ```
 
-**0.2.2 P5** documents this order in [from-sapphire.md](../migration/from-sapphire.md). **0.3.0 M2** ships a reference implementation.
+**Native flow** (public docs): `createStambhaBot` → `loadPieces` → `GatewayEventHub` + native shard WS (or tier split) → `client.start()` → `deployCommands`. See [from-sapphire.md](../migration/from-sapphire.md).
 
 ---
 
 ## Dashboard routes (unwired)
 
-Migrating bots with `@sapphire/plugin-api` often:
+Migrating bots with `@sapphire/plugin-api` often kept `src/routes/**` as stubs until a dashboard plugin exists.
 
-1. Keep `src/routes/**` on disk for a future dashboard plugin.
-2. Replace `Route` imports with a local stub (`RouteStub.ts`).
-3. Remove `client.server.connect()` from bootstrap.
-4. Exclude routes from `tsc` until `@stambha/dashboard` exists, **or** maintain stubs that typecheck.
-
-**Owner:** [future-v2.md](./future-v2.md) Pillar E — `@stambha/dashboard` in the plugins monorepo (ADR 003). Not core Stambha.
+**Owner:** [future-v2.md](./future-v2.md) Pillar E — `@stambha/dashboard` (ADR 003). Not core Stambha.
 
 ---
 
 ## What adopters should not expect in core
 
-Per [adr/002-bridge-deprecation.md](./adr/002-bridge-deprecation.md):
+Per [adr/002-bridge-deprecation.md](./adr/002-bridge-deprecation.md) and [adr/005-native-only-migration.md](./adr/005-native-only-migration.md):
 
 - No `@stambha/bridge-discordjs` package
+- No `attachDiscordJsGateway` or `preserveRaw` migration helpers
 - No 1:1 Sapphire plugin names (`@stambha/plugin-api`)
 - Core never imports discord.js
-
-Hybrid helpers live in **@stambha/gateway** + **@stambha/transform** + docs/examples.
 
 ---
 
 ## Checklist for deleting app shims
 
-Use after each Stambha release:
-
 ### After 0.2.2
 
 - [ ] Remove gate `appliesTo` filter; use `gateNames` on commands
-- [ ] Replace custom prefix attach with `resolvePrefix`
-- [ ] Enable `preserveRaw` instead of manual `Object.defineProperty(ctx, 'raw', …)`
+- [ ] Replace custom prefix logic with `resolvePrefix` on gateway attach
 - [ ] Fix loader to load gates before commands (or use framework resolver)
 
 ### After 0.3.0
 
-- [ ] Replace `wire*ToHub` with `attachDiscordJsGateway`
-- [ ] Align bootstrap with `examples/hybrid-discordjs`
+- [ ] Remove discord.js gateway wiring; use bundled WS client or tier split
+- [ ] Align bootstrap with native `examples/bot`
 - [ ] Move `client.on('command*')` to epilogues or documented pattern
 
 ### After 1.x (B1, B2, C1)
@@ -105,6 +91,6 @@ Use after each Stambha release:
 
 ## Related
 
-- [release-plan.md](./release-plan.md) — 0.2.2 / 0.3.0 ticket IDs and full gap matrix
+- [release-plan.md](./release-plan.md) — 0.2.2 / 0.3.0 ticket IDs
 - [future-v2.md](./future-v2.md) — 1.x / 2.0 pipeline
-- [../migration/from-sapphire.md](../migration/from-sapphire.md) — public migration guide
+- [../migration/from-sapphire.md](../migration/from-sapphire.md) — public native migration guide

@@ -20,8 +20,7 @@ Thank you for helping make Stambha a stronger framework for advanced Discord bot
 - Test coverage for edge cases in `@stambha/core`
 - Documentation fixes and typos
 - Example bots or command patterns
-- Driver improvements for `@stambha/vault-sql`
-- Metrics labels or dashboards for `@stambha/metrics`
+- Driver or metrics work in [**Stambha-plugins**](https://github.com/Mivaya/Stambha-plugins) (`@stambha/vault-sql`, `@stambha/metrics`, `@stambha/cache`)
 
 ### Advanced contributions we welcome
 
@@ -30,6 +29,18 @@ Thank you for helping make Stambha a stronger framework for advanced Discord bot
 - Sequence and Signal UX helpers
 - Performance work with benchmarks
 - Plugin-style extensions that do **not** require core to depend on discord.js or Discordeno
+
+## Changesets (publishable package changes)
+
+The core monorepo uses **fixed** [Changesets](https://github.com/changesets/changesets) — all `@stambha/*` packages in this repo share one version.
+
+```bash
+pnpm changeset
+```
+
+Include the generated `.changeset/*.md` file in your PR. See [.github/PUBLISHING.md](./PUBLISHING.md).
+
+Extensions in [**Stambha-plugins**](https://github.com/Mivaya/Stambha-plugins) use **independent** versioning.
 
 ## Development setup
 
@@ -45,7 +56,7 @@ pnpm typecheck
 
 Requirements:
 
-- **Node.js 20+** (22.5+ if you touch `@stambha/vault-sql` SQLite)
+- **Node.js 20+** (22.5+ for SQLite in **Stambha-plugins** `@stambha/vault-sql`)
 - **pnpm 9+** (see root `packageManager` field)
 
 Run tests for a single package:
@@ -112,7 +123,7 @@ docs: add Discordeno tier-split example
 test(rest): cover deployCommands dry-run
 ```
 
-Optional scope: `core`, `rest`, `gateway`, `transform`, `vault`, `vault-sql`, `loader`, `metrics`, `docs`, `examples`.
+Optional scope: `core`, `rest`, `gateway`, `transform`, `vault`, `loader`, `docs`, `examples`, or open PRs in **Stambha-plugins** for extensions.
 
 ## Code guidelines
 

@@ -1,8 +1,27 @@
 # @stambha/vault
 
-**Schema-driven settings** — Blueprint + Ledger + Record for typed guild, user, and channel persistence. Klasa-style settings without a framework lock-in.
+**Schema-driven settings and bot-shaped data** — Blueprint + Ledger + Record for typed guild, user, and member config. Complements your domain ORM; does not replace it.
 
 Part of the [**@stambha**](https://www.npmjs.com/org/stambha) monorepo · [GitHub](https://github.com/mivaya/Stambha) · [Vault guide](https://github.com/mivaya/Stambha/tree/main/docs/features/vault.md)
+
+---
+
+## Why Vault if I already use Prisma?
+
+Vault and Prisma solve **different** problems:
+
+| Use **Vault** | Use **Prisma / SQL** |
+|---------------|----------------------|
+| Prefix, module toggles, log channel ids | Economy, shops, inventories |
+| Feature flags, dashboard config | Quests, achievements, complex relations |
+| Permission level overrides (with `@stambha/levels`) | Large mod-log tables & analytics |
+| Tests with `MemoryDriver` | Existing `schema.prisma` domain models |
+
+```ts
+await loadPieces(client, { context: { vault, prisma } });
+```
+
+Vault is **not** a full ORM replacement. See [ADR 004](https://github.com/mivaya/Stambha/blob/main/docs/internal/adr/004-vault-scope-orm-coexistence.md).
 
 ---
 
@@ -63,8 +82,8 @@ Pass `vault` to `@stambha/loader` context so schema pieces can access it.
 | Type | Role |
 |------|------|
 | **Blueprint** | Schema + defaults for a settings document |
-| **Ledger** | Namespace (`forGuild`, `forUser`, `forChannel`) |
-| **Record** | Loaded document with typed `get` / `update` |
+| **Ledger** | Namespace (`guild`, `user`, `member`, …) |
+| **Record** | Loaded document with typed `get` / `set` / `patch` |
 | **VaultDriver** | Storage backend (`MemoryDriver`, SQL via vault-sql) |
 
 ---

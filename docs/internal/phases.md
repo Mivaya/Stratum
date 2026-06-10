@@ -25,7 +25,7 @@
 | 18 Gateway & cache | `feature/gateway` | `@stambha/gateway`, `@stambha/cache`, tier split v2 |
 | 19 Sharding & resharding | `feature/resharding` | Reshard policy, identify budget, operator HTTP API |
 | 20 Cross-runtime | `feature/cross-runtime` | `@stambha/runtime`, CI matrix Node/Bun/Deno |
-| 21 Migration docs | `feature/migration-docs` | Sapphire, Klasa, Discordeno guides + ADR |
+| 21 Migration docs | `feature/migration-docs` | Sapphire, Discordeno guides + ADR |
 
 ## Roadmap complete
 

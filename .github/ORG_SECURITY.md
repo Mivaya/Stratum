@@ -64,6 +64,7 @@ Also enable:
 
 - Squash merge **on**; merge commits **off**
 - **Delete head branch** after merge **on**
+- **Allow updating pull request branches by maintainers** — **on** (required for [update-pr-branches.yml](./workflows/update-pr-branches.yml))
 
 ### Branch protection — `main`
 
@@ -96,6 +97,7 @@ Same as org defaults; confirm **Private vulnerability reporting** is **Enabled**
 | [dependabot.yml](./dependabot.yml) | Weekly npm + GitHub Actions updates |
 | [workflows/dependency-review.yml](./workflows/dependency-review.yml) | Block PRs introducing high-severity deps |
 | [workflows/ci.yml](./workflows/ci.yml) | Build + test matrix |
+| [workflows/update-pr-branches.yml](./workflows/update-pr-branches.yml) | Auto-merge `main` into open PR branches |
 | [workflows/docs.yml](./workflows/docs.yml) | VitePress → GitHub Pages |
 | [workflows/publish-npm.yml](./workflows/publish-npm.yml) | Publish `@stambha/*` on GitHub Release |
 | [PUBLISHING.md](./PUBLISHING.md) | npm token + release process |

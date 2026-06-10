@@ -39,7 +39,7 @@ Built-in preconditions: cooldown, permissions, NSFW, RunIn, guild/DM-only. Attac
 
 ### Vault (`@stambha/vault`)
 
-Schema-first guild, user, and channel settings — Blueprint + Ledger with optional SQLite/PostgreSQL drivers.
+Typed guild, user, and member **config** (prefix, flags, modules) — Blueprint + Ledger. Use alongside Prisma/SQL for domain data; Vault is not a full ORM. See [docs/features/vault.md](docs/features/vault.md).
 
 ### Sequences
 
@@ -78,7 +78,7 @@ Shared abstractions for Node.js, Bun, and Deno (env, fs, paths, timers).
 | Discord coupling | discord.js required | Low-level API | **Native transport** — no library bridge layer |
 | Piece / command model | Built-in | Bring your own | **Sapphire-style folders** |
 | Preconditions | `@sapphire/*` plugins | DIY | **`@stambha/gates`** |
-| Settings | Plugins / manual | DIY | **Vault** |
+| Settings | Plugins / manual | DIY | **Vault** (+ your ORM for domain) |
 | Gateway + REST split | Manual | Native | **`RestPort` + tier split** |
 | Sharding / resharding | Manual | Built-in | **`@stambha/gateway`** |
 | Multi-step UI | Plugins | DIY | **Sequences** |

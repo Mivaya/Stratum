@@ -1,0 +1,91 @@
+# Keep open PR branches synced with main so "out of date" does not block merges.
+# Uses GitHub's update-branch API (same as the "Update branch" button).
+name: Update PR branches
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [opened, reopened, ready_for_review]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: update-pr-branches-${{ github.event.pull_request.number || 'main-push' }}
+  cancel-in-progress: true
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const base = "main";
+
+            /** @param {number} pullNumber */
+            async function tryUpdate(pullNumber) {
+              try {
+                await github.rest.pulls.updateBranch({
+                  owner,
+                  repo,
+                  pull_number: pullNumber,
+                });
+                core.info(`Updated PR #${pullNumber} from ${base}.`);
+              } catch (error) {
+                const status = error.status;
+                const message = error.message ?? String(error);
+                // 422: already up to date, merge conflict, or fork we cannot push to
+                if (status === 422) {
+                  core.info(`PR #${pullNumber}: no update needed or not possible (${message}).`);
+                  return;
+                }
+                core.warning(`PR #${pullNumber}: update failed (${message}).`);
+              }
+            }
+
+            const event = context.payload;
+
+            if (context.eventName === "pull_request") {
+              const pr = event.pull_request;
+              if (pr.base.ref !== base) {
+                core.info(`Skipping PR #${pr.number}: base is ${pr.base.ref}, not ${base}.`);
+                return;
+              }
+              if (pr.draft) {
+                core.info(`Skipping draft PR #${pr.number}.`);
+                return;
+              }
+              if (pr.head.repo.full_name !== `${owner}/${repo}`) {
+                core.info(
+                  `Skipping fork PR #${pr.number}. Rebase onto ${base} locally: git fetch upstream && git rebase upstream/main`,
+                );
+                return;
+              }
+              await tryUpdate(pr.number);
+              return;
+            }
+
+            // push to main — refresh every open PR targeting main
+            const { data: pulls } = await github.rest.pulls.list({
+              owner,
+              repo,
+              state: "open",
+              base,
+              per_page: 100,
+            });
+
+            core.info(`Found ${pulls.length} open PR(s) targeting ${base}.`);
+
+            for (const pr of pulls) {
+              if (pr.draft) continue;
+              if (pr.head.repo.full_name !== `${owner}/${repo}`) {
+                core.info(`Skipping fork PR #${pr.number}.`);
+                continue;
+              }
+              await tryUpdate(pr.number);
+            }

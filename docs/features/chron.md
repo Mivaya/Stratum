@@ -1,6 +1,6 @@
 # Chron (scheduled tasks)
 
-Chron pieces are Klasa-style **scheduled tasks** — background jobs that run on an interval or cron expression.
+Chron pieces are **scheduled tasks** — background jobs that run on an interval or cron expression.
 
 ## Layout
 

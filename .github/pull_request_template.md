@@ -2,6 +2,8 @@
 
 <!-- What does this PR do? Link related issues: Fixes #123 -->
 
+<!-- Same-repo PRs: if GitHub shows "out of date", wait for the **Update PR branches** check or click **Update branch**. Fork PRs: rebase onto main locally. -->
+
 ## Type of change
 
 - [ ] Bug fix (non-breaking)

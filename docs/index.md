@@ -21,7 +21,7 @@ features:
   - title: Gateway & sharding
     details: GatewayEventHub, worker bus, identify budget, and resharding helpers for large bots.
   - title: Vault
-    details: Schema-first guild and user settings with optional SQLite and PostgreSQL drivers.
+    details: Typed guild, user, and member config alongside your ORM — no second schema for prefixes, flags, and module toggles.
   - title: Sequences & signals
     details: Multi-step flows and button/modal/select routing without boilerplate state machines.
   - title: Tier split

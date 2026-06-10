@@ -47,7 +47,7 @@ body:
     id: alternatives
     attributes:
       label: Alternatives considered
-      description: Workarounds, Sapphire/Klasa patterns, or plugin-only approaches.
+      description: Workarounds, Sapphire patterns, or plugin-only approaches.
 
   - type: checkboxes
     id: willing

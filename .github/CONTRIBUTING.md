@@ -7,7 +7,7 @@ Thank you for helping make Stambha a stronger framework for advanced Discord bot
 - **Bug reports** — reproducible steps, expected vs actual behavior, Node version, and which bridge you use (`discord.js` or Discordeno).
 - **Feature proposals** — open an issue first for non-trivial work so design can be discussed before you invest time in a large PR.
 - **Code** — fixes, tests, docs, examples, new bridges, Vault drivers, or core pipeline improvements.
-- **Examples & docs** — clearer guides, migration notes from Sapphire/Klasa, or real-world usage patterns.
+- **Examples & docs** — clearer guides, migration notes from Sapphire or Discordeno, or real-world usage patterns.
 
 ## Before you start
 
@@ -79,6 +79,14 @@ git fetch upstream
 git rebase upstream/main
 ```
 
+**Same-repo PRs:** when `main` moves, [update-pr-branches.yml](./.github/workflows/update-pr-branches.yml) automatically merges `main` into open PR branches (enable **Allow updating pull request branches** in repo settings — see [REPOSITORY_SETTINGS.md](./REPOSITORY_SETTINGS.md)). You may see “out of date” for ~1 minute until that workflow finishes.
+
+**Fork PRs:** Actions cannot push to your fork — rebase locally before review:
+
+```bash
+git fetch upstream && git rebase upstream/main && git push --force-with-lease
+```
+
 ## Pull request checklist
 
 Before requesting review, confirm:
@@ -122,7 +130,7 @@ Do not import bridge-specific types into core. If core needs a capability, add a
 
 ### Piece model
 
-Follow existing naming and folder conventions (Sapphire/Klasa aligned):
+Follow existing naming and folder conventions (see [project structure](../docs/guide/project-structure.md)):
 
 - `Command`, `Hook`, `Scout`, `Barrier`, `Gate`, `Epilogue`, `Conduit`, `Signal`, `Chron`
 
@@ -166,7 +174,6 @@ We aim to be constructive and timely. If a PR is large, we may ask you to split 
 
 - Be respectful and patient in issues and reviews.
 - Assume good intent.
-- Credit prior art (Sapphire, Klasa, Discordeno) when adapting patterns.
 
 ## Questions
 

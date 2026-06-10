@@ -36,8 +36,8 @@ Sapphire’s value is **structure and DX** on top of discord.js — command stor
 |---------|----------|---------------|--------|
 | Piece stores (commands, listeners) | CommandStore, ListenerStore | **Done** — `Command`, `Hook`, registries + `@stambha/loader` | Keep |
 | Preconditions | PreconditionStore | **Done** — `@stambha/gates` (cooldown, permissions, NSFW, RunIn) | Maintain |
-| Global inhibitors | — (use plugins) | **Done** — `Barrier` (Klasa-aligned) | Keep |
-| Post-command hooks | — | **Done** — `Epilogue` (Klasa finalizers) | Keep |
+| Global inhibitors | — (use plugins) | **Done** — `Barrier` | Keep |
+| Post-command hooks | — | **Done** — `Epilogue` | Keep |
 | Middleware | — | **Done** — `Conduit` | Keep |
 | Arguments / `Args` parsing | ArgumentStore, typed resolvers | **Done** — `@stambha/args` | Maintain |
 | Slash subcommands & groups | Command options tree | **Done** — Phase 13 | Core + deploy |
@@ -70,7 +70,7 @@ Discordeno’s value is **operational scale** — split gateway/REST, rate-limit
 | Gateway proxy / fast resume | DD proxy patterns | **Planned** — Phase 19 | Optional proxy package |
 | Custom caches | Pluggable cache layer | **Done** — Phase 18 (memory) | `@stambha/cache` |
 | Cross-runtime (Node, Deno, Bun) | Yes | **Done** — Phase 20 | `@stambha/runtime` |
-| Functional handlers (no classes) | Preferred style | **Won't** — class pieces match Sapphire/Klasa | Gates/args support functions |
+| Functional handlers (no classes) | Preferred style | **Won't** — class pieces match Sapphire ergonomics | Gates/args support functions |
 | Horizontal worker scaling | Cluster / workers | **Partial** — tier split v1 + v2 | Worker orchestration Phase 19 |
 | REST proxy from gateway | `rest.proxy` | **Partial** — `HttpRestPort` | Unified with native REST |
 
@@ -80,16 +80,16 @@ Discordeno’s value is **operational scale** — split gateway/REST, rate-limit
 |---------|---------------|-------|
 | Transport-agnostic `Bridge` | **Done** | Core never imports Discord libs |
 | `Outcome` / typed errors | **Done** | `ok()` / `err()` pipeline |
-| **Vault** (Blueprint / Ledger / Record) | **Done** | Schema-first guild/user settings |
+| **Vault** (Blueprint / Ledger / Record) | **Done** | Settings + bot-shaped data ([ADR 004](./adr/004-vault-scope-orm-coexistence.md)); ORM for heavy domain |
 | **Sequences** (multi-step UI) | **Done** | `stambha:seq:…` custom IDs |
 | **Chron** (cron tasks) | **Done** | `src/tasks/` loader path |
-| **Scouts** (passive watchers) | **Done** | Klasa monitors |
+| **Scouts** (passive watchers) | **Done** | Passive event watchers |
 | **Signals** (components) | **Done** | Buttons, selects, modals |
 | **Metrics** (Prometheus) | **Done** | `@stambha/metrics` |
 | **MockBridge** (test without Discord) | **Done** | Core testing |
 | **Tier** + **worker roles** | **Done** | monolith / split |
 | Native `@stambha/transport` | **Planned** | Phase 15+ — Stambha-owned gateway/REST |
-| Migration guides from Sapphire/Klasa | **Done** — Phase 21 | [MIGRATION.md](./MIGRATION.md) |
+| Migration guides from Sapphire / Discordeno | **Done** — Phase 21 | [MIGRATION.md](./MIGRATION.md) |
 
 ---
 
@@ -98,6 +98,36 @@ Discordeno’s value is **operational scale** — split gateway/REST, rate-limit
 - A fork of Sapphire or a discord.js wrapper marketed as Stambha
 - A 1:1 Discordeno API clone inside `@stambha/core`
 - Requiring discord.js **or** Discordeno to use the framework core (bridges stay optional)
+- **Vault as a full ORM** — Prisma/Drizzle remain the right tool for economy, quest graphs, analytics, and large relational models ([ADR 004](./adr/004-vault-scope-orm-coexistence.md))
+
+---
+
+## Vault scope (Path B)
+
+**Decision:** Vault = **settings + bot-shaped data only**. Official coexistence with Prisma/SQL.
+
+| Vault owns | ORM / SQL owns |
+|------------|----------------|
+| Guild / user / member config | Multi-table transactions |
+| Prefix, modules, toggles, log channel ids | Economy, shops, inventories |
+| Feature flags | Quest / achievement graphs |
+| Permission level overrides (1.x + `@stambha/levels`) | Large mod-log tables & reporting |
+| Dashboard-editable bot settings | Analytics & ad-hoc queries |
+| Small per-member stats as ledgers (optional) | Anything already in `schema.prisma` |
+
+**Reference:** Document-oriented guild/user settings (common in older bots); not a Prisma replacement.
+
+### Vault evolution (1.x)
+
+| Deliverable | Package | Notes |
+|-------------|---------|-------|
+| Blueprint migrations | `@stambha/vault` | Versioned schema changes |
+| Discord serializers + `resolve()` | `@stambha/vault` | Channel / role / user fields |
+| Array update API | `@stambha/vault` | `add` / `remove` / `overwrite` on array fields |
+| Guild settings attach | `@stambha/core` or vault plugin | `guild.settings` ergonomics |
+| SQL / Redis drivers | plugins repo | `vault-sql`, `vault-redis` |
+| Level overrides in blueprint | `@stambha/levels` + vault | Pillar C2 |
+| Dashboard CRUD | `@stambha/dashboard` | Pillar E3 |
 
 ---
 
@@ -261,7 +291,7 @@ Phases 1–10 are complete — see [PHASES.md](./PHASES.md#completed).
 
 ### Phase 21 — Migration & docs
 
-**Stambha original:** Onboard Sapphire/Klasa/Discordeno users.
+**Stambha original:** Onboard Sapphire and Discordeno users.
 
 | Deliverable | Description |
 |-------------|-------------|
@@ -305,7 +335,7 @@ Stambha reaches **1.0.0** when:
 1. **Core** runs a production bot with **native transport** (no required bridge).
 2. **Sapphire parity** on daily authoring: gates pack, args, subcommands, deploy, loader.
 3. **Discordeno parity** on ops: split tier, centralized REST, sharding path, desired properties.
-4. **Originals** remain first-class: Vault, Sequences, Chron, Metrics documented and stable.
+4. **Originals** remain first-class: Vault (Path B scope documented), Sequences, Chron, Metrics documented and stable.
 5. Bridges (`discord.js`, Discordeno) are **optional compatibility layers**, not the main story.
 
 ---

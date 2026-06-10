@@ -198,10 +198,20 @@ See [Plugins](/features/plugins).
 
 ## Settings / config
 
-Sapphire often uses `@sapphire/plugin-api` or custom JSON. Stambha **Vault** provides typed guild/user/channel settings:
+Sapphire bots often mix **plugin-api JSON**, custom SQL tables for `GuildConfig`, and **Prisma** for domain data. Stambha recommends **both**:
 
-- Blueprints in `src/schemas/`
-- `@stambha/vault` + optional `@stambha/vault-sql`
+| Layer | Tool | Use for |
+|-------|------|---------|
+| Bot config & flags | **Vault** (`@stambha/vault`) | Prefix, modules, log channels, level overrides |
+| Domain data | **Keep Prisma/SQL** | Economy, achievements, mod-log tables at scale, analytics |
+
+Vault does **not** replace your ORM. It replaces ad-hoc guild-config tables and one-off JSON settings. Blueprints live in `src/schemas/`; persistence via `@stambha/vault` + optional `@stambha/vault-sql`.
+
+```ts
+await loadPieces(client, { context: { vault, prisma } });
+```
+
+Vault is **optional** in early migration (step 8). Add it when moving guild settings off Prisma or custom JSON — not when replacing your entire database layer.
 
 See [Vault](/features/vault).
 

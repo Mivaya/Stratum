@@ -10,7 +10,7 @@ This document turns product ideas into **phased, shippable work**. Branch rule u
 
 1. **Scale like Discordeno** — shared state and messaging across gateway / REST / bot workers.
 2. **DX like Sapphire** — declare command behavior in options; gates wire automatically.
-3. **Governance like Klasa** — permission levels with guild overrides.
+3. **Governance** — numeric permission levels with guild overrides.
 4. **Stambha-only** — capabilities no other framework combines in one native stack.
 
 ---
@@ -91,11 +91,9 @@ interface CommandOptions {
 
 ---
 
-## Pillar C — Klasa-style permission levels
+## Pillar C — Permission levels
 
-Reference: [Klasa — Understanding Permission Levels](https://klasa.js.org/#/docs/klasa/v0.5.0/Getting%20Started/UnderstandingPermissionLevels).
-
-Klasa maps **numeric levels** (Everyone → Moderator → Administrator → Owner) to commands. Stambha should do this **without** coupling to discord.js.
+Numeric **permission levels** (Everyone → Moderator → Administrator → Owner) gate commands by role and config. Stambha implements this **without** coupling to discord.js.
 
 ### Proposed API
 
@@ -147,7 +145,7 @@ A user's effective level = `max(discordDerivedLevel, vaultOverride)`.
 
 `@stambha/plugins` provides **lifecycle hooks + DI** (`preStart`, `postLoad`, `StambhaContainer`) — not route registration or OAuth.
 
-**Vault** covers **data** (guild/user settings) but not **HTTP exposure** for a web dashboard.
+**Vault** covers **settings + bot-shaped data** (guild/user/member config, flags, level overrides) — not heavy domain ORM tables. See [ADR 004](./adr/004-vault-scope-orm-coexistence.md). Vault does not replace **HTTP exposure** for a web dashboard.
 
 ### Target (dashboard backend, Stambha naming)
 
@@ -205,7 +203,7 @@ Attach via existing `attachPlugins(client, { plugins: [apiPlugin] })`.
 
 ---
 
-## Pillar D — Stambha-only (neither Sapphire, Klasa, discord.js, nor Discordeno)
+## Pillar D — Stambha-only (neither Sapphire, discord.js, nor Discordeno)
 
 These are the **reason to pick Stambha** after parity work is done.
 
@@ -227,7 +225,7 @@ These are the **reason to pick Stambha** after parity work is done.
 
 1. **`runSequence` native** — finish Sequences (biggest Sapphire parity gap after declarative options).
 2. **Distributed cooldown + Chron** — required for honest multi-worker production.
-3. **Vault-driven guild config** — moderation levels, prefixes, feature flags in one system.
+3. **Vault-driven guild config** — prefixes, feature flags, level overrides in one system (alongside Prisma for domain data).
 4. **Reshard barrier** — operational safety large bots feel immediately.
 
 ---
@@ -267,13 +265,14 @@ flowchart TD
 - 1:1 Discordeno API surface inside core
 - Requiring Redis/RabbitMQ/Influx for single-process bots (always optional drivers)
 - Class-only **or** function-only pieces — both stay supported
+- **Vault as a full ORM** — economy, quest graphs, analytics, and large mod-log stores stay in Prisma/SQL ([ADR 004](./adr/004-vault-scope-orm-coexistence.md))
 
 ---
 
 ## Open questions (decide before implementation)
 
 1. **Package naming:** `@stambha/bus-rabbit` vs optional deps in `@stambha/gateway`?
-2. **Permission levels default ladder:** Match Klasa exactly or Discord permission-bit derived only?
+2. **Permission levels default ladder:** Fixed numeric ladder vs Discord permission-bit derived only?
 3. **Influx vs Prometheus:** Dual export forever, or Influx only for gateway ops?
 4. **2.0 breaking changes:** Auto-gates from options — merge order with manual `gates[]`?
 5. **Bundled gateway:** In `@stambha/gateway` or separate `@stambha/gateway-ws`?
@@ -300,6 +299,9 @@ Separate Git repo ([ADR 003](./adr/003-plugins-monorepo.md)), same role as [sapp
 ## Related
 
 - [roadmap.md](./roadmap.md) — feature matrix (phases 1–21)
+- [release-plan.md](./release-plan.md) — 0.2.2 / 0.3.0 migration fixes (does not duplicate this doc)
+- [migration-shims.md](./migration-shims.md) — app-layer patterns validated by production Sapphire migrations
 - [adr/003-plugins-monorepo.md](./adr/003-plugins-monorepo.md) — repo split + naming
+- [adr/004-vault-scope-orm-coexistence.md](./adr/004-vault-scope-orm-coexistence.md) — Vault Path B scope
 - [phases.md](./phases.md) — completed work
 - [adr/002-bridge-deprecation.md](./adr/002-bridge-deprecation.md) — native stack direction

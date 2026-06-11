@@ -1,6 +1,6 @@
 {
   "name": "@stambha/transport",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Stambha Discord transport primitives — session info, route keys, rate-limit buckets",
   "author": "Mivaya",
   "license": "MIT",
@@ -31,7 +31,10 @@
       "require": "./dist/index.cjs"
     }
   },
-  "files": ["dist", "README.md"],
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "scripts": {
     "build": "tsup",
     "typecheck": "tsc --noEmit",

@@ -5,6 +5,7 @@ export const mainSidebar: DefaultTheme.SidebarItem[] = [
   {
     text: "Introduction",
     items: [
+      { text: "Why Stambha", link: "/guide/why-stambha" },
       { text: "Getting started", link: "/guide/getting-started" },
       { text: "Project structure", link: "/guide/project-structure" },
       { text: "Pieces & pipeline", link: "/guide/pieces" },
@@ -43,8 +44,8 @@ export const mainSidebar: DefaultTheme.SidebarItem[] = [
     text: "Migration",
     items: [
       { text: "Overview", link: "/migration/" },
-      { text: "From Sapphire", link: "/migration/from-sapphire" },
-      { text: "From Discordeno", link: "/migration/from-discordeno" },
+      { text: "Piece-based framework", link: "/migration/from-sapphire" },
+      { text: "Native transport stack", link: "/migration/from-discordeno" },
     ],
   },
 ];

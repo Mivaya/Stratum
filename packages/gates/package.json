@@ -1,6 +1,6 @@
 {
   "name": "@stambha/gates",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Built-in Stambha gates — cooldown, permissions, NSFW, and RunIn (Sapphire preconditions parity)",
   "author": "Mivaya",
   "license": "MIT",
@@ -32,7 +32,10 @@
       "require": "./dist/index.cjs"
     }
   },
-  "files": ["dist", "README.md"],
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "scripts": {
     "build": "tsup",
     "typecheck": "tsc --noEmit",

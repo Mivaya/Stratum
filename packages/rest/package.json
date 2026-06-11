@@ -1,6 +1,6 @@
 {
   "name": "@stambha/rest",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Native Discord REST client, rate-limit queue, REST worker, and slash command deploy",
   "author": "Mivaya",
   "license": "MIT",
@@ -31,7 +31,10 @@
       "require": "./dist/index.cjs"
     }
   },
-  "files": ["dist", "README.md"],
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "scripts": {
     "build": "tsup",
     "typecheck": "tsc --noEmit",

@@ -111,7 +111,7 @@ Details: [Native REST](/deployment/native-rest), [Transport](/reference/transpor
 
 ## Sharding & resharding
 
-Discordeno automates shard workers and resharding. Stambha Phase 19 primitives:
+Discordeno automates shard workers and resharding. Stambha provides equivalent primitives in `@stambha/gateway`:
 
 ```ts
 import {

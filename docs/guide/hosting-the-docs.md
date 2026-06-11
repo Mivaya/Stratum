@@ -88,12 +88,30 @@ pnpm create docusaurus@latest website classic
 
 Move markdown from `/docs/guide`, `/docs/features`, etc. into `website/docs/`. Sapphire’s site lives in [sapphiredev/website](https://github.com/sapphiredev/website) — use it as a reference for sidebar structure and TypeDoc integration.
 
+### Versioned documentation
+
+The site uses [vitepress-versioning-plugin](https://vvp.imb11.dev/) with a navbar **Version** dropdown.
+
+| URL | Content |
+|-----|---------|
+| `/Stambha/` | Latest (`package.json` version at build time) |
+| `/Stambha/0.2.1/` | Frozen snapshot in `docs/versions/0.2.1/` |
+
+**At each release**, archive the docs that match the npm version:
+
+```bash
+pnpm docs:archive 0.2.2        # after tagging v0.2.2
+```
+
+Review `docs/.vitepress/sidebars/versioned/<semver>.json` if the sidebar changed. Commit archives with the release PR — do not edit old version folders after ship.
+
+Config: `docs/.vitepress/config.ts` (`defineVersionedConfig`, `versioning.latestVersion` reads monorepo root `package.json`).
+
 ### Recommended next steps for a public site
 
 1. **Custom domain** — `stambha.dev` or `docs.stambha.dev`
-2. **Search** — VitePress local search (enabled by default) or Algolia DocSearch
+2. **Search** — VitePress local search (enabled by default) or Algolia DocSearch; note search spans all versions today
 3. **API reference** — TypeDoc on `@stambha/core` packages, linked from sidebar
-4. **Version dropdown** — when you ship `1.0.0`, add VitePress version plugin or migrate to Docusaurus
 
 ## Internal & contributor docs
 

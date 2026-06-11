@@ -30,6 +30,19 @@ const DEFAULT_PATHS: Record<PieceKind, string> = {
   tasks: PiecePaths.tasks,
 };
 
+/** Load gates before commands so {@link CommandOptions.gateNames} can resolve at construct time. */
+const LOAD_ORDER: PieceKind[] = [
+  "gates",
+  "barriers",
+  "conduits",
+  "epilogues",
+  "scouts",
+  "signals",
+  "tasks",
+  "listeners",
+  "commands",
+];
+
 /**
  * Load pieces from disk using Sapphire/Klasa folder conventions.
  */
@@ -55,9 +68,7 @@ export async function loadPieces(
     errors: [],
   };
 
-  const kinds = Object.keys(DEFAULT_PATHS) as PieceKind[];
-
-  for (const kind of kinds) {
+  for (const kind of LOAD_ORDER) {
     const custom = options.paths?.[kind];
     if (custom === false) continue;
 
@@ -79,6 +90,7 @@ export async function loadPieces(
     }
   }
 
+  client.resolveCommandGates();
   client.rebuildCommandIndex();
   await client.pluginLifecycle?.runHook("postLoad");
   return result;

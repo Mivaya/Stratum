@@ -16,9 +16,23 @@ export class InboundRouter {
 
   /**
    * Parse prefix command from message content. Returns null if not a command.
+   * Uses {@link StambhaClient.resolvePrefix} when set, otherwise {@link StambhaClient.prefix}.
    */
-  parsePrefixCommand(content: string): { name: string; args: string } | null {
-    const prefix = this.client.prefix;
+  async parsePrefixCommand(
+    content: string,
+    context: { guildId?: string; channelId?: string; userId: string } = { userId: "" },
+  ): Promise<{ name: string; args: string } | null> {
+    const prefix = this.client.resolvePrefix
+      ? await this.client.resolvePrefix({ ...context, content })
+      : this.client.prefix;
+    return this.parsePrefixCommandWithPrefix(content, prefix);
+  }
+
+  /** Parse using an explicit prefix string (used internally and by gateway attach). */
+  parsePrefixCommandWithPrefix(
+    content: string,
+    prefix: string,
+  ): { name: string; args: string } | null {
     if (!content.startsWith(prefix)) return null;
 
     const body = content.slice(prefix.length).trim();

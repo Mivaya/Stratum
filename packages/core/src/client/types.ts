@@ -12,6 +12,8 @@ export interface StambhaClientOptions {
   tierBus?: TierBus;
   bridge?: Bridge;
   prefix?: string;
+  /** Dynamic prefix (per-guild, database, Vault). Falls back to {@link prefix} when unset. */
+  resolvePrefix?: import("./prefix.js").PrefixResolver;
   /** Shared services + logger (defaults to {@link DefaultStambhaContainer}). */
   container?: StambhaContainerLike;
   /** Context field mask for bridges (defaults to full context). */

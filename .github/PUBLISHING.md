@@ -1,54 +1,75 @@
-# Publishing `@stambha/*` to npm
+# Publishing `@stambha/*` to npm (core monorepo)
 
-## Publish `@stambha/core` (first packages)
+The core repo uses **[Changesets](https://github.com/changesets/changesets)** with **fixed versioning**: all publishable `@stambha/*` packages share one version (e.g. `0.2.2`).
 
-`@stambha/core` depends on **`@stambha/runtime`**. Publish in this order:
+**Official extensions** (`@stambha/cache`, `@stambha/vault-sql`, `@stambha/metrics`, future `@stambha/dashboard`, …) move to the [**Stambha-plugins**](https://github.com/Mivaya/Stambha-plugins) repo with **independent** Changesets versioning. See that repo’s `PUBLISHING.md`.
 
-```bash
-pnpm --filter @stambha/runtime build
-pnpm --filter @stambha/core build
+---
 
-# Dry run
-pnpm --filter @stambha/runtime publish --dry-run --no-git-checks
-pnpm --filter @stambha/core publish --dry-run --no-git-checks
+## Packages published from this repo
 
-# Live (after npm login or NPM_TOKEN)
-pnpm --filter @stambha/runtime publish --no-git-checks
-pnpm --filter @stambha/core publish --no-git-checks
+`@stambha/core`, `runtime`, `transport`, `rest`, `gateway`, `transform`, `loader`, `gates`, `args`, `plugins`, `vault`
+
+`@stambha/cache`, `@stambha/metrics`, and `@stambha/vault-sql` publish from [**Stambha-plugins**](https://github.com/Mivaya/Stambha-plugins) only.
+
+---
+
+## Contributor workflow
+
+1. Make your code change.
+2. Add a changeset:
+
+   ```bash
+   pnpm changeset
+   ```
+
+3. Open a PR (include the generated file under `.changeset/`).
+4. Maintainers merge → **Release** workflow handles the rest.
+
+---
+
+## Maintainer release flow
+
+```text
+PR with changeset(s)  →  merge to main
+       ↓
+Release workflow runs changesets/action
+       ↓
+Opens/updates "Version packages" PR (bumps all fixed packages + CHANGELOG)
+       ↓
+Merge Version packages PR
+       ↓
+Archive docs snapshot: pnpm docs:archive <semver>  (commit docs/versions/<semver>/)
+       ↓
+Workflow publishes to npm (dist-tag latest, or beta for prerelease)
 ```
 
-Ensure the **`stambha`** npm org exists and your user **`interittus13`** can publish to `@stambha/*`.
+Workflow: [`.github/workflows/release.yml`](./workflows/release.yml)
+
+**Docs:** `@stambha/docs` is not on npm. Versioned GitHub Pages use `docs/versions/<semver>/` — see [`docs/scripts/README.md`](../docs/scripts/README.md).
+
+### Manual version bump (local)
+
+```bash
+pnpm changeset          # if not done in PR
+pnpm version-packages   # bump package.json + CHANGELOG
+pnpm release            # build + npm publish (needs npm auth)
+```
+
+---
 
 ## One-time npm setup
 
-1. Create an npm account and the **`@stambha`** org (or claim the scope) at [npmjs.com](https://www.npmjs.com/).
-2. Create an **Automation** token (not Classic publish token with 2FA friction):
-   - **Account → Access Tokens → Generate New Token → Granular**
-   - Packages: read/write for `@stambha/*`
-   - Or use **Automation** type for CI
-3. In GitHub repo **Settings → Secrets and variables → Actions**:
-   - Secret name: **`NPM_TOKEN`**
-   - Value: the npm token
-4. Optional: **Settings → Environments → New environment `npm`**
-   - Add **Required reviewers** so publishes need approval before upload
+1. Create the **`@stambha`** npm org at [npmjs.com](https://www.npmjs.com/).
+2. Create an **Automation** token with read/write for `@stambha/*`.
+3. GitHub **Settings → Secrets → Actions**: secret **`NPM_TOKEN`**.
+4. Optional: **Environment `npm`** with required reviewers before publish.
 
-## How the workflow runs
+## Emergency manual publish
 
-| Trigger | When | Result |
-|---------|------|--------|
-| **Release published** | You publish a GitHub Release (tag `v*`) | Publishes all `packages/*` to npm |
-| **workflow_dispatch** | Actions → Publish npm → Run workflow | Default **dry run**; uncheck to publish |
+[`.github/workflows/publish-npm.yml`](./workflows/publish-npm.yml) — `workflow_dispatch` only, after versions are already bumped via Changesets.
 
-- **Pre-release** on GitHub → npm dist-tag **`beta`**
-- **Normal release** → dist-tag **`latest`**
-- Skips `private` packages (root, `docs/`, `examples/`)
-
-## Before each release
-
-1. Bump versions in all `packages/*/package.json` (keep versions aligned).
-2. Update `CHANGELOG.md`.
-3. Merge to `main`, tag `v0.1.1`, publish GitHub Release.
-4. **Publish npm** runs automatically (or run workflow manually with dry run first).
+---
 
 ## Local dry run
 
@@ -57,19 +78,17 @@ pnpm build
 pnpm -r publish --dry-run --access public --no-git-checks --filter './packages/*'
 ```
 
-## Packages published (14)
-
-`@stambha/core`, `transport`, `rest`, `gateway`, `transform`, `cache`, `loader`, `gates`, `args`, `plugins`, `vault`, `vault-sql`, `metrics`, `runtime`
+---
 
 ## Troubleshooting
 
 | Error | Fix |
 |-------|-----|
-| 403 Forbidden | Token lacks access to `@stambha` scope; verify org membership |
-| Version already exists | Bump version in package.json before re-publishing |
-| `workspace:*` in tarball | Run publish from CI after `pnpm install`; pnpm rewrites workspace refs |
-| Org blocks third-party actions | Allow `actions/setup-node` in repo Actions settings |
+| 403 Forbidden | Token lacks `@stambha` scope |
+| Version already exists | Run `pnpm changeset` + merge Version PR with a new bump |
+| No Version PR opened | Ensure `.changeset/*.md` files exist on `main` |
+| `workspace:*` in tarball | Publish from CI after `pnpm install` |
 
-## Trusted publishing (optional, no `NPM_TOKEN`)
+## Trusted publishing (optional)
 
-npm supports [OIDC trusted publishing](https://docs.npmjs.com/trusted-publishers) per package. For a 14-package monorepo, configure each package on npm or start with `NPM_TOKEN` and migrate later.
+[npm OIDC trusted publishers](https://docs.npmjs.com/trusted-publishers) per package — configure on npm or use `NPM_TOKEN` initially.

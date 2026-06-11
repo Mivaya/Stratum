@@ -9,11 +9,11 @@ src/
   commands/           # slash, prefix, context menu
     General/
       PingCommand.ts
-  listeners/          # Hook pieces (Sapphire listeners)
+  listeners/          # Hook pieces
     ReadyListener.ts
   scouts/             # passive message watchers
   barriers/           # global command blockers
-  gates/              # per-command checks (Sapphire preconditions)
+  gates/              # per-command checks
   epilogues/          # post-command hooks
   conduits/           # middleware before gates
   signals/            # buttons, modals, selects

@@ -9,6 +9,8 @@ Stambha is a **transport-agnostic** bot framework with a first-class **native st
 
 Connect via `@stambha/rest`, `@stambha/gateway`, and `@stambha/transform`. See [docs/migration/](docs/migration/) and `examples/bot`.
 
+**Extensions** (`@stambha/cache`, `@stambha/vault-sql`, `@stambha/metrics`, future dashboard/i18n) live in the separate [**Stambha-plugins**](https://github.com/Mivaya/Stambha-plugins) repo with independent versioning.
+
 ---
 
 ## Features
@@ -35,11 +37,11 @@ Typed prefix lexer and slash option parsing — Sapphire `ArgumentStore` equival
 
 ### Gates (`@stambha/gates`)
 
-Built-in preconditions: cooldown, permissions, NSFW, RunIn, guild/DM-only. Attach to commands or register globally.
+Built-in preconditions: cooldown, permissions, NSFW, RunIn, guild/DM-only. Attach inline, reference by `gateNames`, or mark gate pieces `global: true`.
 
 ### Vault (`@stambha/vault`)
 
-Schema-first guild, user, and channel settings — Blueprint + Ledger with optional SQLite/PostgreSQL drivers.
+Typed guild, user, and member **config** (prefix, flags, modules) — Blueprint + Ledger. Use alongside Prisma/SQL for domain data; Vault is not a full ORM. See [docs/features/vault.md](docs/features/vault.md).
 
 ### Sequences
 
@@ -78,7 +80,7 @@ Shared abstractions for Node.js, Bun, and Deno (env, fs, paths, timers).
 | Discord coupling | discord.js required | Low-level API | **Native transport** — no library bridge layer |
 | Piece / command model | Built-in | Bring your own | **Sapphire-style folders** |
 | Preconditions | `@sapphire/*` plugins | DIY | **`@stambha/gates`** |
-| Settings | Plugins / manual | DIY | **Vault** |
+| Settings | Plugins / manual | DIY | **Vault** (+ your ORM for domain) |
 | Gateway + REST split | Manual | Native | **`RestPort` + tier split** |
 | Sharding / resharding | Manual | Built-in | **`@stambha/gateway`** |
 | Multi-step UI | Plugins | DIY | **Sequences** |
@@ -230,10 +232,9 @@ Published under the [**@stambha** npm org](https://www.npmjs.com/org/stambha). E
 | [`@stambha/args`](packages/args) | Argument parsing |
 | [`@stambha/plugins`](packages/plugins) | Plugin lifecycle and DI container |
 | [`@stambha/vault`](packages/vault) | Settings persistence |
-| [`@stambha/vault-sql`](packages/vault-sql) | SQLite and PostgreSQL vault drivers |
-| [`@stambha/metrics`](packages/metrics) | Prometheus metrics |
-| [`@stambha/cache`](packages/cache) | Pluggable cache |
 | [`@stambha/runtime`](packages/runtime) | Node / Bun / Deno helpers |
+
+**Extensions** ([Stambha-plugins](https://github.com/Mivaya/Stambha-plugins)): `@stambha/cache`, `@stambha/metrics`, `@stambha/vault-sql`, future `@stambha/dashboard`.
 
 ---
 
@@ -283,4 +284,4 @@ Org security & GitHub setup: [`.github/ORG_SECURITY.md`](.github/ORG_SECURITY.md
 
 ## Status
 
-**v0.2.1** — Package READMEs and dual ESM/CJS builds for CommonJS bot migrations. See [CHANGELOG.md](CHANGELOG.md). API may still evolve before `1.0.0`.
+**v0.2.2** — Migration DX: per-command `gateNames`, opt-in `global` gates, dynamic `resolvePrefix`, gates-before-commands loader order; `@stambha/cache`, `@stambha/metrics`, and `@stambha/vault-sql` publish from [Stambha-plugins](https://github.com/Mivaya/Stambha-plugins) only. See [CHANGELOG.md](CHANGELOG.md). API may still evolve before `1.0.0`.

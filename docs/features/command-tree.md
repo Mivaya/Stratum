@@ -1,4 +1,4 @@
-# Command tree & deploy (Phase 13)
+# Command tree & deploy
 
 Slash command groups, subcommands, prefix aliases, autocomplete, and deploy v2.
 
@@ -121,4 +121,4 @@ dmPermission: false,
 
 - [ARGS.md](./ARGS.md) — option parsing
 - [GATES.md](./GATES.md) — preconditions
-- [ROADMAP.md](./ROADMAP.md) — Phase 14 plugins
+- [Plugins](/features/plugins) — lifecycle hooks and container

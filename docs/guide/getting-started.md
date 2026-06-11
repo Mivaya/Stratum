@@ -13,7 +13,7 @@ This guide walks you through a minimal Stambha bot using the **native stack** (`
 pnpm add @stambha/core @stambha/rest @stambha/gateway @stambha/transform @stambha/loader
 ```
 
-Optional packages: `@stambha/gates`, `@stambha/vault`, `@stambha/metrics`.
+Optional packages: `@stambha/gates`, `@stambha/metrics`. Add `@stambha/vault` when you need typed guild/user/member **config** (prefix, flags, modules) — keep Prisma or SQL for economy and other domain data. See [Vault](/features/vault).
 
 ## 1. Create a command
 

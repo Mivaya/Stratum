@@ -1,6 +1,6 @@
 # Transport foundation
 
-Phase 15 introduces Stambha-owned Discord transport primitives — independent of discord.js and Discordeno. Bridges remain supported; native transport is the long-term default for new bots.
+Stambha-owned Discord transport primitives live in `@stambha/transport` and `@stambha/rest` — independent of discord.js and Discordeno. New bots should use the native stack (`@stambha/rest`, `@stambha/gateway`, `@stambha/transform`).
 
 ---
 

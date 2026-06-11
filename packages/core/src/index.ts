@@ -2,6 +2,7 @@
 export { StambhaClient } from "./client/StambhaClient.js";
 export { createStambhaBot } from "./client/createStambhaBot.js";
 export { InboundRouter } from "./client/InboundRouter.js";
+export type { PrefixResolveContext, PrefixResolver } from "./client/prefix.js";
 export { SignalRouter } from "./client/SignalRouter.js";
 export { SequenceStore } from "./sequence/SequenceStore.js";
 export { SequenceBuilder, sequence } from "./sequence/SequenceBuilder.js";
@@ -89,6 +90,14 @@ export { Signal, type SignalOptions, type SignalType } from "./registries/Signal
 export { Chron, type ChronOptions, type ChronSchedule } from "./registries/Chron.js";
 export { ChronScheduler, type ChronErrorHandler } from "./chron/ChronScheduler.js";
 export type { SignalContext } from "./context/SignalContext.js";
+
+// Gates resolution
+export {
+  commandGatesForRun,
+  globalGates,
+  resolveCommandGates,
+  resolveNamedGates,
+} from "./gates/resolveCommandGates.js";
 
 // Pipeline
 export { ExecutionPipeline, type PipelineRunOptions } from "./pipeline/ExecutionPipeline.js";

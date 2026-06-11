@@ -1,6 +1,6 @@
 # Native REST worker
 
-Phase 16 promotes **`createNativeRestWorker`** from `@stambha/rest` as the default split-tier REST process.
+For split-tier deployments, **`createNativeRestWorker`** from `@stambha/rest` is the recommended REST process — centralized rate limits and optional Prometheus telemetry.
 
 ---
 
@@ -64,11 +64,11 @@ Or monolith: `pnpm start` / `pnpm demo`.
 | `stambha_rest_rate_limits_total` | Counter | `bucket` |
 | `stambha_rest_wait_duration_seconds` | Histogram | `bucket` |
 
-Wire via `restMetricsToTelemetry(collector)` passed to `createNativeRestWorker({ telemetry })`. See [METRICS.md](./METRICS.md).
+Wire via `restMetricsToTelemetry(collector)` passed to `createNativeRestWorker({ telemetry })`. See [Metrics](/deployment/metrics).
 
 ---
 
 ## Related
 
-- [TRANSPORT.md](./TRANSPORT.md) — Phase 15 primitives
-- [TIER_SPLIT.md](./TIER_SPLIT.md) — split tier overview
+- [Transport](/reference/transport) — session info and route primitives
+- [Tier split](/deployment/tier-split) — split tier overview

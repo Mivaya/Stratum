@@ -24,6 +24,8 @@ import { CommandIndex } from "../command/CommandIndex.js";
 import type { CommandContext } from "../context/types.js";
 import type { ResolvedDesiredProperties } from "../desired/DesiredProperties.js";
 import { resolveDesiredProperties } from "../desired/DesiredProperties.js";
+import { resolveCommandGates } from "../gates/resolveCommandGates.js";
+import type { PrefixResolver } from "./prefix.js";
 import type { StambhaClientEvents, StambhaClientOptions, StambhaRegistries } from "./types.js";
 import type { Outcome } from "../outcome/Outcome.js";
 
@@ -45,6 +47,7 @@ export class StambhaClient extends EventEmitter {
 
   bridge: Bridge | null = null;
   prefix: string;
+  resolvePrefix: PrefixResolver | null;
   botUserId: string | null = null;
   /** Set via {@link createPluginManager} from `@stambha/plugins`. */
   pluginLifecycle: PluginLifecycle | null = null;
@@ -59,6 +62,7 @@ export class StambhaClient extends EventEmitter {
     this.restPort = options.restPort ?? null;
     this.tierBus = options.tierBus ?? null;
     this.prefix = options.prefix ?? "!";
+    this.resolvePrefix = options.resolvePrefix ?? null;
     this.bridge = options.bridge ?? null;
     this.container = options.container ?? new DefaultStambhaContainer();
     this.binder = this.container.binder;
@@ -104,6 +108,11 @@ export class StambhaClient extends EventEmitter {
 
   rebuildCommandIndex(): void {
     this.commandIndex.rebuild(this.registries.commands.values());
+  }
+
+  /** Validate {@link CommandOptions.gateNames} against the gate registry. Called by {@link loadPieces}. */
+  resolveCommandGates(): void {
+    resolveCommandGates(this);
   }
 
   getCommand(name: string): Command | undefined {

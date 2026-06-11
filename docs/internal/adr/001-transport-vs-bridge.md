@@ -8,7 +8,7 @@
 
 Stambha targets three audiences:
 
-1. **Sapphire / Klasa** users on discord.js who want structure without changing transport
+1. **Sapphire** users on discord.js who want structure without changing transport
 2. **Discordeno** users who want big-bot topology (split REST, sharding, desired properties)
 3. **Greenfield** bots that may never embed discord.js or Discordeno
 
@@ -58,7 +58,7 @@ A running Stambha client attaches **one** `Bridge` instance. Multi-shard gateway
 
 **Positive**
 
-- Sapphire/Klasa migrations keep discord.js indefinitely.
+- New Sapphire migrations target the native stack only ([ADR 005](./005-native-only-migration.md)).
 - Discordeno users can migrate REST and sharding without rewriting commands.
 - Native transport can mature without breaking existing bots.
 

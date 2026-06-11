@@ -82,12 +82,25 @@ pnpm -r publish --dry-run --access public --no-git-checks --filter './packages/*
 
 ## Troubleshooting
 
-| Error | Fix |
-|-------|-----|
+| Error / symptom | Fix |
+|-----------------|-----|
 | 403 Forbidden | Token lacks `@stambha` scope |
+| E404 on scoped publish | Regenerate `NPM_TOKEN`; ensure org publish rights. Every `packages/*/package.json` needs `"publishConfig": { "access": "public" }` — scoped packages default to **restricted** without it |
+| npm shows old version as default | `latest` only moves when publish **succeeds** for that package. Check `npm view @stambha/<pkg> dist-tags`. Partial failed releases leave some packages on `0.2.0` while others reach `0.2.1` |
 | Version already exists | Run `pnpm changeset` + merge Version PR with a new bump |
 | No Version PR opened | Ensure `.changeset/*.md` files exist on `main` |
 | `workspace:*` in tarball | Publish from CI after `pnpm install` |
+
+Every publishable package must include:
+
+```json
+"publishConfig": {
+  "access": "public",
+  "registry": "https://registry.npmjs.org"
+}
+```
+
+Changesets `"access": "public"` in `.changeset/config.json` is not always enough for `pnpm`/`npm` publish paths — keep `publishConfig` on each package.
 
 ## Trusted publishing (optional)
 

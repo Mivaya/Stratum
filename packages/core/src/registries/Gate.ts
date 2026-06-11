@@ -16,14 +16,18 @@ export interface GateLike {
 
 export interface GateOptions extends UnitOptions {
   priority?: number;
+  /** When true, runs on every command before {@link CommandOptions.gateNames} and inline gates. */
+  global?: boolean;
 }
 
 export abstract class Gate extends Unit<GateOptions> implements GateLike {
   readonly priority: number;
+  readonly global: boolean;
 
   constructor(registry: Registry<Gate>, options: GateOptions) {
     super(registry, options);
     this.priority = options.priority ?? 100;
+    this.global = options.global ?? false;
   }
 
   abstract check(ctx: CommandContext): Promise<GateResult>;

@@ -1,6 +1,6 @@
 # Plugins & container
 
-Phase 14 adds **`@stambha/plugins`** — Sapphire-style lifecycle hooks plus a shared **container** (logger, config, DI).
+**`@stambha/plugins`** provides Sapphire-style lifecycle hooks plus a shared **container** (logger, config, DI).
 
 Core stays transport-free: `@stambha/core` exposes `PluginLifecycle`, `DefaultStambhaContainer`, and `ConsoleLogger`. The plugins package wires hooks and optional interaction helpers.
 
@@ -140,6 +140,5 @@ Install from npm, register with `attachPlugins()` like any local plugin. See [AD
 
 ## Related
 
-- [ROADMAP.md](./ROADMAP.md) — Phase 14
-- [GATES.md](./GATES.md) — preconditions (often used inside plugins)
-- [COMMAND_TREE.md](./COMMAND_TREE.md) — slash paths for autocomplete
+- [Gates](/features/gates) — preconditions (often used inside plugins)
+- [Command tree](/features/command-tree) — slash paths for autocomplete

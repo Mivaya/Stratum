@@ -1,6 +1,6 @@
 {
   "name": "@stambha/runtime",
-  "version": "0.1.0",
+  "version": "0.2.1",
   "description": "Cross-runtime abstractions for Stambha — Node.js, Bun, and Deno",
   "author": "Mivaya",
   "license": "MIT",
@@ -15,19 +15,20 @@
   },
   "keywords": ["discord", "discord-bot", "stambha", "deno", "bun", "runtime"],
   "type": "module",
-  "main": "./dist/index.js",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "deno": "./dist/index.js",
       "bun": "./dist/index.js",
-      "node": "./dist/index.js",
       "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
       "default": "./dist/index.js"
     }
   },
-  "files": ["dist"],
+  "files": ["dist", "README.md"],
   "scripts": {
     "build": "tsup",
     "typecheck": "tsc --noEmit",

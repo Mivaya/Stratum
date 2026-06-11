@@ -2,7 +2,7 @@ import { isOk, type Outcome, StambhaError } from "../outcome/Outcome.js";
 import type { CommandContext, EpilogueContext, ScoutContext } from "../context/types.js";
 import type { StambhaClient } from "../client/StambhaClient.js";
 import type { Command } from "../registries/Command.js";
-import type { GateLike } from "../registries/Gate.js";
+import { commandGatesForRun } from "../gates/resolveCommandGates.js";
 
 export interface PipelineRunOptions {
   /** Skip barriers marked skipOnHelp (e.g. rate limits while listing commands). */
@@ -135,10 +135,7 @@ export class ExecutionPipeline {
     command: Command,
     ctx: CommandContext,
   ): Promise<{ message: string; silent: boolean; gate: string } | null> {
-    const globalGates = this.client.registries.gates.sortedByPriority((g) => g.priority);
-    const allGates: GateLike[] = [...globalGates, ...command.gates];
-
-    for (const gate of allGates) {
+    for (const gate of commandGatesForRun(this.client, command)) {
       const result = await gate.check(ctx);
       if (!result.allow) {
         return {

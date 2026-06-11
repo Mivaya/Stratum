@@ -13,7 +13,13 @@ import type { GateLike } from "./Gate.js";
 export interface CommandOptions extends UnitOptions {
   description?: string;
   kinds?: CommandKind[];
+  /** Inline gates (factory helpers, ad-hoc checks). */
   gates?: GateLike[];
+  /**
+   * Names of {@link Gate} pieces in `client.registries.gates` (Sapphire preconditions).
+   * Only listed gates run — registry gates are not applied to every command unless {@link GateOptions.global}.
+   */
+  gateNames?: readonly string[];
   /** Prefix aliases (e.g. `p` for `ping`). */
   aliases?: readonly string[];
   /** Help / grouping (Sapphire-style). */
@@ -39,6 +45,7 @@ export abstract class Command extends Unit<CommandOptions> {
   readonly description: string;
   readonly kinds: CommandKind[];
   readonly gates: GateLike[];
+  readonly gateNames: readonly string[];
   readonly aliases: readonly string[];
   readonly category: string;
   readonly subCategory: string;
@@ -58,6 +65,7 @@ export abstract class Command extends Unit<CommandOptions> {
     this.description = options.description ?? "";
     this.kinds = options.kinds ?? ["slash"];
     this.gates = options.gates ?? [];
+    this.gateNames = options.gateNames ?? [];
     this.aliases = options.aliases ?? [];
     this.category = options.category ?? "General";
     this.subCategory = options.subCategory ?? "";

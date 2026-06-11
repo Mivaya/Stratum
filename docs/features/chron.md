@@ -1,6 +1,6 @@
 # Chron (scheduled tasks)
 
-Chron pieces are Klasa-style **scheduled tasks** — background jobs that run on an interval or cron expression.
+Chron pieces are **scheduled tasks** — background jobs that run on an interval or cron expression.
 
 ## Layout
 
@@ -34,7 +34,7 @@ schedule: { cron: "0 */6 * * *" } // every 6 hours (5-field cron)
 
 ## Lifecycle
 
-- Tasks start when `client.start()` runs (after the bridge connects).
+- Tasks start when `client.start()` runs (after the gateway connects).
 - Tasks stop when `client.stop()` runs.
 - Overlapping runs are skipped unless `concurrent: true`.
 - Errors emit `chronError` on the client.

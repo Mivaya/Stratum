@@ -1,6 +1,6 @@
 # Desired properties & transforms
 
-Phase 17 adds **context slimming** on `StambhaClient` and **`@stambha/transform`** — a bidirectional layer between Discord transports and Stambha's transport-agnostic shapes.
+**Context slimming** on `StambhaClient` and **`@stambha/transform`** provide a bidirectional layer between Discord transports and Stambha's transport-agnostic shapes.
 
 Inspired by [Discordeno desired properties](https://discordeno.deno.dev/) (gateway RAM trimming) and Stambha's own `CommandContext` field mask.
 

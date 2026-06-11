@@ -62,12 +62,18 @@ const client = createStambhaBot({
 await loadPieces(client);
 
 const hub = createGatewayEventHub();
-attachStambhaClient(hub, client);
+attachStambhaClient(hub, client, {
+  // Optional per-guild prefix (replaces Sapphire fetchPrefix):
+  // resolvePrefix: async ({ guildId }) => fetchGuildPrefix(guildId) ?? "!",
+});
 client.setBridge(hub);
 
+// Startup order matters:
+// 1. markReady — bot user id for routing
+// 2. start() — binds hooks, starts Chron, emits client "ready"
+// 3. Wire WebSocket shard → hub.emit("messageCreate", stambhaMessage)
 hub.markReady({ user: { id: "YOUR_BOT_USER_ID" } });
 await client.start();
-// Wire your WebSocket shard worker to hub.emit("messageCreate", stambhaMessage)
 ```
 
 ---
@@ -144,7 +150,7 @@ Load from `src/listeners/` with `@stambha/loader`.
 
 ## Preconditions → Gates
 
-Sapphire **preconditions** map to Stambha **gates** (`src/gates/` or per-command `gates: [...]`).
+Sapphire **preconditions** map to Stambha **gates** — inline `gates: [...]` or registry pieces referenced by `gateNames: ["mod-only"]` (only listed gates run; use `global: true` on a gate piece for bot-wide checks).
 
 | Sapphire precondition | Stambha |
 |-----------------------|---------|
@@ -198,10 +204,20 @@ See [Plugins](/features/plugins).
 
 ## Settings / config
 
-Sapphire often uses `@sapphire/plugin-api` or custom JSON. Stambha **Vault** provides typed guild/user/channel settings:
+Sapphire bots often mix **plugin-api JSON**, custom SQL tables for `GuildConfig`, and **Prisma** for domain data. Stambha recommends **both**:
 
-- Blueprints in `src/schemas/`
-- `@stambha/vault` + optional `@stambha/vault-sql`
+| Layer | Tool | Use for |
+|-------|------|---------|
+| Bot config & flags | **Vault** (`@stambha/vault`) | Prefix, modules, log channels, level overrides |
+| Domain data | **Keep Prisma/SQL** | Economy, achievements, mod-log tables at scale, analytics |
+
+Vault does **not** replace your ORM. It replaces ad-hoc guild-config tables and one-off JSON settings. Blueprints live in `src/schemas/`; persistence via `@stambha/vault` + optional `@stambha/vault-sql`.
+
+```ts
+await loadPieces(client, { context: { vault, prisma } });
+```
+
+Vault is **optional** in early migration (step 8). Add it when moving guild settings off Prisma or custom JSON — not when replacing your entire database layer.
 
 See [Vault](/features/vault).
 
@@ -217,6 +233,14 @@ See [Vault](/features/vault).
 6. Run `loadPieces(client)` instead of Sapphire's loader.
 7. Register slash commands via `deployCommands` from `@stambha/rest`.
 8. (Optional) Add Vault; add tier split — see [Tier split](/deployment/tier-split).
+
+## TypeScript / CJS consumers
+
+Stambha packages ship **dual ESM + CJS** builds (`import` / `require`). If you migrate a CommonJS Sapphire bot:
+
+- Set `"moduleResolution": "node16"` or `"bundler"` and `"module": "NodeNext"` in `tsconfig.json`.
+- Use `import type { CommandContext } from "@stambha/core"` for type-only imports (required under `verbatimModuleSyntax`).
+- Prefer dynamic `import()` for ESM-only tooling, or consume the `require("@stambha/core")` CJS entry.
 
 ## Related
 

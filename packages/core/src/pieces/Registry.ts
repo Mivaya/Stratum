@@ -22,6 +22,11 @@ export class Registry<T extends Unit = Unit> {
     return this.units.values();
   }
 
+  /** Materialize all registered units (Registry is not iterable — use this or spread `values()`). */
+  toArray(): T[] {
+    return [...this.units.values()];
+  }
+
   get(name: string): T | undefined {
     return this.units.get(name);
   }

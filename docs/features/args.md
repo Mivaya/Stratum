@@ -1,6 +1,6 @@
 # Arguments (`@stambha/args`)
 
-Phase 12 — Sapphire-style **Args** for prefix commands and typed **slash option** accessors.
+Sapphire-style **Args** for prefix commands and typed **slash option** accessors.
 
 ## Installation
 
@@ -108,4 +108,4 @@ See `examples/bot/src/commands/General/EchoCommand.ts`.
 ## See also
 
 - [GATES.md](./GATES.md) — pre-execution checks
-- [ROADMAP.md](./ROADMAP.md) — Phase 13 command tree
+- [Command tree & deploy](/features/command-tree) — slash groups, deploy, autocomplete

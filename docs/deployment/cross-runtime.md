@@ -1,12 +1,12 @@
 # Cross-runtime (Node, Bun, Deno)
 
-Phase 20 introduces `@stambha/runtime` — thin abstractions over environment, paths, filesystem, crypto, and timers so core packages can run outside Node.js where appropriate.
+`@stambha/runtime` provides thin abstractions over environment, paths, filesystem, crypto, and timers so core packages can run outside Node.js where appropriate.
 
 ## Supported runtimes
 
 | Runtime | Status | Notes |
 |---------|--------|-------|
-| **Node.js 20+** | Full | Primary target; HTTP workers, bridges, metrics |
+| **Node.js 20+** | Full | Primary target; HTTP workers, native REST/gateway, metrics |
 | **Bun** | Partial | `@stambha/runtime`, `@stambha/core` sequences, loader |
 | **Deno 2** | Partial | Same as Bun; use `deno check` + smoke for (see CI) |
 
@@ -63,7 +63,7 @@ const files = await readDir(join(cwd(), "src/commands"));
 
 Other packages keep a single ESM entry; cross-runtime support grows package-by-package.
 
-## Consumers wired in Phase 20
+## Packages using `@stambha/runtime`
 
 - `@stambha/core` — `SequenceStore` uses `randomUUID` from runtime
 - `@stambha/loader` — piece scanning uses `readDir`, `pathToFileURL`, portable paths
@@ -87,5 +87,5 @@ deno run --allow-env --allow-read packages/runtime/dist/smoke.js
 
 ## Related
 
-- [ROADMAP.md](./ROADMAP.md) — Phase 21 migration docs
-- [TRANSPORT.md](./TRANSPORT.md) — native REST (Node HTTP worker today)
+- [Transport](/reference/transport) — native REST (Node HTTP worker today)
+- [Migration from Sapphire](/migration/from-sapphire) — native stack setup

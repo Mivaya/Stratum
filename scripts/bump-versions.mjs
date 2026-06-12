@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Bump fixed monorepo version — root package.json + every packages/*/package.json.
+ * Bump fixed monorepo version — root package.json + each publishable package under packages/.
  *
  * Usage: node scripts/bump-versions.mjs 0.2.3
  */

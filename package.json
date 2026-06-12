@@ -1,6 +1,6 @@
 {
   "name": "stambha",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "private": true,
   "description": "Native Discord bot framework for Node.js and TypeScript — Sapphire-style pieces on @stambha/rest + @stambha/gateway; Vault, Sequences, tier split, and metrics built in.",
   "author": "Mivaya",

@@ -30,15 +30,9 @@ Thank you for helping make Stambha a stronger framework for advanced Discord bot
 - Performance work with benchmarks
 - Plugin-style extensions that do **not** require core to depend on discord.js or Discordeno
 
-## Changesets (publishable package changes)
+## Releases (publishable package changes)
 
-The core monorepo uses **fixed** [Changesets](https://github.com/changesets/changesets) — all `@stambha/*` packages in this repo share one version.
-
-```bash
-pnpm changeset
-```
-
-Include the generated `.changeset/*.md` file in your PR. See [.github/PUBLISHING.md](./PUBLISHING.md).
+The core monorepo uses **fixed versioning** — all `@stambha/*` packages share one version. Maintainers bump versions, tag, and publish via GitHub Releases (see [.github/PUBLISHING.md](./PUBLISHING.md)). **Do not** bump `package.json` versions in contributor PRs unless asked.
 
 Extensions in [**Stambha-plugins**](https://github.com/Mivaya/Stambha-plugins) use **independent** versioning.
 

@@ -1,7 +1,8 @@
-# Manual fallback publish — prefer the Release workflow (Changesets) on merge to main.
-name: Publish npm (manual)
+name: Publish npm
 
 on:
+  release:
+    types: [published]
   workflow_dispatch:
     inputs:
       dry_run:
@@ -38,12 +39,21 @@ jobs:
       - name: Build packages
         run: pnpm build
 
+      - name: Test
+        run: pnpm test
+
       - name: Publish (dry run)
-        if: inputs.dry_run
+        if: github.event_name == 'workflow_dispatch' && inputs.dry_run
         run: pnpm -r publish --dry-run --access public --no-git-checks --filter './packages/*'
 
       - name: Publish to npm
-        if: ${{ !inputs.dry_run }}
-        run: pnpm release
+        if: github.event_name == 'release' || (github.event_name == 'workflow_dispatch' && !inputs.dry_run)
+        run: |
+          if [ "${{ github.event.release.prerelease }}" = "true" ]; then
+            TAG=beta
+          else
+            TAG=latest
+          fi
+          pnpm -r publish --access public --no-git-checks --tag "$TAG" --filter './packages/*'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

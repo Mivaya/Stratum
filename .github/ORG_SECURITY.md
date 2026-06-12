@@ -99,8 +99,7 @@ Same as org defaults; confirm **Private vulnerability reporting** is **Enabled**
 | [workflows/ci.yml](./workflows/ci.yml) | Build + test matrix |
 | [workflows/update-pr-branches.yml](./workflows/update-pr-branches.yml) | Auto-merge `main` into open PR branches |
 | [workflows/docs.yml](./workflows/docs.yml) | VitePress → GitHub Pages |
-| [workflows/release.yml](./workflows/release.yml) | Changesets version PR + publish `@stambha/*` on merge |
-| [workflows/publish-npm.yml](./workflows/publish-npm.yml) | Manual fallback publish (`workflow_dispatch`) |
+| [workflows/publish-npm.yml](./workflows/publish-npm.yml) | Publish `@stambha/*` on GitHub Release or `workflow_dispatch` |
 | [PUBLISHING.md](./PUBLISHING.md) | npm token + release process |
 | [CODEOWNERS](./CODEOWNERS) | `@mivaya/stambha-maintainers` on sensitive paths |
 | [SECURITY.md](../SECURITY.md) | Vulnerability reporting |

@@ -5,6 +5,73 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.2] - 2026-06-11
+
+Patch release focused on **migration ergonomics** (gates, prefixes, loader order) and repo hygiene.
+
+### Added
+
+- **`CommandOptions.gateNames`** — run registry gate pieces only on commands that list them.
+- **`GateOptions.global`** — opt-in bot-wide gates (piece-framework precondition parity).
+- **`resolvePrefix`** on `attachStambhaClient` / gateway attach — async per-guild or dynamic prefix resolution.
+- **Loader** loads `gates/` before `commands/` and validates `gateNames` after `loadPieces()`.
+- **Docs:** [Why Stambha](https://mivaya.github.io/Stambha/guide/why-stambha), expanded migration guide, versioned docs snapshot (`docs/versions/0.2.2/`).
+- **`publishConfig.access: public`** on all publishable `@stambha/*` packages.
+- **`scripts/bump-versions.mjs`** — `pnpm version:bump <semver>` for fixed monorepo releases.
+
+### Changed
+
+- **Official extensions** (`@stambha/cache`, `@stambha/metrics`, `@stambha/vault-sql`) publish only from [**Stambha-plugins**](https://github.com/Mivaya/Stambha-plugins).
+- **Releases** — tag-driven GitHub Releases → `publish-npm.yml` (replaces Changesets).
+- Registry iteration documented (`toArray()` / `values()` on registries).
+
+### Removed
+
+- **`packages/cache`**, **`packages/metrics`**, **`packages/vault-sql`** from the core monorepo (live in Stambha-plugins).
+- **Changesets** — `.changeset/`, `release.yml`, and `@changesets/cli`.
+
+### Breaking changes
+
+- **Registry gates are no longer global by default.** Gate pieces run only when listed in `command.gateNames`, passed inline on the command, or marked `global: true` on the gate piece.
+
+### Migration
+
+```diff
+ export class ModGate extends Gate {
++  options = { global: true };
+ }
+
+ export class BanCommand extends Command {
++  options = { gateNames: ["mod-only"] };
+ }
+```
+
+```ts
+attachStambhaClient(hub, client, {
+  resolvePrefix: async ({ guildId }) => fetchGuildPrefix(guildId) ?? "!",
+});
+```
+
+See the [migration guide](https://mivaya.github.io/Stambha/migration/from-sapphire) and [Gates](https://mivaya.github.io/Stambha/features/gates).
+
+### Packages in this release
+
+| Package | Version |
+|---------|---------|
+| `@stambha/core` | 0.2.2 |
+| `@stambha/gateway` | 0.2.2 |
+| `@stambha/loader` | 0.2.2 |
+| `@stambha/gates` | 0.2.2 |
+| `@stambha/args` | 0.2.2 |
+| `@stambha/plugins` | 0.2.2 |
+| `@stambha/rest` | 0.2.2 |
+| `@stambha/runtime` | 0.2.2 |
+| `@stambha/transform` | 0.2.2 |
+| `@stambha/transport` | 0.2.2 |
+| `@stambha/vault` | 0.2.2 |
+
+Extensions **`@stambha/cache`**, **`@stambha/metrics`**, **`@stambha/vault-sql`** — see [Stambha-plugins CHANGELOG](https://github.com/Mivaya/Stambha-plugins/blob/main/CHANGELOG.md).
+
 ## [0.2.1] - 2026-06-08
 
 ### Added
@@ -150,6 +217,7 @@ First public release of the **native Stambha stack** — a transport-agnostic Di
 | `@stambha/metrics` | 0.1.0 |
 | `@stambha/runtime` | 0.1.0 |
 
+[0.2.2]: https://github.com/mivaya/Stambha/releases/tag/v0.2.2
 [0.2.1]: https://github.com/mivaya/Stambha/releases/tag/v0.2.1
 [0.2.0]: https://github.com/mivaya/Stambha/releases/tag/v0.2.0
 [0.1.0]: https://github.com/mivaya/Stambha/releases/tag/v0.1.0

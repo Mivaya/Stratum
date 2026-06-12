@@ -1,8 +1,8 @@
 # Publishing `@stambha/*` to npm (core monorepo)
 
-The core repo uses **[Changesets](https://github.com/changesets/changesets)** with **fixed versioning**: all publishable `@stambha/*` packages share one version (e.g. `0.2.2`).
+All publishable `@stambha/*` packages in this repo share **one version** (fixed versioning). Releases are **tag-driven** — same model as before Changesets, similar to [Sapphire’s `publish.yml`](https://github.com/sapphiredev/framework/blob/main/.github/workflows/publish.yml) (manual bump + publish, no version-bot PRs).
 
-**Official extensions** (`@stambha/cache`, `@stambha/vault-sql`, `@stambha/metrics`, future `@stambha/dashboard`, …) move to the [**Stambha-plugins**](https://github.com/Mivaya/Stambha-plugins) repo with **independent** Changesets versioning. See that repo’s `PUBLISHING.md`.
+**Official extensions** (`@stambha/cache`, `@stambha/vault-sql`, `@stambha/metrics`, …) publish from [**Stambha-plugins**](https://github.com/Mivaya/Stambha-plugins) with **independent** versions.
 
 ---
 
@@ -10,51 +10,69 @@ The core repo uses **[Changesets](https://github.com/changesets/changesets)** wi
 
 `@stambha/core`, `runtime`, `transport`, `rest`, `gateway`, `transform`, `loader`, `gates`, `args`, `plugins`, `vault`
 
-`@stambha/cache`, `@stambha/metrics`, and `@stambha/vault-sql` publish from [**Stambha-plugins**](https://github.com/Mivaya/Stambha-plugins) only.
-
----
-
-## Contributor workflow
-
-1. Make your code change.
-2. Add a changeset:
-
-   ```bash
-   pnpm changeset
-   ```
-
-3. Open a PR (include the generated file under `.changeset/`).
-4. Maintainers merge → **Release** workflow handles the rest.
-
 ---
 
 ## Maintainer release flow
 
 ```text
-PR with changeset(s)  →  merge to main
+Merge feature PRs to main
        ↓
-Release workflow runs changesets/action
+Bump versions + CHANGELOG.md on main (PR or direct commit)
        ↓
-Opens/updates "Version packages" PR (bumps all fixed packages + CHANGELOG)
+pnpm docs:archive <semver> $(git rev-parse HEAD)   # optional frozen docs snapshot
        ↓
-Merge Version packages PR
+git tag v<semver> && git push origin v<semver>
        ↓
-Archive docs snapshot: pnpm docs:archive <semver>  (commit docs/versions/<semver>/)
-       ↓
-Workflow publishes to npm (dist-tag latest, or beta for prerelease)
+GitHub Release (published)  →  publish-npm.yml  →  npm (latest or beta)
 ```
 
-Workflow: [`.github/workflows/release.yml`](./workflows/release.yml)
+Workflow: [`.github/workflows/publish-npm.yml`](./workflows/publish-npm.yml)
 
-**Docs:** `@stambha/docs` is not on npm. Versioned GitHub Pages use `docs/versions/<semver>/` — see [`docs/scripts/README.md`](../docs/scripts/README.md).
+- **Stable release** — normal GitHub Release → npm dist-tag `latest`
+- **Pre-release** — check “pre-release” on GitHub → npm dist-tag `beta`
+- **Manual** — Actions → **Publish npm** → workflow_dispatch (dry run default)
 
-### Manual version bump (local)
+### Version bump (all packages)
 
 ```bash
-pnpm changeset          # if not done in PR
-pnpm version-packages   # bump package.json + CHANGELOG
-pnpm release            # build + npm publish (needs npm auth)
+pnpm version:bump 0.2.3
+# edit CHANGELOG.md
+git add -A && git commit -m "chore: release v0.2.3"
 ```
+
+### Docs archive (version dropdown)
+
+```bash
+pnpm docs:archive 0.2.3 $(git rev-parse HEAD)
+```
+
+Commit `docs/versions/<semver>/` before tagging. See [`docs/scripts/README.md`](../docs/scripts/README.md).
+
+### Tag + GitHub Release
+
+```bash
+git tag v0.2.3
+git push origin v0.2.3
+```
+
+Create a **published** release on GitHub for that tag (title + notes from `CHANGELOG.md`). Publishing starts automatically.
+
+### Local publish (emergency)
+
+```bash
+pnpm install
+pnpm build
+pnpm test
+NPM_TOKEN=... pnpm publish:npm
+```
+
+---
+
+## Contributor workflow
+
+1. Make your code change — **no changeset file**.
+2. Open a PR; maintainer updates `CHANGELOG.md` at release time.
+3. Do not bump `package.json` versions in feature PRs unless asked.
 
 ---
 
@@ -65,9 +83,14 @@ pnpm release            # build + npm publish (needs npm auth)
 3. GitHub **Settings → Secrets → Actions**: secret **`NPM_TOKEN`**.
 4. Optional: **Environment `npm`** with required reviewers before publish.
 
-## Emergency manual publish
+Every publishable package needs:
 
-[`.github/workflows/publish-npm.yml`](./workflows/publish-npm.yml) — `workflow_dispatch` only, after versions are already bumped via Changesets.
+```json
+"publishConfig": {
+  "access": "public",
+  "registry": "https://registry.npmjs.org"
+}
+```
 
 ---
 
@@ -85,23 +108,8 @@ pnpm -r publish --dry-run --access public --no-git-checks --filter './packages/*
 | Error / symptom | Fix |
 |-----------------|-----|
 | 403 Forbidden | Token lacks `@stambha` scope |
-| E404 on scoped publish | Regenerate `NPM_TOKEN`; ensure org publish rights. Every `packages/*/package.json` needs `"publishConfig": { "access": "public" }` — scoped packages default to **restricted** without it |
-| npm shows old version as default | `latest` only moves when publish **succeeds** for that package. Check `npm view @stambha/<pkg> dist-tags`. Partial failed releases leave some packages on `0.2.0` while others reach `0.2.1` |
-| Version already exists | Run `pnpm changeset` + merge Version PR with a new bump |
-| No Version PR opened | Ensure `.changeset/*.md` files exist on `main` |
+| E404 on scoped publish | Regenerate `NPM_TOKEN`; ensure org publish rights + `publishConfig.access: public` on each package |
+| npm shows old version as default | `latest` only moves when publish **succeeds**. Check `npm view @stambha/<pkg> dist-tags` |
+| Version already exists | Bump to a new semver; npm does not allow republishing the same version |
+| Publish workflow did not run | Release must be **published** (not draft). Tag must match `package.json` versions |
 | `workspace:*` in tarball | Publish from CI after `pnpm install` |
-
-Every publishable package must include:
-
-```json
-"publishConfig": {
-  "access": "public",
-  "registry": "https://registry.npmjs.org"
-}
-```
-
-Changesets `"access": "public"` in `.changeset/config.json` is not always enough for `pnpm`/`npm` publish paths — keep `publishConfig` on each package.
-
-## Trusted publishing (optional)
-
-[npm OIDC trusted publishers](https://docs.npmjs.com/trusted-publishers) per package — configure on npm or use `NPM_TOKEN` initially.
